@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block meta_title %}{% trans "Home" %}{% endblock %}
+{% block title %}{% trans "Home" %}{% endblock %}
+
+{% block breadcrumb_menu %}
+    <li class="active">{% trans "Home" %}</li>
+{% endblock %}
+
+{% block main %}
+    {% blocktrans %}
+    <h1>H1 Sample Header</h1>
+    <h2>H2 Sample Header</h2>
+    <h3>H3 Sample Header</h3>
+    <h4>H4 Sample Header</h4>
+    <h5>H5 Sample Header</h5>
+    <h6>H6 Sample Header</h6>
+    <ul>
+        <li>Thing </li>
+        <li>Thing </li>
+        <li>Thing </li>
+    </ul>
+    <ol>
+        <li>Thing </li>
+        <li>Thing </li>
+        <li>Thing </li>
+    </ol>
+     <table class="table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>First Name</th>
+          <th>Last Name</th>
+          <th>Username</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td rowspan="2">1</td>
+          <td>John</td>
+          <td>Doe</td>
+          <td>jdoe</td>
+        </tr>
+        <tr>
+          <td>John</td>
+          <td>Doe</td>
+          <td>johndoe</td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td>Jane</td>
+          <td>Doe</td>
+          <td>janedoe</td>
+        </tr>
+        <tr>
+          <td>3</td>
+          <td colspan="2">Larry the Bird</td>
+          <td>larrybird</td>
+        </tr>
+      </tbody>
+    </table>
+    <p> Ph'nglui mglw'nafh Cthulhu R'lyeh wgah'nagl fhtagn. Azathoth naflTsathoggua
+        ph'n'gha Azathoth, hlirgh f'mg ilyaa naflfhtagn cgnaiih fhtagn s'uhn nasgn'wahl
+        ee hai, cgoka ph'k'yarnak h'sgn'wahl fm'latgh goka ftaghu 'bthnk r'luh.</p>
+    <p>Ftaghu Nyarlathotep chtenff chupadgh goka y'hah s'uhn mnahn', llll shugg
+        lllloth throd vulgtm hrii goka nnnuh'e, k'yarnak Dagon bug ee mnahn' ron. </p>
+    {% endblocktrans %}
+{% endblock %}

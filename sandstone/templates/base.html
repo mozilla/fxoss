@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html class="windows no-js" lang="{{ LANGUAGE_CODE }}"{% if LANGUAGE_BIDI %} dir="rtl"{% endif %}>
+{% load pages_tags mezzanine_tags i18n future staticfiles %}
+    <head>
+        <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="keywords" content="{% block meta_keywords %}{% endblock %}">
+        <meta name="description" content="{% block meta_description %}{% endblock %}">
+        <title>{% if settings.SITE_TITLE %}{{ settings.SITE_TITLE }} — {% endif %}{% block meta_title %}{% endblock %}</title>
+        <link rel="shortcut icon" href="{% static "img/favicon.ico" %}">
+
+        {% compress css %}
+            {% if LANGUAGE_BIDI %}
+                <link rel="stylesheet" href="{% static "css/rtl.css" %}">
+            {% endif %}
+            {% block extra_css %}{% endblock %}
+        {% endcompress %}
+
+        {% if debug %}
+            <link rel="stylesheet/less" type="text/css" media="all" href="{% static "css/sandstone/sandstone-resp.less" %}" />
+            <script src="{% static "js/libs/less-1.3.3.min.js" %}"></script>
+        {% else %}
+            {% compress css %}
+                <link rel="stylesheet" type="text/less" href="{% static "css/sandstone/sandstone-resp.less" %}" media="screen" />
+            {% endcompress %}
+        {% endif %}
+        <link href="//mozorg.cdn.mozilla.net/media/css/tabzilla-min.css" rel="stylesheet">
+        {% compress js %}
+            <script src="{% static "mezzanine/js/"|add:settings.JQUERY_FILENAME %}"></script>
+            {% block extra_js %}{% endblock %}
+        {% endcompress %}
+        <!--[if lt IE 8]>
+        <script src="{% static "js/libs/html5shiv.js" %}"></script>
+        <![endif]-->
+
+        {% block extra_head %}{% endblock %}
+    </head>
+    <body id="sandstone" class="sky">
+        <div id="outer-wrapper">
+            <div id="wrapper">
+                <header id="masthead">
+                  <a href="https://www.mozilla.org/" id="tabzilla">Mozilla</a>
+                  <nav id="nav-main" role="navigation">
+                    <span class="toggle" role="button" aria-controls="nav-main-menu" tabindex="0">Menu</span>
+                    {% page_menu "pages/menus/dropdown.html" %}
+                  </nav>
+                    <div><a href="http://mozilla.org/"><img src="{% static "img/sandstone/header-mozilla-stone.png" %}" alt="mozilla"></a></div>
+                </header>
+                <div id="main-content">
+                    <aside class="sidebar">
+                      <nav class="tree">
+                        {% page_menu "pages/menus/tree.html" %}
+                      </nav>
+                    </aside>
+                    <article class="main-column">
+                        {% block main %}{% endblock %}
+                    </article>
+                </div>
+            </div>
+
+            {% block site_footer %}
+            <footer id="colophon">
+                <div class="row">
+
+                  <div class="footer-logo">
+                      <a href="https://www.mozilla.org"><img src="{% static "img/sandstone/footer-mozilla.png" %}" alt="mozilla"></a>
+                  </div>
+
+                  <div class="footer-license">
+                      <p>Portions of this content are &copy;1998–{% now "Y" %} by individual
+                        mozilla.org contributors. Content available under
+                        a <a href="https://www.mozilla.org/foundation/licensing/website-content.html">Creative Commons license</a>.</p>
+                  </div>
+                  <ul class="footer-nav">
+                    <li><a href="https://www.mozilla.org/about/contact.html#map-mountain_view">Contact Us</a></li>
+                    <li><a href="https://www.mozilla.org/privacy">Privacy Policy</a></li>
+                    <li><a href="https://www.mozilla.org/about/legal.html">Legal Notices</a></li>
+                    <li><a href="https://www.mozilla.org/legal/fraud-report/index.html">Report Trademark Abuse</a></li>
+                  </ul>
+
+                  <ul class="footer-nav">
+                    <li><a href="http://twitter.com/firefox">Twitter</a></li>
+                    <li><a href="http://facebook.com/Firefox">Facebook</a></li>
+                    <li><a href="https://affiliates.mozilla.org/">Firefox Affiliates</a></li>
+                  </ul>
+
+                </div>
+            </footer>
+            {% endblock %}
+
+        </div>
+
+        {% include "includes/footer_scripts.html" %}
+        {% block js %}
+          {% compress js %}
+            <script src="{% static "js/site.js" %}"></script>
+            <script src="{% static "js/nav-main-resp.js" %}"></script>
+            <script src="//mozorg.cdn.mozilla.net/tabzilla/tabzilla.js"></script>
+          {% endcompress %}
+        {% endblock %}
+    </body>
+</html>
