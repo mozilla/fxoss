@@ -314,6 +314,10 @@ OPTIONAL_APPS = (
 
 DEBUG_TOOLBAR_CONFIG = {"INTERCEPT_REDIRECTS": False}
 
+MODELTRANSLATION_TRANSLATION_FILES = (
+    'project.translation',
+)
+
 ####################
 # DYNAMIC SETTINGS #
 ####################
