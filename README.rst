@@ -23,7 +23,7 @@ necessary requirements::
 
 Then create a local settings file and set your ``DJANGO_SETTINGS_MODULE`` to use it::
 
-    cp $PWD/settings/local.py-dist $PWD/settings/local.py
+    cp $PWD/project/settings/local.py-dist $PWD/project/settings/local.py
 
 Create the PostgreSQL database and run the initial syncdb/migrate::
 
