@@ -3,5 +3,5 @@
 *.db
 .DS_Store
 .coverage
-settings/local.py
+project/settings/local.py
 /static
