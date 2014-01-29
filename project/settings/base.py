@@ -190,7 +190,7 @@ import os
 PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), os.pardir))
 
 # Name of the directory for the project.
-PROJECT_DIRNAME = PROJECT_ROOT.split(os.sep)[-1]
+PROJECT_DIRNAME = "project"
 
 # Every cache key will get prefixed with this value - here we set it to
 # the name of the directory the project is in to try and use something
