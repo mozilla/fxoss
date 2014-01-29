@@ -3,6 +3,7 @@ from copy import deepcopy
 
 from django.contrib import admin
 
+from mezzanine.forms.models import Form, Field
 from mezzanine.pages.admin import PageAdmin, LinkAdmin
 from mezzanine.pages.models import Page, RichTextPage, Link
 from modeltranslation.admin import TranslationAdmin
@@ -21,9 +22,19 @@ class LinkTranslationOptions(TranslationOptions):
     fields = ('title', )
 
 
+class FormTranslationOptions(RichTextPageTranslationOptions):
+    fields = ('button_text', 'response', )
+
+
+class FieldTranslationOptions(TranslationOptions):
+    fields = ('label', 'choices', 'default', 'placeholder_text', 'help_text', )
+
+
 translator.register(Page, PageTranslationOptions)
 translator.register(RichTextPage, RichTextPageTranslationOptions)
 translator.register(Link, LinkTranslationOptions)
+translator.register(Form, FormTranslationOptions)
+translator.register(Field, FieldTranslationOptions)
 
 
 class TranslatedPageAdmin(PageAdmin, TranslationAdmin):
