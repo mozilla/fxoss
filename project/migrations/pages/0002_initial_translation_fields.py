@@ -13,18 +13,8 @@ class Migration(SchemaMigration):
                       self.gf('django.db.models.fields.CharField')(max_length=500, null=True, blank=True),
                       keep_default=False)
 
-        # Adding field 'Page.title_fr'
-        db.add_column(u'pages_page', 'title_fr',
-                      self.gf('django.db.models.fields.CharField')(max_length=500, null=True, blank=True),
-                      keep_default=False)
-
         # Adding field 'Page.description_en'
         db.add_column(u'pages_page', 'description_en',
-                      self.gf('django.db.models.fields.TextField')(null=True, blank=True),
-                      keep_default=False)
-
-        # Adding field 'Page.description_fr'
-        db.add_column(u'pages_page', 'description_fr',
                       self.gf('django.db.models.fields.TextField')(null=True, blank=True),
                       keep_default=False)
 
@@ -33,30 +23,15 @@ class Migration(SchemaMigration):
                       self.gf('mezzanine.core.fields.RichTextField')(null=True, blank=True),
                       keep_default=False)
 
-        # Adding field 'RichTextPage.content_fr'
-        db.add_column(u'pages_richtextpage', 'content_fr',
-                      self.gf('mezzanine.core.fields.RichTextField')(null=True, blank=True),
-                      keep_default=False)
-
-
     def backwards(self, orm):
         # Deleting field 'Page.title_en'
         db.delete_column(u'pages_page', 'title_en')
 
-        # Deleting field 'Page.title_fr'
-        db.delete_column(u'pages_page', 'title_fr')
-
         # Deleting field 'Page.description_en'
         db.delete_column(u'pages_page', 'description_en')
 
-        # Deleting field 'Page.description_fr'
-        db.delete_column(u'pages_page', 'description_fr')
-
         # Deleting field 'RichTextPage.content_en'
         db.delete_column(u'pages_richtextpage', 'content_en')
-
-        # Deleting field 'RichTextPage.content_fr'
-        db.delete_column(u'pages_richtextpage', 'content_fr')
 
 
     models = {
@@ -72,7 +47,6 @@ class Migration(SchemaMigration):
             'created': ('django.db.models.fields.DateTimeField', [], {'null': 'True'}),
             'description': ('django.db.models.fields.TextField', [], {'blank': 'True'}),
             'description_en': ('django.db.models.fields.TextField', [], {'null': 'True', 'blank': 'True'}),
-            'description_fr': ('django.db.models.fields.TextField', [], {'null': 'True', 'blank': 'True'}),
             'expiry_date': ('django.db.models.fields.DateTimeField', [], {'null': 'True', 'blank': 'True'}),
             'gen_description': ('django.db.models.fields.BooleanField', [], {'default': 'True'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
@@ -88,7 +62,6 @@ class Migration(SchemaMigration):
             'status': ('django.db.models.fields.IntegerField', [], {'default': '2'}),
             'title': ('django.db.models.fields.CharField', [], {'max_length': '500'}),
             'title_en': ('django.db.models.fields.CharField', [], {'max_length': '500', 'null': 'True', 'blank': 'True'}),
-            'title_fr': ('django.db.models.fields.CharField', [], {'max_length': '500', 'null': 'True', 'blank': 'True'}),
             'titles': ('django.db.models.fields.CharField', [], {'max_length': '1000', 'null': 'True'}),
             'updated': ('django.db.models.fields.DateTimeField', [], {'null': 'True'})
         },
@@ -96,7 +69,6 @@ class Migration(SchemaMigration):
             'Meta': {'ordering': "(u'_order',)", 'object_name': 'RichTextPage', '_ormbases': [u'pages.Page']},
             'content': ('mezzanine.core.fields.RichTextField', [], {}),
             'content_en': ('mezzanine.core.fields.RichTextField', [], {'null': 'True', 'blank': 'True'}),
-            'content_fr': ('mezzanine.core.fields.RichTextField', [], {'null': 'True', 'blank': 'True'}),
             u'page_ptr': ('django.db.models.fields.related.OneToOneField', [], {'to': u"orm['pages.Page']", 'unique': 'True', 'primary_key': 'True'}),
         },
         u'sites.site': {

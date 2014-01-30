@@ -117,7 +117,6 @@ _ = lambda s: s
 
 LANGUAGES = (
     ('en', _('English')),
-    ('fr', _('French')),
 )
 
 # A boolean that turns on/off debug mode. When set to ``True``, stack traces
