@@ -51,8 +51,8 @@ def _get_translation_fields(field):
     return [build_localized_fieldname(field, l) for l in languages]
 
 
-class SlimTranslationAdmin(TranslationAdmin):
-    """Subclass of TranslationAdmin to only show at most two languages: the base
+class SlimTranslationMixin(object):
+    """Mixin for SlimTranslationAdmin to only show at most two languages: the base
     translation language (EN) and the selected language for the user."""
 
     def replace_orig_field(self, option):
@@ -88,11 +88,11 @@ class SlimTranslationAdmin(TranslationAdmin):
         """Activate the current language from the request before patching the fields."""
         language = get_language_from_request(request, check_path=True)
         with override(language):
-            result = super(SlimTranslationAdmin, self)._do_get_form_or_formset(request, obj, **kwargs)
+            result = super(SlimTranslationMixin, self)._do_get_form_or_formset(request, obj, **kwargs)
         return result
 
 
-class TranslatedPageAdmin(PageAdmin, SlimTranslationAdmin):
+class TranslatedPageAdmin(PageAdmin, SlimTranslationMixin, TranslationAdmin):
     """Combined Page admin class for Mezzanine and modeltranslation."""
 
 
@@ -103,18 +103,18 @@ class TranslatedRichTextPageAdmin(TranslatedPageAdmin):
     fieldsets = rich_text_fieldsets
 
 
-class TranslatedLinkAdmin(LinkAdmin, SlimTranslationAdmin):
+class TranslatedLinkAdmin(LinkAdmin, SlimTranslationMixin, TranslationAdmin):
     """Combined Link admin class for Mezzanine and modeltranslation."""
 
 
-class TranslatedFieldAdmin(FieldAdmin, TranslationTabularInline):
+class TranslatedFieldAdmin(FieldAdmin, SlimTranslationMixin, TranslationTabularInline):
     """Inline admin for translated Fields."""
 
     fields = ['label', 'field_type', 'required', 'visible',
         'choices', 'default', 'help_text', '_order']
 
 
-class TranslatedFormAdmin(FormAdmin, SlimTranslationAdmin):
+class TranslatedFormAdmin(FormAdmin, SlimTranslationMixin, TranslationAdmin):
     """Combined Form admin class for Mezzanine and modeltranslation."""
 
     inlines = (TranslatedFieldAdmin, )
