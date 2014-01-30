@@ -318,6 +318,12 @@ MODELTRANSLATION_TRANSLATION_FILES = (
     'project.translation',
 )
 
+SOUTH_MIGRATION_MODULES = {
+    'core': 'project.migrations.core',
+    'forms': 'project.migrations.forms',
+    'pages': 'project.migrations.pages'
+}
+
 ####################
 # DYNAMIC SETTINGS #
 ####################
