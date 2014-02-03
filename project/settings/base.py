@@ -324,6 +324,10 @@ SOUTH_MIGRATION_MODULES = {
     'pages': 'project.migrations.pages'
 }
 
+COMPRESS_PRECOMPILERS = (
+   ('text/less', 'lessc {infile} {outfile}'),
+)
+
 ####################
 # DYNAMIC SETTINGS #
 ####################
