@@ -117,7 +117,6 @@ _ = lambda s: s
 
 LANGUAGES = (
     ('en', _('English')),
-    ('fr', _('French')),
 )
 
 # A boolean that turns on/off debug mode. When set to ``True``, stack traces
@@ -317,6 +316,12 @@ DEBUG_TOOLBAR_CONFIG = {"INTERCEPT_REDIRECTS": False}
 MODELTRANSLATION_TRANSLATION_FILES = (
     'project.translation',
 )
+
+SOUTH_MIGRATION_MODULES = {
+    'core': 'project.migrations.core',
+    'forms': 'project.migrations.forms',
+    'pages': 'project.migrations.pages'
+}
 
 ####################
 # DYNAMIC SETTINGS #
