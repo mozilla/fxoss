@@ -250,7 +250,9 @@ INSTALLED_APPS = [
     "mezzanine.pages",
     "mezzanine.accounts",
     # project apps
+    "fxoss"
 ]
+
 
 # List of processors used by RequestContext to populate the context.
 # Each one should be a callable that takes the request object as its
@@ -300,10 +302,7 @@ PACKAGE_NAME_GRAPPELLI = "grappelli_safe"
 # ACCOUNT REGISTRATION SETTINGS #
 #################################
 
-ACCOUNTS_PROFILE_FORM_EXCLUDE_FIELDS = (
-    "username",
-)
-
+ACCOUNTS_PROFILE_FORM_CLASS = "project.fxoss.forms.WebToLeadForm"
 ACCOUNTS_VERIFICATION_REQUIRED = True
 
 #########################
