@@ -1,0 +1,1 @@
+# This file is here only to make Django happy
