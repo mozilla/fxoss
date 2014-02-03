@@ -21,6 +21,6 @@ def protected_download(request, path):
         response = serve(request, path, document_root=os.path.join(settings.MEDIA_ROOT, FILEBROWSER_DIRECTORY, 'protected'))
     else:
         response = HttpResponse()
-        response["Content-Disposition"] = "attachment; filename=%s" % os.path.basename(path)
         response['X-Accel-Redirect'] = "/__protected__/%s" % path
+    response["Content-Disposition"] = "attachment; filename=%s" % os.path.basename(path)
     return response
