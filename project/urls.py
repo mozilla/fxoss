@@ -6,6 +6,7 @@ from django.conf.urls.i18n import i18n_patterns
 from django.conf.urls.static import static
 from django.contrib import admin
 
+from filebrowser_safe.settings import DIRECTORY as FILEBROWSER_DIRECTORY
 from mezzanine.core.views import direct_to_template
 
 
@@ -21,6 +22,12 @@ urlpatterns = i18n_patterns("",
     ("^admin/", include(admin.site.urls)),
 )
 
+# Protected downloads
+urlpatterns += patterns("protected_assets.views",
+    url(r"^%s%sprotected/(?P<path>.*)$" % (settings.MEDIA_URL.lstrip('/'), FILEBROWSER_DIRECTORY), "protected_download"),
+)
+
+# Serving media for local dev
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 urlpatterns += patterns('',
