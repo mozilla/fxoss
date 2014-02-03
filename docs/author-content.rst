@@ -8,15 +8,12 @@ Scaling Website (FXOSS) project.
 Authenticating
 ------------------------
 
-In order to author content in the FXOSS site, you will need to open a web browser
-and navigate to
+In order to author content in the FXOSS site, you will need to:
 
-    mobilepartners.mozilla.org/admin
-
-
-  1. Supply the **username** (email) and **password** you
-  2. Select the **Admin Interface**
-  3. Press **Login**
+  1. Navigate to **mobilepartners.mozilla.org/admin**
+  2. Supply the **username** (email) and **password** you
+  3. Select the **Admin Interface**
+  4. Press **Login**
 
 Dashboard
 ------------------------
