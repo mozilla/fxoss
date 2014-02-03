@@ -13,8 +13,23 @@ class Migration(SchemaMigration):
                       self.gf('django.db.models.fields.CharField')(max_length=500, null=True, blank=True),
                       keep_default=False)
 
+        # Adding field 'Link.title_en'
+        db.add_column(u'pages_link', 'title_en',
+                      self.gf('django.db.models.fields.CharField')(max_length=500, null=True, blank=True),
+                      keep_default=False)
+
         # Adding field 'Page.description_en'
         db.add_column(u'pages_page', 'description_en',
+                      self.gf('django.db.models.fields.TextField')(null=True, blank=True),
+                      keep_default=False)
+
+        # Adding field 'RichTextPage.title_en'
+        db.add_column(u'pages_richtextpage', 'title_en',
+                      self.gf('django.db.models.fields.CharField')(max_length=500, null=True, blank=True),
+                      keep_default=False)
+
+        # Adding field 'RichTextPage.description_en'
+        db.add_column(u'pages_richtextpage', 'description_en',
                       self.gf('django.db.models.fields.TextField')(null=True, blank=True),
                       keep_default=False)
 
@@ -27,12 +42,20 @@ class Migration(SchemaMigration):
         # Deleting field 'Page.title_en'
         db.delete_column(u'pages_page', 'title_en')
 
+        # Deleting field 'Link.title_en'
+        db.delete_column(u'pages_link', 'title_en')
+
         # Deleting field 'Page.description_en'
         db.delete_column(u'pages_page', 'description_en')
 
+        # Deleting field 'RichTextPage.title_en'
+        db.delete_column(u'pages_richtextpage', 'title_en')
+
+        # Deleting field 'RichTextPage.description_en'
+        db.delete_column(u'pages_richtextpage', 'description_en')
+
         # Deleting field 'RichTextPage.content_en'
         db.delete_column(u'pages_richtextpage', 'content_en')
-
 
     models = {
         u'pages.link': {
