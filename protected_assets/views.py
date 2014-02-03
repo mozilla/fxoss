@@ -22,5 +22,5 @@ def protected_download(request, path):
     else:
         response = HttpResponse()
         response["Content-Disposition"] = "attachment; filename=%s" % os.path.basename(path)
-        response['X-Accel-Redirect'] = "/protected/%s" % path
+        response['X-Accel-Redirect'] = "/__protected__/%s" % path
     return response
