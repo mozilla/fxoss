@@ -13,8 +13,10 @@ and navigate to
 
     mobilepartners.mozilla.org/admin
 
-Select the **Admin Interface**, supply the **username** (email) and **password** you
-were provided and press Login.
+
+  1. Supply the **username** (email) and **password** you
+  2. Select the **Admin Interface**
+  3. Press **Login**
 
 Dashboard
 ------------------------
