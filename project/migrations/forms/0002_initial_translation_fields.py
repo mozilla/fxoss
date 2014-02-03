@@ -8,6 +8,21 @@ from django.db import models
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
+        # Adding field 'Form.title_en'
+        db.add_column(u'forms_form', 'title_en',
+                      self.gf('django.db.models.fields.CharField')(max_length=500, null=True, blank=True),
+                      keep_default=False)
+
+        # Adding field 'Form.description_en'
+        db.add_column(u'forms_form', 'description_en',
+                      self.gf('django.db.models.fields.TextField')(null=True, blank=True),
+                      keep_default=False)
+
+        # Adding field 'Form.content_en'
+        db.add_column(u'forms_form', 'content_en',
+                      self.gf('mezzanine.core.fields.RichTextField')(null=True, blank=True),
+                      keep_default=False)
+
         # Adding field 'Form.button_text_en'
         db.add_column(u'forms_form', 'button_text_en',
                       self.gf('django.db.models.fields.CharField')(default=u'Submit', max_length=50, null=True, blank=True),
@@ -44,6 +59,15 @@ class Migration(SchemaMigration):
                       keep_default=False)
 
     def backwards(self, orm):
+        # Deleting field 'Form.title_en'
+        db.delete_column(u'forms_form', 'title_en')
+
+        # Deleting field 'Form.description_en'
+        db.delete_column(u'forms_form', 'description_en')
+
+        # Deleting field 'Form.content_en'
+        db.delete_column(u'forms_form', 'content_en')
+        
         # Deleting field 'Form.button_text_en'
         db.delete_column(u'forms_form', 'button_text_en')
 
