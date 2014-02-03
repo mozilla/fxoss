@@ -233,6 +233,7 @@ TEMPLATE_DIRS = (os.path.join(PROJECT_ROOT, "templates"),)
 ################
 
 INSTALLED_APPS = [
+    "project.overrides",
     "sandstone",
     "django.contrib.admin",
     "django.contrib.auth",
