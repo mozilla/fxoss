@@ -79,7 +79,13 @@ from __future__ import absolute_import, unicode_literals
 # INSTALLED_APPS setting.
 USE_SOUTH = True
 
+# Content Authors are trusted internal authors, they do not need filtering of
+# HTML via the WYSIWYG editor
+RICHTEXT_FILTER_LEVEL = 3
 
+SITE_TITLE = "Mozilla Labs | Mobile Partners"
+
+GOOGLE_ANALYTICS_ID = 'UA-35433268-52'
 ########################
 # MAIN DJANGO SETTINGS #
 ########################
@@ -114,6 +120,7 @@ LANGUAGE_CODE = "en"
 
 # Supported languages
 _ = lambda s: s
+
 LANGUAGES = (
     ('en', _('English')),
 )
@@ -130,7 +137,7 @@ SITE_ID = 1
 
 # If you set this to False, Django will make some optimizations so as not
 # to load the internationalization machinery.
-USE_I18N = False
+USE_I18N = True
 
 # Tuple of IP addresses, as strings, that:
 #   * See debug comments, when DEBUG is true
@@ -318,6 +325,10 @@ OPTIONAL_APPS = (
 )
 
 DEBUG_TOOLBAR_CONFIG = {"INTERCEPT_REDIRECTS": False}
+
+COMPRESS_PRECOMPILERS = (
+   ('text/less', 'lessc {infile} {outfile}'),
+)
 
 ####################
 # DYNAMIC SETTINGS #

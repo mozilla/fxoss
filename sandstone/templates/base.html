@@ -34,6 +34,7 @@
         <![endif]-->
 
         {% block extra_head %}{% endblock %}
+        {% include "includes/google_analytics.html" %}
     </head>
     <body id="sandstone" class="sky">
         <div id="outer-wrapper">
@@ -93,13 +94,12 @@
 
         </div>
 
-        {% include "includes/footer_scripts.html" %}
         {% block js %}
           {% compress js %}
             <script src="{% static "js/site.js" %}"></script>
             <script src="{% static "js/nav-main-resp.js" %}"></script>
-            <script src="//mozorg.cdn.mozilla.net/tabzilla/tabzilla.js"></script>
           {% endcompress %}
+            <script src="//mozorg.cdn.mozilla.net/tabzilla/tabzilla.js"></script>
         {% endblock %}
     </body>
 </html>
