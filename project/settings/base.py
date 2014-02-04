@@ -233,6 +233,7 @@ TEMPLATE_DIRS = (os.path.join(PROJECT_ROOT, "templates"),)
 
 INSTALLED_APPS = [
     # theme app
+    "project.overrides",
     "sandstone",
     "django.contrib.admin",
     "django.contrib.auth",
@@ -249,8 +250,6 @@ INSTALLED_APPS = [
     "mezzanine.forms",
     "mezzanine.pages",
     "mezzanine.accounts",
-    # project apps
-    "fxoss"
 ]
 
 
@@ -302,7 +301,7 @@ PACKAGE_NAME_GRAPPELLI = "grappelli_safe"
 # ACCOUNT REGISTRATION SETTINGS #
 #################################
 
-ACCOUNTS_PROFILE_FORM_CLASS = "project.fxoss.forms.WebToLeadForm"
+ACCOUNTS_PROFILE_FORM_CLASS = "project.overrides.forms.WebToLeadForm"
 ACCOUNTS_VERIFICATION_REQUIRED = True
 
 #########################
