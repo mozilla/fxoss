@@ -12,7 +12,7 @@ from mezzanine.utils.urls import slugify, unique_slug
 User = get_user_model()
 
 
-class WebToLeadForm(Html5Mixin, forms.ModelForm):
+class UserRegistrationLeadForm(Html5Mixin, forms.ModelForm):
     """
     ModelForm for auth.User - used for signup and profile update.
 
@@ -223,7 +223,7 @@ class WebToLeadForm(Html5Mixin, forms.ModelForm):
         fields = ("first_name", "last_name", "email")
 
     def __init__(self, *args, **kwargs):
-        super(WebToLeadForm, self).__init__(*args, **kwargs)
+        super(UserRegistrationLeadForm, self).__init__(*args, **kwargs)
 
         self._signup = self.instance.id is None
         user_fields = User._meta.get_all_field_names()
@@ -301,7 +301,7 @@ class WebToLeadForm(Html5Mixin, forms.ModelForm):
         """
 
         kwargs["commit"] = False
-        user = super(WebToLeadForm, self).save(*args, **kwargs)
+        user = super(UserRegistrationLeadForm, self).save(*args, **kwargs)
         try:
             self.cleaned_data["username"]
         except KeyError:
@@ -335,4 +335,3 @@ class WebToLeadForm(Html5Mixin, forms.ModelForm):
                                     token=token,
                                     is_active=True)
         return user
-
