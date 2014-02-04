@@ -310,6 +310,8 @@ PACKAGE_NAME_GRAPPELLI = "grappelli_safe"
 
 ACCOUNTS_PROFILE_FORM_CLASS = "project.overrides.forms.WebToLeadForm"
 ACCOUNTS_VERIFICATION_REQUIRED = True
+# Email as username
+ACCOUNTS_NO_USERNAME = True
 
 #########################
 # OPTIONAL APPLICATIONS #

@@ -14,6 +14,11 @@ from mezzanine.utils.urls import login_redirect, next_url
 from mezzanine.utils.views import render
 
 
+SALESFORCE_FIELD_MAPPINGS = {
+    'type_of_device': '00NU0000003WwlV',
+    'mobile_product_interest': '00NU0000003WwlQ'
+}
+
 def signup(request, template="accounts/account_signup.html"):
     """
     Signup form.
@@ -26,10 +31,10 @@ def signup(request, template="accounts/account_signup.html"):
         # Generate Salesforce Lead
         data = form.cleaned_data.copy()
         # Pop non-Salesforce Fields
-        for field in ['password1', 'password2', 'username']:
+        for field in ['password1', 'password2']:
             data.pop(field)
-        interest = data.pop('interest')
-        data['00NU0000002pDJr'] = interest
+        for k, v in SALESFORCE_FIELD_MAPPINGS.items():
+            data[v] = data.pop(k)
         data['oid'] = '00DU0000000IrgO'
         # As we're doing the Salesforce POST in the background here,
         # `retURL` is never visited/seen by the user. I believe it
@@ -37,7 +42,6 @@ def signup(request, template="accounts/account_signup.html"):
         # as a placeholder (with a valid URL, just in case).
         data['retURL'] = (request.build_absolute_uri())
 
-        import ipdb; ipdb.set_trace()
 
         #r = requests.post('https://www.salesforce.com/servlet/'
         #                  'servlet.WebToLead?encoding=UTF-8', data)

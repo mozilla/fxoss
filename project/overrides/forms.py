@@ -110,7 +110,7 @@ class WebToLeadForm(Html5Mixin, forms.ModelForm):
         widget=forms.TextInput(
             attrs={
                 'size': 20,
-                'placeholder': 'Title'
+                'placeholder': _('Title')
             }
         )
     )
@@ -120,7 +120,7 @@ class WebToLeadForm(Html5Mixin, forms.ModelForm):
         widget=forms.TextInput(
             attrs={
                 'size': 20,
-                'placeholder': 'Company',
+                'placeholder': _('Company'),
             }
         )
     )
@@ -128,13 +128,13 @@ class WebToLeadForm(Html5Mixin, forms.ModelForm):
         max_length=80,
         required=True,
         error_messages={
-            'required': 'Please enter your email address.',
-            'invalid': 'Please enter a valid email address'
+            'required': _('Please enter your email address.'),
+            'invalid': _('Please enter a valid email address')
         },
         widget=forms.TextInput(
             attrs={
                 'size': 20,
-                'placeholder': 'Email',
+                'placeholder': _('Email'),
                 'class': 'required',
                 'required': 'required',
                 'aria-required': 'true'
@@ -147,7 +147,7 @@ class WebToLeadForm(Html5Mixin, forms.ModelForm):
         widget=forms.TextInput(
             attrs={
                 'size': 20,
-                'placeholder': 'Phone'
+                'placeholder': _('Phone')
             }
         )
     )
@@ -157,7 +157,7 @@ class WebToLeadForm(Html5Mixin, forms.ModelForm):
         widget=forms.TextInput(
             attrs={
                 'size': 20,
-                'placeholder': 'Mobile'
+                'placeholder': _('Mobile')
             }
         )
     )
@@ -166,7 +166,7 @@ class WebToLeadForm(Html5Mixin, forms.ModelForm):
         max_length=40,
         widget=forms.TextInput(
             attrs={
-                'placeholder': 'City'
+                'placeholder': _('City')
             }
         )
     )
@@ -175,7 +175,7 @@ class WebToLeadForm(Html5Mixin, forms.ModelForm):
         max_length=40,
         widget=forms.TextInput(
             attrs={
-                'placeholder': 'State/Province'
+                'placeholder': _('State/Province')
             }
         )
     )
@@ -184,7 +184,7 @@ class WebToLeadForm(Html5Mixin, forms.ModelForm):
         max_length=40,
         widget=forms.TextInput(
             attrs={
-                'placeholder': 'Country'
+                'placeholder': _('Country')
             }
         )
     )
@@ -194,11 +194,21 @@ class WebToLeadForm(Html5Mixin, forms.ModelForm):
         choices=INDUSTRY_CHOICES
     )
 
+    type_of_device = forms.MultipleChoiceField(
+        required=False,
+        choices=DEVICE_CHOICES
+    )
+
+    mobile_product_interest = forms.MultipleChoiceField(
+        required=False,
+        choices=INTEREST_CHOICES
+    )
+
     description = forms.CharField(
         required=False,
         widget=forms.Textarea(
             attrs={
-                'placeholder': 'Description',
+                'placeholder': _('Description'),
                 'rows': '',
                 'cols': ''
             }
