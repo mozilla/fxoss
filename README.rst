@@ -42,6 +42,15 @@ Deployment
 TODO
 
 
+Fixtures
+------------------------
+
+Load the default fixtures for the site. Currently, the only fixtures that exist
+define a *Content Authors* **Group**. To run:
+
+    python manage.py loaddata fixture_groups.json
+
+
 Adding Languages
 ------------------------
 

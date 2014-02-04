@@ -79,6 +79,11 @@ from __future__ import absolute_import, unicode_literals
 # INSTALLED_APPS setting.
 USE_SOUTH = True
 
+# Content Authors are trusted internal authors, they do not need filtering of
+# HTML via the WYSIWYG editor
+RICHTEXT_FILTER_LEVEL = 3
+
+SITE_TITLE = "Mozilla Labs | Mobile Partners"
 
 ########################
 # MAIN DJANGO SETTINGS #
