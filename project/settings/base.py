@@ -85,6 +85,7 @@ RICHTEXT_FILTER_LEVEL = 3
 
 SITE_TITLE = "Mozilla Labs | Mobile Partners"
 
+GOOGLE_ANALYTICS_ID = 'UA-35433268-52'
 ########################
 # MAIN DJANGO SETTINGS #
 ########################

@@ -34,6 +34,7 @@
         <![endif]-->
 
         {% block extra_head %}{% endblock %}
+        {% include "includes/google_analytics.html" %}
     </head>
     <body id="sandstone" class="sky">
         <div id="outer-wrapper">
@@ -90,7 +91,6 @@
 
         </div>
 
-        {% include "includes/footer_scripts.html" %}
         {% block js %}
           {% compress js %}
             <script src="{% static "js/site.js" %}"></script>
