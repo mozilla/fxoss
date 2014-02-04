@@ -15,10 +15,62 @@ User = get_user_model()
 class WebToLeadForm(Html5Mixin, forms.ModelForm):
     """
     ModelForm for auth.User - used for signup and profile update.
-    If a Profile model is defined via ``AUTH_PROFILE_MODULE``, its
-    fields are injected into the form.
-    """
 
+    NOTE: Profile Model field injection as defined by ``AUTH_PROFILE_MODULE``
+    is disabled in this implementation!
+    """
+    INDUSTRY_CHOICES = (
+        ('', '--None--'),
+        ('Agriculture', 'Agriculture'),
+        ('Apparel', 'Apparel'),
+        ('Banking', 'Banking'),
+        ('Biotechnology', 'Biotechnology'),
+        ('Chemicals', 'Chemicals'),
+        ('Communications', 'Communications'),
+        ('Construction', 'Construction'),
+        ('Consulting', 'Consulting'),
+        ('Education', 'Education'),
+        ('Electronics', 'Electronics'),
+        ('Energy', 'Energy'),
+        ('Engineering', 'Engineering'),
+        ('Entertainment', 'Entertainment'),
+        ('Environmental', 'Environmental'),
+        ('Finance', 'Finance'),
+        ('Food &amp; Beverage', 'Food &amp; Beverage'),
+        ('Government', 'Government'),
+        ('Healthcare', 'Healthcare'),
+        ('Hospitality', 'Hospitality'),
+        ('Insurance', 'Insurance'),
+        ('Machinery', 'Machinery'),
+        ('Manufacturing', 'Manufacturing'),
+        ('Media', 'Media'),
+        ('Not For Profit', 'Not For Profit'),
+        ('Other', 'Other'),
+        ('Recreation', 'Recreation'),
+        ('Retail', 'Retail'),
+        ('Shipping', 'Shipping'),
+        ('Technology', 'Technology'),
+        ('Telecommunications', 'Telecommunications'),
+        ('Transportation', 'Transportation'),
+        ('Utilities', 'Utilities'),
+    )
+
+    DEVICE_CHOICES = (
+        ('Tablet', 'Tablet'),
+        ('Wearable', 'Wearable'),
+        ('Other', 'Other'),
+    )
+
+    INTEREST_CHOICES = (
+        ('Firefox OS', 'Firefox OS'),
+        ('Firefox Marketplace', 'Firefox Marketplace'),
+        ('Other', 'Other'),
+    )
+
+    password1 = forms.CharField(label=_("Password"),
+                                widget=forms.PasswordInput(render_value=False))
+    password2 = forms.CharField(label=_("Password (again)"),
+                                widget=forms.PasswordInput(render_value=False))
     first_name = forms.CharField(
         max_length=40,
         required=True,
@@ -52,29 +104,6 @@ class WebToLeadForm(Html5Mixin, forms.ModelForm):
         )
     )
 
-    password1 = forms.CharField(label=_("Password"),
-                                widget=forms.PasswordInput(render_value=False))
-    password2 = forms.CharField(label=_("Password (again)"),
-                                widget=forms.PasswordInput(render_value=False))
-
-
-    interests_standard = (
-        ('Firefox for Desktop', 'Firefox for Desktop'),
-        ('Firefox for Android', 'Firefox for Android'),
-        ('Firefox Marketplace', 'Firefox Marketplace'),
-        ('Firefox OS', 'Firefox OS'),
-        ('Persona', 'Persona'),
-        ('Marketing and Co-promotions', 'Marketing and Co-promotions'),
-        ('Other', 'Other'),
-    )
-
-    interests_fx = (
-        ('Firefox for Android', 'Firefox for Android'),
-        ('Firefox Marketplace', 'Firefox Marketplace'),
-        ('Firefox OS', 'Firefox OS'),
-        ('Other', 'Other'),
-    )
-
     title = forms.CharField(
         max_length=40,
         required=False,
@@ -92,19 +121,6 @@ class WebToLeadForm(Html5Mixin, forms.ModelForm):
             attrs={
                 'size': 20,
                 'placeholder': 'Company',
-            }
-        )
-    )
-    URL = forms.URLField(
-        max_length=80,
-        required=False,
-        error_messages={
-            'invalid': 'Please supply a valid URL.'
-        },
-        widget=forms.TextInput(
-            attrs={
-                'size': 20,
-                'placeholder': 'Website'
             }
         )
     )
@@ -145,16 +161,6 @@ class WebToLeadForm(Html5Mixin, forms.ModelForm):
             }
         )
     )
-    street = forms.CharField(
-        required=False,
-        widget=forms.Textarea(
-            attrs={
-                'placeholder': 'Address',
-                'rows': '',
-                'cols': ''
-            }
-        )
-    )
     city = forms.CharField(
         required=False,
         max_length=40,
@@ -182,15 +188,12 @@ class WebToLeadForm(Html5Mixin, forms.ModelForm):
             }
         )
     )
-    zip = forms.CharField(
+
+    industry = forms.ChoiceField(
         required=False,
-        max_length=40,
-        widget=forms.TextInput(
-            attrs={
-                'placeholder': 'Zip'
-            }
-        )
+        choices=INDUSTRY_CHOICES
     )
+
     description = forms.CharField(
         required=False,
         widget=forms.Textarea(
@@ -207,24 +210,10 @@ class WebToLeadForm(Html5Mixin, forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ("first_name", "last_name", "email", "username")
+        fields = ("first_name", "last_name", "email")
 
     def __init__(self, *args, **kwargs):
-        interest_set = kwargs.pop('interest_set', 'standard')
-        interest_choices = self.interests_fx if (interest_set == 'fx') else self.interests_standard
-
         super(WebToLeadForm, self).__init__(*args, **kwargs)
-
-        self.fields['interest'] = forms.MultipleChoiceField(
-            choices=interest_choices,
-            required=False,
-            widget=forms.SelectMultiple(
-                attrs={
-                    'title': 'Interest',
-                    'size': 7
-                }
-            )
-        )
 
         self._signup = self.instance.id is None
         user_fields = User._meta.get_all_field_names()
