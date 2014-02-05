@@ -62,13 +62,13 @@ EXTRA_MODEL_FIELDS = (
         "mezzanine.pages.models.Page.intro",
         "TextField",  # 'django.db.models.' is implied if path is omitted.
         ("Intro Paragraph",),
-        {"default": ''},
+        {"default": '', "blank": True},
     ),
     (
         "mezzanine.pages.models.Page.closing",
         "TextField",  # 'django.db.models.' is implied if path is omitted.
         ("Closing Paragraph",),
-        {"default": ''},
+        {"default": '', "blank": True},
     ),
 )
 
