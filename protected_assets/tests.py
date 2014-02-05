@@ -1,3 +1,5 @@
+from __future__ import unicode_literals
+
 from django.contrib.auth import get_user_model
 from django.core.urlresolvers import reverse
 from django.test import TestCase
@@ -19,6 +21,7 @@ class AgreementMixin(object):
             title='User Agreement', slug='download-agreement',
             content='Legal Text Here', login_required=True)
         self.agreement_url = self.agreement_page.get_absolute_url()
+        self.asset_url = reverse('protected_assets.views.protected_download', args=['test.png', ])
         self.user = self.create_user(username='test', password='test')
         self.client.login(username='test', password='test')
 
@@ -47,20 +50,16 @@ class AgreementMixin(object):
 class ProtectAssetTestCase(AgreementMixin, TestCase):
     """Integration test for attempting to download a protected asset."""
 
-    def setUp(self):
-        super(ProtectAssetTestCase, self).setUp()
-        self.url = reverse('protected_assets.views.protected_download', args=['test.png', ])
-
     def test_agreement_redirect(self):
         """If user has not signed the agreement they should be redirected to sign."""
-        response = self.client.get(self.url)
-        expected_url = '%s?next=%s' % (self.agreement_url, self.url)
+        response = self.client.get(self.asset_url)
+        expected_url = '%s?next=%s' % (self.agreement_url, self.asset_url)
         self.assertRedirects(response, expected_url)
 
     def test_already_signed(self):
         """Download should be trigged if the agreement was previously signed."""
         self.create_agreement(user=self.user)
-        response = self.client.get(self.url)
+        response = self.client.get(self.asset_url)
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response['Content-Disposition'], 'attachment; filename=test.png')
         self.assertEqual(response['X-Accel-Redirect'], '/__protected__/test.png')
@@ -68,10 +67,30 @@ class ProtectAssetTestCase(AgreementMixin, TestCase):
     def test_signed_old_version(self):
         """User will need to resign the agreement if they signed and older version."""
         self.create_agreement(user=self.user, version='0.9')
-        response = self.client.get(self.url)
-        expected_url = '%s?next=%s' % (self.agreement_url, self.url)
+        response = self.client.get(self.asset_url)
+        expected_url = '%s?next=%s' % (self.agreement_url, self.asset_url)
         self.assertRedirects(response, expected_url)
 
 
 class SignAgreementTestCase(AgreementMixin, TestCase):
     """Integration test for signing the user agreement."""
+
+    def test_agree_to_terms(self):
+        """Create Agreement record when user signs the form."""
+        response = self.client.post(self.agreement_url, data={'agree': 'on'})
+        self.assertRedirects(response, '/')
+        self.assertTrue(Agreement.objects.filter(user=self.user).exists())
+
+    def test_did_not_agree(self):
+        """No record should be created if they didn't agree."""
+        response = self.client.post(self.agreement_url, data={})
+        self.assertEqual(response.status_code, 200)
+        self.assertFalse(Agreement.objects.filter(user=self.user).exists())
+
+    def test_next_redirect(self):
+        """Redirect user to custom location."""
+        next_url = self.asset_url
+        url = '%s?next=%s' % (self.agreement_url, self.asset_url)
+        response = self.client.post(url, data={'agree': 'on'})
+        self.assertRedirects(response, next_url)
+        self.assertTrue(Agreement.objects.filter(user=self.user).exists())
