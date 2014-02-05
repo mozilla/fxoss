@@ -56,7 +56,7 @@ EXTRA_MODEL_FIELDS = (
         "mezzanine.pages.models.Page.subtitle",
         "CharField",  # 'django.db.models.' is implied if path is omitted.
         ("Subtitle",),
-        {"max_length": 128, "default": ''},
+        {"max_length": 128, "default": '', "blank": True},
     ),
     (
         "mezzanine.pages.models.Page.intro",
