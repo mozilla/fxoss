@@ -33,6 +33,7 @@ create a Rich Text Page:
   * **Title**: The title that will appear in the navigation node(s) for the
     Rich Text Page. To note: future versions of the software will allow for
     additional language support. The GUI will provide a meaningful way to
+    switch between supported languages
   * **Status**: Select Draft to hide the page from all but admin users. Publishing
     the page will allow all users to view the page.
   * If publication dates are required, set the optional **Published from** and **Expires
@@ -40,7 +41,6 @@ create a Rich Text Page:
   * **Show in menus** allows the author to indiciate which menu(s) the navigation
     element should appear in. The current layout supports only *Top navigation
     bar* and *Left-hand tree* menus.
-    switch between supported languages
   * **Subtitle** of the page
   * **Intro Paragraph**
   * **Content**: This field supports WYSIWYG editing, and easy insertion of related
