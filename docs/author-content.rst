@@ -43,7 +43,7 @@ create a Rich Text Page:
     switch between supported languages
   * **Subtitle** of the page
   * **Intro Paragraph**
-  * **Content [en]**: This field supports WYSIWYG editing, and easy insertion of related
+  * **Content**: This field supports WYSIWYG editing, and easy insertion of related
     media
   * **Closing Paragraph**
   * **Login required** protects content from anonymous users.
