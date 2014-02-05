@@ -30,8 +30,8 @@ structure are derived from the created pages.  To add a Page to the root of the
 site, click **Add+** in the Pages Row.  This will open a form that allows you to
 create a Rich Text Page:
 
-  * **Title [en]**: The title that will appear in the navigation node(s) for the
-    Rich Test Page. To note: future versions of the software will allow for
+  * **Title**: The title that will appear in the navigation node(s) for the
+    Rich Text Page. To note: future versions of the software will allow for
     additional language support. The GUI will provide a meaningful way to
     switch between supported languages
   * **Status**: Select Draft to hide the page from all but admin users. Publishing
@@ -41,9 +41,12 @@ create a Rich Text Page:
   * **Show in menus** allows the author to indiciate which menu(s) the navigation
     element should appear in. The current layout supports only *Top navigation
     bar* and *Left-hand tree* menus.
-  * **Login required** protects content from anonymous users.
-  * **Content [en]**: This field supports WYSIWYG editing, and easy insertion of related
+  * **Subtitle** of the page
+  * **Intro Paragraph**
+  * **Content**: This field supports WYSIWYG editing, and easy insertion of related
     media
+  * **Closing Paragraph**
+  * **Login required** protects content from anonymous users.
   * To explicitly declare additional meta data, expand the **meta data** tab
     and populate the optional fields accordingly.
   * Be sure to press **Save** to store the Page in the database.

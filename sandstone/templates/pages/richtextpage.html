@@ -1,0 +1,23 @@
+{% extends "pages/page.html" %}
+
+{% load mezzanine_tags %}
+
+{% block main %}{{ block.super }}
+
+{% editable page.richtextpage.subtitle %}
+{{ page.richtextpage.subtitle|richtext_filters|safe }}
+{% endeditable %}
+
+{% editable page.richtextpage.intro %}
+{{ page.richtextpage.intro|richtext_filters|safe }}
+{% endeditable %}
+
+{% editable page.richtextpage.content %}
+{{ page.richtextpage.content|richtext_filters|safe }}
+{% endeditable %}
+
+{% editable page.richtextpage.closing %}
+{{ page.richtextpage.closing|richtext_filters|safe }}
+{% endeditable %}
+
+{% endblock %}
