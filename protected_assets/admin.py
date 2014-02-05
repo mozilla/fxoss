@@ -6,6 +6,18 @@ from mezzanine.pages.admin import  LinkAdmin as BaseLinkAdmin
 from mezzanine.pages.models import Link
 
 
+from .models import Agreement
+
+
+class AgreementAdmin(admin.ModelAdmin):
+    list_display = ('user', 'timestamp', 'version', 'ip', )
+    list_filter = ('timestamp', 'version', )
+    date_hierarchy = 'timestamp'
+
+
+admin.site.register(Agreement, AgreementAdmin)
+
+
 link_fieldsets = deepcopy(BaseLinkAdmin.fieldsets)
 link_fieldsets[0][1]["fields"] += ("login_required", )
 
