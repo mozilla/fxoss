@@ -1,7 +1,12 @@
+from datetime import datetime
+from random import randrange
+
 from django import forms
+from django.forms import widgets
 from django.contrib.auth import authenticate
 from django.contrib.auth.tokens import default_token_generator
 from django.utils.http import int_to_base36
+from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext as _
 
 from mezzanine.conf import settings
@@ -10,6 +15,21 @@ from mezzanine.utils.models import get_user_model
 from mezzanine.utils.urls import slugify, unique_slug
 
 User = get_user_model()
+
+
+class HoneyPotWidget(widgets.CheckboxInput):
+    """Render a checkbox to (hopefully) trick bots. Will be used on many pages."""
+
+    def render(self, name, value, attrs=None):
+        honeypot_txt = _(u'Check this box if you are not human.')
+        # semi-randomized in case we have more than one per page.
+        # this is maybe/probably overthought
+        honeypot_id = 'super-priority-%s-%s' % (str(randrange(1001)), str(datetime.now().strftime("%Y%m%d%H%M%S%f")))
+        return mark_safe(
+            '<div class="super-priority-field">'
+            '<label for="%s" class="super-priority-check-label">%s</label>'
+            '<input type="checkbox" name="superpriority" id="%s">'
+            '</div>' % (honeypot_id, honeypot_txt, honeypot_id))
 
 
 class UserRegistrationLeadForm(Html5Mixin, forms.ModelForm):
@@ -214,6 +234,8 @@ class UserRegistrationLeadForm(Html5Mixin, forms.ModelForm):
             }
         )
     )
+
+    superpriority = forms.BooleanField(widget=HoneyPotWidget, required=False)
     # uncomment below to debug salesforce
     # debug = forms.IntegerField(required=False)
     # debugEmail = forms.EmailField(required=False)
@@ -246,23 +268,6 @@ class UserRegistrationLeadForm(Html5Mixin, forms.ModelForm):
                     if field == "password1":
                         self.fields[field].help_text = _(
                         "Leave blank unless you want to change your password")
-
-    def clean_username(self):
-        """
-        Ensure the username doesn't exist or contain invalid chars.
-        We limit it to slugifiable chars since it's used as the slug
-        for the user's profile view.
-        """
-        username = self.cleaned_data.get("username")
-        if username.lower() != slugify(username).lower():
-            raise forms.ValidationError(_("Username can only contain letters, "
-                                          "numbers, dashes or underscores."))
-        lookup = {"username__iexact": username}
-        try:
-            User.objects.exclude(id=self.instance.id).get(**lookup)
-        except User.DoesNotExist:
-            return username
-        raise forms.ValidationError(_("This username is already registered"))
 
     def clean_password2(self):
         """

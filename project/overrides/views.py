@@ -4,6 +4,7 @@ import requests
 
 from django.contrib.auth import login as auth_login
 from django.contrib.messages import info
+from django.core.exceptions import PermissionDenied
 from django.shortcuts import redirect
 from django.utils.translation import ugettext_lazy as _
 
@@ -19,6 +20,7 @@ SALESFORCE_FIELD_MAPPINGS = {
     'mobile_product_interest': '00NU0000003WwlQ'
 }
 
+
 def signup(request, template="accounts/account_signup.html"):
     """
     Signup form.
@@ -26,10 +28,17 @@ def signup(request, template="accounts/account_signup.html"):
     profile_form = get_profile_form()
     form = profile_form(request.POST or None, request.FILES or None)
     if request.method == "POST" and form.is_valid():
+        data = form.cleaned_data.copy()
+
+        # ensure user is not a robot
+        honeypot = data.pop('superpriority')
+        if honeypot:
+            raise PermissionDenied
+
+        # save the user
         new_user = form.save()
 
         # Generate Salesforce Lead
-        data = form.cleaned_data.copy()
         # Pop non-Salesforce Fields
         for field in ['password1', 'password2']:
             data.pop(field)
@@ -43,9 +52,8 @@ def signup(request, template="accounts/account_signup.html"):
         data['retURL'] = (request.build_absolute_uri())
 
 
-        #r = requests.post('https://www.salesforce.com/servlet/'
-        #                  'servlet.WebToLead?encoding=UTF-8', data)
-        # TODO: Check status code for errors and...?
+        r = requests.post('https://www.salesforce.com/servlet/'
+                          'servlet.WebToLead?encoding=UTF-8', data)
 
         if not new_user.is_active:
             if settings.ACCOUNTS_APPROVAL_REQUIRED:
