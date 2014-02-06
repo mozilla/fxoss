@@ -240,7 +240,6 @@ TEMPLATE_DIRS = (os.path.join(PROJECT_ROOT, "templates"),)
 
 INSTALLED_APPS = [
     # theme app
-    "project.overrides",
     "sandstone",
     "django.contrib.admin",
     "django.contrib.auth",
@@ -256,7 +255,8 @@ INSTALLED_APPS = [
     "mezzanine.generic",
     "mezzanine.forms",
     "mezzanine.pages",
-    "mezzanine.accounts",
+    #"mezzanine.accounts",
+    "registration_salesforce",
 ]
 
 
@@ -308,10 +308,14 @@ PACKAGE_NAME_GRAPPELLI = "grappelli_safe"
 # ACCOUNT REGISTRATION SETTINGS #
 #################################
 
-ACCOUNTS_PROFILE_FORM_CLASS = "project.overrides.forms.UserRegistrationLeadForm"
+ACCOUNTS_PROFILE_FORM_CLASS = "registration_salesforce.forms.UserRegistrationLeadForm"
 ACCOUNTS_VERIFICATION_REQUIRED = True
 # Email as username
 ACCOUNTS_NO_USERNAME = True
+# set to True to include additional form fields for debugging Salesforce
+# Integration
+DEBUG_SALESFORCE = False
+
 
 #########################
 # OPTIONAL APPLICATIONS #

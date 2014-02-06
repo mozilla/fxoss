@@ -51,7 +51,6 @@ def signup(request, template="accounts/account_signup.html"):
         # as a placeholder (with a valid URL, just in case).
         data['retURL'] = (request.build_absolute_uri())
 
-
         r = requests.post('https://www.salesforce.com/servlet/'
                           'servlet.WebToLead?encoding=UTF-8', data)
 

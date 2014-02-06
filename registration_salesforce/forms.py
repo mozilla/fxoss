@@ -235,10 +235,22 @@ class UserRegistrationLeadForm(Html5Mixin, forms.ModelForm):
         )
     )
 
+    lead_source = forms.CharField(
+        initial="mobilepartners.mozilla.org",
+        max_length=26,
+        widget=forms.HiddenInput()
+    )
+
     superpriority = forms.BooleanField(widget=HoneyPotWidget, required=False)
-    # uncomment below to debug salesforce
-    # debug = forms.IntegerField(required=False)
-    # debugEmail = forms.EmailField(required=False)
+    if settings.DEBUG_SALESFORCE:
+        debug = forms.IntegerField(
+            required=False,
+            help_text=_("set DEBUG_SALESFORCE=False to remove this field")
+        )
+        debugEmail = forms.EmailField(
+            required=False,
+            help_text=_("set DEBUG_SALESFORCE=False to remove this field")
+        )
 
     class Meta:
         model = User

@@ -11,7 +11,7 @@ SIGNUP_URL = getattr(settings, "SIGNUP_URL",
 
 _slash = "/" if settings.APPEND_SLASH else ""
 
-urlpatterns = patterns("project.overrides.views",
+urlpatterns = patterns("registration_salesforce.views",
     url("^%s%s$" % (SIGNUP_URL.strip("/"), _slash),
         "signup", name="signup"),
 )
