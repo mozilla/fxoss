@@ -69,6 +69,8 @@ urlpatterns += patterns('',
 
     # url("^$", "mezzanine.blog.views.blog_post_list", name="home"),
 
+    url("^snippet-templates/$", "sandstone.views.snippet_templates"),
+
     # MEZZANINE'S URLS
     # ----------------
     # ADD YOUR OWN URLPATTERNS *ABOVE* THE LINE BELOW.
