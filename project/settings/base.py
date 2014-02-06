@@ -315,6 +315,18 @@ FILEBROWSER_EXTENSIONS = {
     u'Image': [u'.jpg', u'.jpeg', u'.gif', u'.png', u'.tif', u'.tiff'],
     u'Video': [u'.mov', u'.wmv', u'.mpeg', u'.mpg', u'.avi', u'.rm']
 }
+
+FILEBROWSER_SELECT_FORMATS = {
+    'File': ['Folder', 'Document'],
+    'Image': ['Image'],
+    'Media': ['Video', 'Audio'],
+    'Document': ['Document'],
+    # for TinyMCE we can also define lower-case items
+    'image': ['Image'],
+    'file': ['Folder', 'Image', 'Document', 'Archive', 'Audio', 'Video', 'Code'],
+    'media': ['Video', 'Audio'],
+}
+
 #########################
 # OPTIONAL APPLICATIONS #
 #########################
