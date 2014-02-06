@@ -51,25 +51,26 @@ from __future__ import absolute_import, unicode_literals
 # field instance. When specifying the field class, the path
 # ``django.models.db.`` can be omitted for regular Django model fields.
 #
-# EXTRA_MODEL_FIELDS = (
-#     (
-#         # Dotted path to field.
-#         "mezzanine.blog.models.BlogPost.image",
-#         # Dotted path to field class.
-#         "somelib.fields.ImageField",
-#         # Positional args for field class.
-#         ("Image",),
-#         # Keyword args for field class.
-#         {"blank": True, "upload_to": "blog"},
-#     ),
-#     # Example of adding a field to *all* of Mezzanine's content types:
-#     (
-#         "mezzanine.pages.models.Page.another_field",
-#         "IntegerField", # 'django.db.models.' is implied if path is omitted.
-#         ("Another name",),
-#         {"blank": True, "default": 1},
-#     ),
-# )
+EXTRA_MODEL_FIELDS = (
+    (
+        "mezzanine.pages.models.Page.subtitle",
+        "CharField",  # 'django.db.models.' is implied if path is omitted.
+        ("Subtitle",),
+        {"max_length": 128, "default": '', "blank": True},
+    ),
+    (
+        "mezzanine.pages.models.Page.intro",
+        "TextField",  # 'django.db.models.' is implied if path is omitted.
+        ("Intro Paragraph",),
+        {"default": '', "blank": True},
+    ),
+    (
+        "mezzanine.pages.models.Page.closing",
+        "TextField",  # 'django.db.models.' is implied if path is omitted.
+        ("Closing Paragraph",),
+        {"default": '', "blank": True},
+    ),
+)
 
 # Setting to turn on featured images for blog posts. Defaults to False.
 #
@@ -303,6 +304,16 @@ MIDDLEWARE_CLASSES = [
 PACKAGE_NAME_FILEBROWSER = "filebrowser_safe"
 PACKAGE_NAME_GRAPPELLI = "grappelli_safe"
 
+# Allow ZIP files to be uploaded via uploadify
+FILEBROWSER_EXTENSIONS = {
+    u'Audio': [u'.mp3', u'.mp4', u'.wav', u'.aiff', u'.midi', u'.m4p'],
+    u'Code': [u'.html', u'.py', u'.js', u'.css'],
+    u'Document': [u'.pdf', u'.doc', u'.rtf', u'.txt', u'.xls', u'.csv'],
+    u'Folder': [u''],
+    u'Archive': [u'.zip'],
+    u'Image': [u'.jpg', u'.jpeg', u'.gif', u'.png', u'.tif', u'.tiff'],
+    u'Video': [u'.mov', u'.wmv', u'.mpeg', u'.mpg', u'.avi', u'.rm']
+}
 
 #################################
 # ACCOUNT REGISTRATION SETTINGS #
