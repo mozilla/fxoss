@@ -256,7 +256,7 @@ INSTALLED_APPS = [
     "mezzanine.generic",
     "mezzanine.forms",
     "mezzanine.pages",
-    "mezzanine.accounts",
+    #"mezzanine.accounts",
     #"mezzanine.mobile",
     "registration_salesforce",
     'protected_assets',
