@@ -13,8 +13,8 @@
             {% if LANGUAGE_BIDI %}
                 <link rel="stylesheet" href="{% static "css/rtl.css" %}">
             {% endif %}
-            {% block extra_css %}{% endblock %}
         {% endcompress %}
+        {% block extra_css %}{% endblock %}
 
         {% if debug %}
             <link rel="stylesheet/less" type="text/css" media="all" href="{% static "css/sandstone/sandstone-resp.less" %}" />
@@ -27,8 +27,8 @@
         <link href="//mozorg.cdn.mozilla.net/media/css/tabzilla-min.css" rel="stylesheet">
         {% compress js %}
             <script src="{% static "mezzanine/js/"|add:settings.JQUERY_FILENAME %}"></script>
-            {% block extra_js %}{% endblock %}
         {% endcompress %}
+        {% block extra_js %}{% endblock %}
         <!--[if lt IE 8]>
         <script src="{% static "js/libs/html5shiv.js" %}"></script>
         <![endif]-->

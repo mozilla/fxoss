@@ -1,5 +1,5 @@
 Django==1.6.1
-Mezzanine==3.0.6
+Mezzanine==3.0.8
 Pillow==2.3.0
 South==0.8.4
 argparse==1.2.1
