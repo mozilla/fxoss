@@ -1,0 +1,49 @@
+{% extends "pages/richtextpage.html" %}
+{% load i18n %}
+{% load mezzanine_tags %}
+
+{% block main %}
+
+{% if request.user.is_authenticated %}
+    <h1>
+    {% editable page.richtextpage.title %}
+    {{ page.richtextpage.title|richtext_filters|safe }}
+    {% endeditable %}
+    </h1>
+
+    <h2>
+    {% editable page.richtextpage.subtitle %}
+    {{ page.richtextpage.subtitle|richtext_filters|safe }}
+    {% endeditable %}
+    </h2>
+
+    <p>
+    {% editable page.richtextpage.intro %}
+    {{ page.richtextpage.intro|richtext_filters|safe }}
+    {% endeditable %}
+    </p>
+
+    {% editable page.richtextpage.content %}
+    {{ page.richtextpage.content|richtext_filters|safe }}
+    {% endeditable %}
+
+    <p>
+    {% editable page.richtextpage.closing %}
+    {{ page.richtextpage.closing|richtext_filters|safe }}
+    {% endeditable %}
+    </p>
+{% else %}
+    <h1>{% trans "Partner with us" %}</h1>
+    <p>
+    {% trans "As a brand, Firefox is a global leader in web recognition, trust and security. By partnering with us, you too can benefit from these great attributes." %}
+    </p>
+    <p>
+    {% trans "We've made it very easy and straight forward to take the Open Source B2G operating system, and brand it 'Firefox OS'. Register below and build a Firefox OS phone." %}
+    </p>
+    <a href="{% url 'signup' %}">{% trans "Register" %}</a>
+{% endif %}
+
+
+{% endblock %}
+
+
