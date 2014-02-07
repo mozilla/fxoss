@@ -1,5 +1,6 @@
 var tinyMCETemplateList = [
-        // Name, URL, Description
-        ["Simple snippet", "templates/snippet1.htm", "Simple HTML snippet."],
-        ["Layout", "templates/layout1.htm", "HTML Layout."]
+    // Name, URL, Description
+    {% for snippet in snippets %}
+        ["{{ snippet.title }}", "{% url 'snippet-content' snippet.pk %}", "{{ snippet.description }}"]{% if not forloop.last %},{% endif %}
+    {% endfor %}
 ];
