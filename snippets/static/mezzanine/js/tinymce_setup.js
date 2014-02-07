@@ -79,8 +79,7 @@ if (typeof tinyMCE != 'undefined') {
         valid_children: "+button[a]",
 
         // template plugin
-        templates: "/snippet-templates/",
-        template_external_list_url: "/snippet-templates/"
+        template_external_list_url: "/snippets/templates/"
     });
 
 }
