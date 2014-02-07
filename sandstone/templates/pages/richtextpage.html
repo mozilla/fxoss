@@ -4,6 +4,10 @@
 
 {% block main %}{{ block.super }}
 
+{% editable page.richtextpage.title %}
+{{ page.richtextpage.title|richtext_filters|safe }}
+{% endeditable %}
+
 {% editable page.richtextpage.subtitle %}
 {{ page.richtextpage.subtitle|richtext_filters|safe }}
 {% endeditable %}
