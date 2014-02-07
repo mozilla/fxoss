@@ -1,0 +1,2 @@
+from .test_forms import UserRegistrationLeadFormTestCase
+from .test_views import RegistrationTestCase

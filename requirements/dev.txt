@@ -2,3 +2,5 @@
 django-debug-toolbar==1.0.1
 # Required by django-debug-toolbar
 sqlparse==0.1.10
+
+mock==1.0.1

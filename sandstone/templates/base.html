@@ -49,6 +49,9 @@
                 </header>
                 <div id="main-content">
                     <aside class="sidebar">
+                    {% nevercache %}
+                    {% include "accounts/includes/user_panel.html" %}
+                    {% endnevercache %}
                       <nav class="tree">
                         {% page_menu "pages/menus/tree.html" %}
                       </nav>

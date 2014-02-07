@@ -240,6 +240,7 @@ TEMPLATE_DIRS = (os.path.join(PROJECT_ROOT, "templates"),)
 ################
 
 INSTALLED_APPS = [
+    # theme app
     "sandstone",
     "django.contrib.admin",
     "django.contrib.auth",
@@ -253,15 +254,14 @@ INSTALLED_APPS = [
     "mezzanine.conf",
     "mezzanine.core",
     "mezzanine.generic",
-    # "mezzanine.blog",
     "mezzanine.forms",
     "mezzanine.pages",
-    # "mezzanine.galleries",
-    # "mezzanine.twitter",
     #"mezzanine.accounts",
     #"mezzanine.mobile",
+    "registration_salesforce",
     'protected_assets',
 ]
+
 
 # List of processors used by RequestContext to populate the context.
 # Each one should be a callable that takes the request object as its
@@ -327,6 +327,19 @@ FILEBROWSER_SELECT_FORMATS = {
     'file': ['Folder', 'Image', 'Document', 'Archive', 'Audio', 'Video', 'Code'],
     'media': ['Video', 'Audio'],
 }
+
+#################################
+# ACCOUNT REGISTRATION SETTINGS #
+#################################
+
+ACCOUNTS_PROFILE_FORM_CLASS = "registration_salesforce.forms.UserRegistrationLeadForm"
+ACCOUNTS_VERIFICATION_REQUIRED = True
+# Email as username
+ACCOUNTS_NO_USERNAME = True
+# set to True to include additional form fields for debugging Salesforce
+# Integration
+DEBUG_SALESFORCE = False
+
 
 #########################
 # OPTIONAL APPLICATIONS #
