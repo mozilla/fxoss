@@ -256,7 +256,7 @@ INSTALLED_APPS = [
     "mezzanine.generic",
     "mezzanine.forms",
     "mezzanine.pages",
-    #"mezzanine.accounts",
+    "mezzanine.accounts",
     #"mezzanine.mobile",
     "registration_salesforce",
     'protected_assets',
@@ -308,13 +308,24 @@ PACKAGE_NAME_GRAPPELLI = "grappelli_safe"
 
 # Allow ZIP files to be uploaded via uploadify
 FILEBROWSER_EXTENSIONS = {
-    u'Audio': [u'.mp3', u'.mp4', u'.wav', u'.aiff', u'.midi', u'.m4p'],
-    u'Code': [u'.html', u'.py', u'.js', u'.css'],
-    u'Document': [u'.pdf', u'.doc', u'.rtf', u'.txt', u'.xls', u'.csv'],
-    u'Folder': [u''],
-    u'Archive': [u'.zip'],
-    u'Image': [u'.jpg', u'.jpeg', u'.gif', u'.png', u'.tif', u'.tiff'],
-    u'Video': [u'.mov', u'.wmv', u'.mpeg', u'.mpg', u'.avi', u'.rm']
+    'Audio': ['.mp3', '.mp4', '.wav', '.aiff', '.midi', '.m4p'],
+    'Code': ['.html', '.py', '.js', '.css'],
+    'Document': ['.pdf', '.doc', '.rtf', '.txt', '.xls', '.csv'],
+    'Folder': [''],
+    'Archive': ['.zip'],
+    'Image': ['.jpg', '.jpeg', '.gif', '.png', '.tif', '.tiff'],
+    'Video': ['.mov', '.wmv', '.mpeg', '.mpg', '.avi', '.rm']
+}
+
+FILEBROWSER_SELECT_FORMATS = {
+    'File': ['Folder', 'Document'],
+    'Image': ['Image'],
+    'Media': ['Video', 'Audio'],
+    'Document': ['Document'],
+    # for TinyMCE we can also define lower-case items
+    'image': ['Image'],
+    'file': ['Folder', 'Image', 'Document', 'Archive', 'Audio', 'Video', 'Code'],
+    'media': ['Video', 'Audio'],
 }
 
 #################################
