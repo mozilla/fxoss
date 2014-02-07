@@ -306,7 +306,7 @@ class UserRegistrationLeadForm(Html5Mixin, forms.ModelForm):
         """
         email = self.cleaned_data.get("email")
         qs = User.objects.exclude(id=self.instance.id).filter(email=email)
-        if len(qs) == 0:
+        if not qs.exists():
             return email
         raise forms.ValidationError(_("This email is already registered"))
 

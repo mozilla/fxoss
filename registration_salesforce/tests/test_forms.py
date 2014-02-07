@@ -12,7 +12,8 @@ class UserRegistrationLeadFormTestCase(TestCase):
             last_name="User",
             email="test@user.com",
             password1='asdfasdf',
-            password2='asdfasdf'
+            password2='asdfasdf',
+            lead_source='mobilepartners.mozilla.org'
             )
 
     def test_valid_form(self):
