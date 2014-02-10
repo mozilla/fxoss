@@ -242,6 +242,7 @@ TEMPLATE_DIRS = (os.path.join(PROJECT_ROOT, "templates"),)
 INSTALLED_APPS = [
     # theme app
     "sandstone",
+    "snippets",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -332,7 +333,6 @@ FILEBROWSER_SELECT_FORMATS = {
 # ACCOUNT REGISTRATION SETTINGS #
 #################################
 
-ACCOUNTS_PROFILE_FORM_CLASS = "registration_salesforce.forms.UserRegistrationLeadForm"
 ACCOUNTS_VERIFICATION_REQUIRED = True
 # Email as username
 ACCOUNTS_NO_USERNAME = True

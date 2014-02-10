@@ -8,11 +8,12 @@ from django.core.exceptions import PermissionDenied
 from django.shortcuts import redirect
 from django.utils.translation import ugettext_lazy as _
 
-from mezzanine.accounts import get_profile_form
 from mezzanine.conf import settings
 from mezzanine.utils.email import send_verification_mail, send_approve_mail
 from mezzanine.utils.urls import login_redirect, next_url
 from mezzanine.utils.views import render
+
+from .forms import UserRegistrationLeadForm
 
 
 SALESFORCE_FIELD_MAPPINGS = {
@@ -25,7 +26,7 @@ def signup(request, template="accounts/account_signup.html"):
     """
     Signup form.
     """
-    profile_form = get_profile_form()
+    profile_form = UserRegistrationLeadForm
     form = profile_form(request.POST or None, request.FILES or None)
     if request.method == "POST" and form.is_valid():
         data = form.cleaned_data.copy()
