@@ -145,3 +145,21 @@ assets are uploaded into a **protected** folder within the **Media Library**.
   3. Navigate to the **protected** folder and select **Upload**
   4. Press **Select Files** to browse your local file system for files to upload
 
+TinyMCE Snippets
+-------------------------
+
+The rich content fields in the CMS use TinyMCE for editing the HTML. The templates plugin
+for TinyMCE allows creating reusable patterns for content. These snippets can be created
+and modified in the CMS via **Snippets > Tiny MCE Snippets** from the Dashboard. Each
+snippet has a title and description to help select and understand the purpose of the snippet
+along with the actual snippet content itself.
+
+Once some snippets have been created they can be used by any rich text field. The template
+button is second to last on the right with the hover text "Insert Predefined Template Content".
+When pressed it will open a pop-up with a drop-down to select a snippet based on its title.
+After selecting the snippet, the description and content preview should be shown. Clicking
+the "Insert" button on the bottom left hand corner of the pop-up will insert the previewed
+content into the original rich text field at the cursor location. These snippets are meant
+to only contain the expected layout and not the content itself. Once the snippet has been
+inserted you will likely need to modify the content which was inserted with the relevant
+text rather than the snippet placeholder.

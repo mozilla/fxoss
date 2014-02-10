@@ -109,6 +109,21 @@
                 "delete_richtextpage", 
                 "pages", 
                 "richtextpage"
+            ],
+            [
+                "add_tinymcesnippet", 
+                "snippets", 
+                "tinymcesnippet"
+            ], 
+            [
+                "change_tinymcesnippet", 
+                "snippets", 
+                "tinymcesnippet"
+            ], 
+            [
+                "delete_tinymcesnippet", 
+                "snippets", 
+                "tinymcesnippet"
             ]
         ]
     }
