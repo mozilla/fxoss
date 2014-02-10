@@ -4,32 +4,44 @@
 
 {% block main %}{{ block.super }}
 
+{% with page.richtextpage as richtextpage %}
+
+{% if richtextpage.title %}
 <h1>
-{% editable page.richtextpage.title %}
-{{ page.richtextpage.title|richtext_filters|safe }}
+{% editable richtextpage.title %}
+{{ richtextpage.title|richtext_filters|safe }}
 {% endeditable %}
 </h1>
+{% endif %}
 
+{% if richtextpage.subtitle %}
 <h2>
-{% editable page.richtextpage.subtitle %}
-{{ page.richtextpage.subtitle|richtext_filters|safe }}
+{% editable richtextpage.subtitle %}
+{{ richtextpage.subtitle|richtext_filters|safe }}
 {% endeditable %}
 </h2>
+{% endif %}
 
+{% if richtextpage.intro %}
 <p>
-{% editable page.richtextpage.intro %}
-{{ page.richtextpage.intro|richtext_filters|safe }}
+{% editable richtextpage.intro %}
+{{ richtextpage.intro|richtext_filters|safe }}
 {% endeditable %}
 </p>
+{% endif %}
 
-{% editable page.richtextpage.content %}
-{{ page.richtextpage.content|richtext_filters|safe }}
+{% editable richtextpage.content %}
+{{ richtextpage.content|richtext_filters|safe }}
 {% endeditable %}
 
+{% if richtextpage.closing %}
 <p>
-{% editable page.richtextpage.closing %}
-{{ page.richtextpage.closing|richtext_filters|safe }}
+{% editable richtextpage.closing %}
+{{ richtextpage.closing|richtext_filters|safe }}
 {% endeditable %}
 </p>
+{% endif %}
+
+{% endwith %}
 
 {% endblock %}
