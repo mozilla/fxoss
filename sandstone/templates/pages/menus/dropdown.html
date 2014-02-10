@@ -1,4 +1,4 @@
-{% load i18n future pages_tags %}
+{% load i18n future mezzanine_tags pages_tags %}
 {% spaceless %}
 {% if page_branch_in_menu %}
 
@@ -7,7 +7,6 @@
     {% if branch_level == 0 %}
     <ul id="nav-main-menu" class="nav">
         {% for page in page_branch %}
-            
             {% if page.in_menu %}
                 <li class="dropdown{% if page.is_current_or_ascendant %} active{% endif %} {% if forloop.last %}last{% endif %}"
                     id="dropdown-menu-{{ page.html_id }}">
@@ -19,6 +18,10 @@
                 </li>
             {% endif %}
         {% endfor %}
+        {% nevercache %}
+        {% include "accounts/includes/user_panel.html" %}
+        {% endnevercache %}
+
         <li class="divider-vertical"></li>
     </ul>
     {% endif %}

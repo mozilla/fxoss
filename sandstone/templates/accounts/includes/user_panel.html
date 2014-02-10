@@ -1,14 +1,8 @@
 {% load i18n future mezzanine_tags accounts_tags %}
 
     {% if request.user.is_authenticated %}
-        {% url "profile" request.user.username as profile_url %}
-        {% if profile_url %}
-            <a href="{{ profile_url }}">{{ request.user.get_full_name }}</a>
-            <a href="{% url "profile_update" %}">{% trans "Update profile" %}</a>
-        {% else %}
-            <a href="{% url "profile_update" %}">{{ request.user.get_full_name }}</a>
-        {% endif %} |
-        <a href="{% url "logout" %}?next={{ request.path }}">{% trans "Log out" %}</a>
+        <li class="nav-user-item"><a href="/accounts/password/reset/">{{ request.user.email }}</a></li>
+        <li class="nav-user-item"><a href="{% url "logout" %}?next={{ request.path }}">{% trans "Sign out" %} &raquo;</a><li>
     {% else %}
-        <a href="{% url "login" %}?next={{ request.path }}">{% trans "Log in" %}</a> | <a href="{% url "signup" %}?next={{ request.path }}">{% trans "Sign up" %}</a>
+        <li class="nav-user-item"><a href="{% url "login" %}?next={{ request.path }}">{% trans "Sign in" %} &raquo;</a></li>
     {% endif %}
