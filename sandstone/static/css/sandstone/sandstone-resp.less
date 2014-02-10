@@ -368,6 +368,10 @@ input.focus {
     padding-bottom: 48px;
 }
 
+.home-column {
+    .span(12);
+}
+
 .main-column {
     .span(10);
 }
@@ -822,7 +826,7 @@ nav.menu-bar {
     #colophon,
     .billboard,
     .container,
-    .main-column,
+    .main-column, .home-column
     {
         width: auto;
         padding-left: @gridGutterWidth / 2;
@@ -830,7 +834,7 @@ nav.menu-bar {
         padding-bottom: @gridGutterWidth;
     }
 
-    .main-column,
+    .main-column, .home-column
     {
         padding-left: 0;
         padding-right: 0;
@@ -1094,12 +1098,12 @@ nav.menu-bar {
     #main-content,
     .billboard,
     .container,
-    .main-column,
+    .main-column, .home-column
     {
         width: auto;
     }
 
-    .main-column,
+    .main-column, .home-column
     {
         padding-left: 0;
         padding-right: 0;
