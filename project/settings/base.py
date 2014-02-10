@@ -333,7 +333,6 @@ FILEBROWSER_SELECT_FORMATS = {
 # ACCOUNT REGISTRATION SETTINGS #
 #################################
 
-ACCOUNTS_PROFILE_FORM_CLASS = "registration_salesforce.forms.UserRegistrationLeadForm"
 ACCOUNTS_VERIFICATION_REQUIRED = True
 # Email as username
 ACCOUNTS_NO_USERNAME = True
