@@ -1,134 +1,29 @@
+{% extends "base.html" %}
 {% load i18n %}
-<!DOCTYPE html>
-<html class="windows no-js" lang="{{ LANGUAGE_CODE }}"{% if LANGUAGE_BIDI %} dir="rtl"{% endif %}>
-{% load pages_tags mezzanine_tags i18n future staticfiles %}
-    <head>
-        <meta http-equiv="Content-type" content="text/html; charset=utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="keywords" content="{% block meta_keywords %}{% endblock %}">
-        <meta name="description" content="{% block meta_description %}{% endblock %}">
-        <title>{% if settings.SITE_TITLE %}{{ settings.SITE_TITLE }} — {% endif %}{% block meta_title %}{% endblock %}</title>
-        <link rel="shortcut icon" href="{% static "img/favicon.ico" %}">
 
-        {% compress css %}
-            {% if LANGUAGE_BIDI %}
-                <link rel="stylesheet" href="{% static "css/rtl.css" %}">
-            {% endif %}
-        {% endcompress %}
-        {% block extra_css %}{% endblock %}
+{% block meta_title %}{% trans "Home" %}{% endblock %}
+{% block title %}{% trans "Home" %}{% endblock %}
 
-        {% if debug %}
-            <link rel="stylesheet/less" type="text/css" media="all" href="{% static "css/sandstone/sandstone-resp.less" %}" />
-            <link rel="stylesheet/less" type="text/css" media="all" href="{% static "fonts/font-awesome/less/font-awesome.less" %}" />
-            <script src="{% static "js/libs/less-1.3.3.min.js" %}"></script>
-        {% else %}
-            {% compress css %}
-                <link rel="stylesheet" type="text/less" href="{% static "css/sandstone/sandstone-resp.less" %}" media="screen" />
-                <link rel="stylesheet" type="text/less" media="screen" href="{% static "fonts/font-awesome/less/font-awesome.less" %}" />
-            {% endcompress %}
-        {% endif %}
-        <link href="//mozorg.cdn.mozilla.net/media/css/tabzilla-min.css" rel="stylesheet">
-        {% compress js %}
-            <script src="{% static "mezzanine/js/"|add:settings.JQUERY_FILENAME %}"></script>
-        {% endcompress %}
-        {% block extra_js %}{% endblock %}
-        <!--[if lt IE 8]>
-        <script src="{% static "js/libs/html5shiv.js" %}"></script>
-        <![endif]-->
+{% block extra-body-class %}index{% endblock %}
 
-        {% block extra_head %}{% endblock %}
-        {% include "includes/google_analytics.html" %}
-    </head>
-    <body id="sandstone" class="sky">
-        <div id="outer-wrapper">
+{% block masthead-content %}
+  <article class="home-column">
+    <h1>{% blocktrans %}Building the future<br>starts here{% endblocktrans %}</h1>
+    <div class="intro-column">
+      {% blocktrans %}And to the world of Firefox OS. On this site, you’ll find everything you need to customize  or build your own version of our groundbreaking mobile operating system and to use the Firefox OS brand on a phone<br>or tablet. Get started below.{% endblocktrans %}
+    </div>
+   </article>
+ {% endblock %}
 
-            <div id="wrapper">
-                <header id="masthead">
-                  <a href="https://www.mozilla.org/" id="tabzilla">Mozilla</a>
-                  <nav id="nav-main" role="navigation">
-                    <span class="toggle" role="button" aria-controls="nav-main-menu" tabindex="0">Menu</span>
-                    {% page_menu "pages/menus/dropdown.html" %}
-                  </nav>
-                    <div><a href="http://mozilla.org/"><img src="{% static "img/sandstone/firefox-logo.png" %}" alt="Firefox OS"></a></div>
+{% block sidebar %}{# exclude the sidebar #}{% endblock %}
 
-                    <article class="home-column">
-                      {% blocktrans %}
-                      <h1>Building the future<br>starts here</h1>
-                      <div class="intro-column">
-                        And to the world of Firefox OS. On this site, you’ll find everything you need to customize  or build your own version of our groundbreaking mobile operating system and to use the Firefox OS brand on a phone<br>or tablet. Get started below.
-                      </div>
-                       {% endblocktrans %}
-                     </article>
-                       
-                </header> 
+{% block index %}
+    <article class="cta-column"><i class="fa fa-lightbulb-o fa-4x pull-left icon"></i><h2>Learn</h2>Explore Firefox OS and the Firefox Marketplace. Get localization support, roadmaps and a complete, detailed list of every feature.<br><a href="#">Get started »</a></article>
+    <article class="cta-column"><i class="fa fa-code-fork fa-4x pull-left icon"></i><h2>Build</h2>Create and customize your own version of Firefox OS. Learn more about hardware requirements, supported chipsets, and how to contribute back to the community.<br><a href="#">Build today »</a></article>
+    <article class="cta-column"><i class="fa fa-magic fa-4x pull-left icon"></i><h2>Market</h2>Take your product to market. Get access and support to the essential certifications and Firefox OS brand assets you’ll need, quickly and easily.<br><a href="#">Begin the process »</a></article>
+{% endblock %}
 
-            </div>
-
-          </div>
-                <div id="content-bg">
-                <div id="content-wrapper">
-                  <div class="container">
-                
-                <article class="cta-column"><i class="fa fa-lightbulb-o fa-4x pull-left icon"></i><h2>Learn</h2>Explore Firefox OS and the Firefox Marketplace. Get localization support, roadmaps and a complete, detailed list of every feature.<br><a href="#">Get started »</a></article>
-
-                <article class="cta-column"><i class="fa fa-code-fork fa-4x pull-left icon"></i><h2>Build</h2>Create and customize your own version of Firefox OS. Learn more about hardware requirements, supported chipsets, and how to contribute back to the community.<br><a href="#">Build today »</a></article>
-
-                <article class="cta-column"><i class="fa fa-magic fa-4x pull-left icon"></i><h2>Market</h2>Take your product to market. Get access and support to the essential certifications and Firefox OS brand assets you’ll need, quickly and easily.<br><a href="#">Begin the process »</a></article> 
-      
-              </div>
-              </div>
-            </div>
-            
-
-            {% block site_footer %}
-            <footer id="colophon">
-                <div class="row">
-
-                  <div class="footer-logo">
-                      <a href="https://www.mozilla.org"><img src="{% static "img/sandstone/footer-mozilla.png" %}" alt="mozilla"></a>
-                  </div>
-
-                  <div class="footer-license">
-                      <p>Portions of this content are &copy;1998–{% now "Y" %} by individual
-                        mozilla.org contributors. Content available under
-                        a <a href="https://www.mozilla.org/foundation/licensing/website-content.html">Creative Commons license</a>.<br><br>
-                        <a href="#">Contribute to this page</a></p>
-                  </div>
-                  <ul class="footer-nav">
-                    <li><a href="https://www.mozilla.org/about/contact.html#map-mountain_view">Contact Us</a></li>
-                    <li><a href="#">Partner with Us</a></li>
-                    <li><a href="#">Donate</a></li>
-                    <li><a href="https://www.mozilla.org/en-US/privacy/policies/websites/">Privacy Policy</a></li>
-                    <li><a href="https://www.mozilla.org/about/legal.html">Legal Notices</a></li>
-                    <li><a href="https://www.mozilla.org/legal/fraud-report/index.html">Report Trademark Abuse</a></li>
-                  </ul>
-
-                  <ul class="footer-nav">
-                    <li><a href="#">Mozilla on Twitter</a></li>
-                    <li><a href="http://twitter.com/firefox">Firefox on Twitter</a></li>
-                    <li><a href="#">Mozilla on Facebook</a></li>
-                    <li><a href="http://facebook.com/Firefox">Firefox on Facebook</a></li>
-                    <li><a href="https://affiliates.mozilla.org/">Firefox Affiliates</a></li>
-                  </ul>
-
-                </div>
-            </footer>
-            {% endblock %}
-
-        </div>
-
-        {% include "includes/footer_scripts.html" %}
-        {% block js %}
-          {% compress js %}
-            <script src="{% static "js/site.js" %}"></script>
-            <script src="{% static "js/nav-main-resp.js" %}"></script>
-          {% endcompress %}
-            <script src="//mozorg.cdn.mozilla.net/tabzilla/tabzilla.js"></script>
-        {% endblock %}
-    </body>
-</html>
-
-
+{% block main %}{%endblock %}
 
 
 

@@ -2,45 +2,46 @@
 
 {% load mezzanine_tags %}
 
+    {% block masthead-content %}
+
+
+    {% if page.inherit %}
+        {% with page.get_ascendants|last as last %}
+            {{ last.richtextpage.title }}
+        {% endwith %}
+    {% else %}
+        {% with page.richtextpage as richtextpage %}
+            <article class="home-column">
+                {% if richtextpage.title %}
+                <h1>
+                {% editable richtextpage.title %}
+                {{ richtextpage.title|richtext_filters|safe }}
+                {% endeditable %}
+                </h1>
+                {% endif %}
+              <div class="intro-column">
+                {% if richtextpage.intro %}
+                <p>
+                {% editable richtextpage.intro %}
+                {{ richtextpage.intro|richtext_filters|safe }}
+                {% endeditable %}
+                </p>
+                {% endif %}
+              </div>
+           </article>
+        {% endwith %}
+    {% endif %}
+
+    {% endblock masthead-content %}
+
+
 {% block main %}{{ block.super }}
 
 {% with page.richtextpage as richtextpage %}
 
-{% if richtextpage.title %}
-<h1>
-{% editable richtextpage.title %}
-{{ richtextpage.title|richtext_filters|safe }}
-{% endeditable %}
-</h1>
-{% endif %}
-
-{% if richtextpage.subtitle %}
-<h2>
-{% editable richtextpage.subtitle %}
-{{ richtextpage.subtitle|richtext_filters|safe }}
-{% endeditable %}
-</h2>
-{% endif %}
-
-{% if richtextpage.intro %}
-<p>
-{% editable richtextpage.intro %}
-{{ richtextpage.intro|richtext_filters|safe }}
-{% endeditable %}
-</p>
-{% endif %}
-
 {% editable richtextpage.content %}
 {{ richtextpage.content|richtext_filters|safe }}
 {% endeditable %}
-
-{% if richtextpage.closing %}
-<p>
-{% editable richtextpage.closing %}
-{{ richtextpage.closing|richtext_filters|safe }}
-{% endeditable %}
-</p>
-{% endif %}
 
 {% endwith %}
 

@@ -18,10 +18,12 @@
 
         {% if debug %}
             <link rel="stylesheet/less" type="text/css" media="all" href="{% static "css/sandstone/sandstone-resp.less" %}" />
+            <link rel="stylesheet/less" type="text/css" media="all" href="{% static "fonts/font-awesome/less/font-awesome.less" %}" />
             <script src="{% static "js/libs/less-1.3.3.min.js" %}"></script>
         {% else %}
             {% compress css %}
                 <link rel="stylesheet" type="text/less" href="{% static "css/sandstone/sandstone-resp.less" %}" media="screen" />
+                <link rel="stylesheet" type="text/less" media="screen" href="{% static "fonts/font-awesome/less/font-awesome.less" %}" />
             {% endcompress %}
         {% endif %}
         <link href="//mozorg.cdn.mozilla.net/media/css/tabzilla-min.css" rel="stylesheet">
@@ -36,7 +38,7 @@
         {% block extra_head %}{% endblock %}
         {% include "includes/google_analytics.html" %}
     </head>
-    <body id="sandstone" class="sky">
+    <body id="sandstone" class="sky {% block extra-body-class %}{% endblock %}">
         <div id="outer-wrapper">
             <div id="wrapper">
                 <header id="masthead">
@@ -45,52 +47,70 @@
                     <span class="toggle" role="button" aria-controls="nav-main-menu" tabindex="0">Menu</span>
                     {% page_menu "pages/menus/dropdown.html" %}
                   </nav>
-                    <div><a href="http://mozilla.org/"><img src="{% static "img/sandstone/header-mozilla-stone.png" %}" alt="mozilla"></a></div>
+                    <div><a href="{% url "home" %}"><img src="{% static "img/sandstone/firefox-logo.png" %}" alt="Firefox OS"></a></div>
+                    {% block masthead-content %}
+                       <article class="home-column">
+                          <h1>{{ title }}</h1>
+                       </article>
+                    {% endblock masthead-content %}
                 </header>
-                
-                <div id="main-content">
-                    <aside class="sidebar">
-                      <nav class="tree">
-                        {% page_menu "pages/menus/tree.html" %}
-                      </nav>
-                    </aside>
+            </div>
+        </div>
+        <div id="main-content">
+            <div id="content-wrapper">
+                <div class="container">
+                    {% block sidebar %}
+                        <aside class="sidebar">
+                          <nav class="tree">
+                            {% page_menu "pages/menus/tree.html" %}
+                          </nav>
+                        </aside>
+                    {% endblock %}
+                    {% block index %}{% endblock %}
                     <article class="main-column">
-                        {% block main %}{% endblock %}
+                    {% block main %}
+                    {% endblock %}
                     </article>
                 </div>
             </div>
+        </div>
 
-            {% block site_footer %}
-            <footer id="colophon">
-                <div class="row">
+        {% block site_footer %}
+        <footer id="colophon">
+            <div class="row">
 
-                  <div class="footer-logo">
-                      <a href="https://www.mozilla.org"><img src="{% static "img/sandstone/footer-mozilla.png" %}" alt="mozilla"></a>
-                  </div>
+              <div class="footer-logo">
+                  <a href="https://www.mozilla.org"><img src="{% static "img/sandstone/footer-mozilla.png" %}" alt="mozilla"></a>
+              </div>
 
-                  <div class="footer-license">
-                      <p>Portions of this content are &copy;1998–{% now "Y" %} by individual
-                        mozilla.org contributors. Content available under
-                        a <a href="https://www.mozilla.org/foundation/licensing/website-content.html">Creative Commons license</a>.</p>
-                  </div>
-                  <ul class="footer-nav">
-                    <li><a href="https://www.mozilla.org/about/contact.html#map-mountain_view">Contact Us</a></li>
-                    <li><a href="https://www.mozilla.org/en-US/privacy/policies/websites/">Privacy Policy</a></li>
-                    <li><a href="https://www.mozilla.org/about/legal.html">Legal Notices</a></li>
-                    <li><a href="https://www.mozilla.org/legal/fraud-report/index.html">Report Trademark Abuse</a></li>
-                  </ul>
+              <div class="footer-license">
+                  <p>Portions of this content are &copy;1998–{% now "Y" %} by individual
+                    mozilla.org contributors. Content available under
+                    a <a href="https://www.mozilla.org/foundation/licensing/website-content.html">Creative Commons license</a>.<br><br>
+                    <a href="#">Contribute to this page</a></p>
+              </div>
+              <ul class="footer-nav">
+                <li><a href="https://www.mozilla.org/about/contact.html#map-mountain_view">Contact Us</a></li>
+                <li><a href="#">Partner with Us</a></li>
+                <li><a href="#">Donate</a></li>
+                <li><a href="https://www.mozilla.org/en-US/privacy/policies/websites/">Privacy Policy</a></li>
+                <li><a href="https://www.mozilla.org/about/legal.html">Legal Notices</a></li>
+                <li><a href="https://www.mozilla.org/legal/fraud-report/index.html">Report Trademark Abuse</a></li>
+              </ul>
 
-                  <ul class="footer-nav">
-                    <li><a href="http://twitter.com/firefox">Twitter</a></li>
-                    <li><a href="http://facebook.com/Firefox">Facebook</a></li>
-                    <li><a href="https://affiliates.mozilla.org/">Firefox Affiliates</a></li>
-                  </ul>
+              <ul class="footer-nav">
+                <li><a href="#">Mozilla on Twitter</a></li>
+                <li><a href="http://twitter.com/firefox">Firefox on Twitter</a></li>
+                <li><a href="#">Mozilla on Facebook</a></li>
+                <li><a href="http://facebook.com/Firefox">Firefox on Facebook</a></li>
+                <li><a href="https://affiliates.mozilla.org/">Firefox Affiliates</a></li>
+              </ul>
 
                 </div>
             </footer>
+
             {% endblock %}
 
-        </div>
 
         {% include "includes/footer_scripts.html" %}
         {% block js %}
