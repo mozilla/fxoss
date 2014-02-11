@@ -21,7 +21,7 @@ body {
     background: #f9f9f9 url(/static/img/sandstone/bg-stone.png) 0 0 repeat-x;
 }
 
-#wrapper {
+#wrapper, #content-wrapper {
     padding-bottom: @baseLine * 2;
     width: @widthDesktop;
     margin: 0 auto;
@@ -54,8 +54,16 @@ a {
 .sky {
     #outer-wrapper {
         background-color: #eee;
-        background-image: url(/static/img/sandstone/bg-sky.png);
-        background-repeat: repeat-x;
+        background: url(/static/img/sandstone/grain.png), -webkit-gradient(linear, center top, center bottom, color-stop(0%, #119ed9), color-stop(100%, #03579f));
+        background: url(/static/img/sandstone/grain.png), -webkit-linear-gradient(top, #119ed9 0%, #03579f 100%);
+        background: url(/static/img/sandstone/grain.png), -moz-linear-gradient(top, #119ed9 0%, #03579f 100%);
+        background: url(/static/img/sandstone/grain.png), -ms-linear-gradient(top, #119ed9 0%, #03579f 100%);
+        background: url(/static/img/sandstone/grain.png), -o-linear-gradient(top, #119ed9 0%, #03579f 100%);
+        background: url(/static/img/sandstone/grain.png), linear-gradient(to bottom, #119ed9 0%, #03579f 100%);
+        -moz-box-shadow: inset  0 -9px 9px -9px #5d666d;
+        -webkit-box-shadow: inset  0 -9px 9px -9px #5d666d;
+        box-shadow: inset  0 -9px 9px -9px #5d666d;
+        
     }
 
     a {
@@ -63,6 +71,21 @@ a {
         &:hover,
         &:active {
             color: darken(@linkSkyBlue, 10%);
+        }
+    }
+
+    #masthead nav li {
+        a,
+        a:link,
+        a:visited {
+            color: #fff;
+        }
+        li {
+            a,
+            a:link,
+            a:visited {
+                color: #fff;
+            }
         }
     }
 
@@ -370,6 +393,53 @@ input.focus {
 
 .home-column {
     .span(12);
+    padding-bottom:60px;
+}
+
+.cta-column {
+    .span(4);
+    color: #484848;
+    padding-top: 30px;
+    text-shadow:none;
+    line-height:24px;
+}
+
+.cta-column h2 {
+    font-size:36px;
+    color: #454f58;
+    text-shadow:none;
+}
+
+#content-bg {
+    min-height: 403px;
+    background: url(/static/img/sandstone/grain.png), -webkit-gradient(radial, 50% 100%, 0, 50% 100%, 207, color-stop(0%, #eaeff2), color-stop(100%, #d4dde4));
+    background: url(/static/img/sandstone/grain.png), -webkit-radial-gradient(center bottom, farthest-side circle, #eaeff2 0%, #d4dde4 100%);
+    background: url(/static/img/sandstone/grain.png), -moz-radial-gradient(center bottom, farthest-side circle, #eaeff2 0%, #d4dde4 100%);
+    background: url(/static/img/sandstone/grain.png), -ms-radial-gradient(center bottom, farthest-side circle, #eaeff2 0%, #d4dde4 100%);
+    background: url(/static/img/sandstone/grain.png), -o-radial-gradient(center bottom, farthest-side circle, #eaeff2 0%, #d4dde4 100%);
+    background: url(/static/img/sandstone/grain.png), radial-gradient(farthest-side circle at center bottom, #eaeff2 0%, #d4dde4 100%);
+
+}
+
+#fxoss-swoop {float:right;}
+
+.home-column h1 {
+    font-size: 80px;
+    line-height: 72px;
+    letter-spacing: -2px;
+    color: #fff;
+    text-shadow:none;
+}
+
+.intro-column {
+    .span(7);
+    font-size: 16px;
+    line-height:28px;
+    color: #fff;
+    text-shadow:none;
+}
+
+.icon {color: #454f58;
 }
 
 .main-column {
@@ -392,6 +462,7 @@ input.focus {
     border-bottom: 0;
     padding-bottom: @baseLine * 2;
 }
+
 
 /* }}} */
 /* {{{ Grid containers */
@@ -761,7 +832,7 @@ nav.menu-bar {
 /* Tablet Layout: 760px */
 @media only screen and (min-width: @breakTablet) and (max-width: @breakDesktop) {
 
-    #wrapper {
+    #wrapper, #content-wrapper{
       width: @widthTablet;
     }
 
@@ -818,7 +889,7 @@ nav.menu-bar {
 /* Mobile Layout: 320px */
 @media only screen and (max-width: @breakTablet) {
 
-    #wrapper {
+    #wrapper, #content-wrapper {
       width: @widthMobile;
     }
 
@@ -1090,9 +1161,10 @@ nav.menu-bar {
 /* Wide Mobile Layout: 480px */
 @media only screen and (min-width: @breakMobileLandscape) and (max-width: @breakTablet) {
 
-    #wrapper {
+    #wrapper, #content-wrapper {
         width: @widthMobileLandscape;
     }
+
 
     #masthead,
     #main-feature,
