@@ -53,21 +53,28 @@ from __future__ import absolute_import, unicode_literals
 #
 EXTRA_MODEL_FIELDS = (
     (
-        "mezzanine.pages.models.Page.subtitle",
-        "CharField",  # 'django.db.models.' is implied if path is omitted.
-        ("Subtitle",),
-        {"max_length": 128, "default": '', "blank": True},
-    ),
-    (
         "mezzanine.pages.models.Page.intro",
         "TextField",  # 'django.db.models.' is implied if path is omitted.
         ("Intro Paragraph",),
         {"default": '', "blank": True},
     ),
     (
-        "mezzanine.pages.models.Page.closing",
-        "TextField",  # 'django.db.models.' is implied if path is omitted.
-        ("Closing Paragraph",),
+        "mezzanine.pages.models.Page.inherit",
+        "BooleanField",
+        ("Display Root Parent Title and Intro",),
+        {"default": '', "blank": True,
+         "help_text": "If selected, the page will render using the root parent's Title and Intro in the masthead."},
+    ),
+    (
+        "mezzanine.pages.models.Page.cta_title",
+        "CharField",  # 'django.db.models.' is implied if path is omitted.
+        ("Call to Action Title",),
+        {"max_length": 128, "default": '', "blank": True},
+    ),
+    (
+        "mezzanine.pages.models.Page.cta_body",
+        "mezzanine.core.fields.RichTextField",
+        ("Call to Action Body",),
         {"default": '', "blank": True},
     ),
 )
