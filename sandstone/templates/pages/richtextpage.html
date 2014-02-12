@@ -11,9 +11,9 @@
         {% endwith %}
     {% else %}
         {% with page.richtextpage as richtextpage %}
-            <article class="home-column">
+            <article class="hero-column">
                 {% if richtextpage.title %}
-                <h1>
+                <h1 class="large">
                 {% editable richtextpage.title %}
                 {{ richtextpage.title|richtext_filters|safe }}
                 {% endeditable %}
@@ -31,10 +31,10 @@
            </article>
             <aside id="cta">
               <p><em>I am a Call to Action!</em></p>
-              <div>
-                I am some rich text!
-                <a href="">Read More</a>
-              </div>
+              <p>
+                I am some rich text! I am some rich text! I am some rich text!
+                <a href="">Read More »</a>
+              </p>
             <aside>
         {% endwith %}
     {% endif %}
