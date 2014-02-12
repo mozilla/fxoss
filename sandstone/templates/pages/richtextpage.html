@@ -4,44 +4,57 @@
 
 {% block main %}{{ block.super }}
 
-{% with page.richtextpage as richtextpage %}
 
-{% if richtextpage.title %}
-<h1>
-{% editable richtextpage.title %}
-{{ richtextpage.title|richtext_filters|safe }}
-{% endeditable %}
-</h1>
-{% endif %}
+    {% with page.get_ascendants|last as last %}
+        {% if page.inherit %}
+                    <h1 class="large">{{ last.richtextpage.title }}</h1>
+                    <p>{{ last.richtextpage.intro }}</p>
+                  </div>
+                {% if last.richtextpage.cta_title %}
+                      <p><em>{{ last.richtextpage.cta_title }}</em></p>
+                      <div>{{ last.richtextpage.cta_body|richtext_filters|safe }}</div>
+                {% endif %}
+        {% else %}
+            {% with page.richtextpage as richtextpage %}
+                {% if richtextpage.title %}
+                <h1>
+                {% editable richtextpage.title %}
+                {{ richtextpage.title|richtext_filters|safe }}
+                {% endeditable %}
+                </h1>
+                {% endif %}
 
-{% if richtextpage.subtitle %}
-<h2>
-{% editable richtextpage.subtitle %}
-{{ richtextpage.subtitle|richtext_filters|safe }}
-{% endeditable %}
-</h2>
-{% endif %}
+                {% if richtextpage.intro %}
+                <p>
+                {% editable richtextpage.intro %}
+                {{ richtextpage.intro|richtext_filters|safe }}
+                {% endeditable %}
+                </p>
+                {% endif %}
 
-{% if richtextpage.intro %}
-<p>
-{% editable richtextpage.intro %}
-{{ richtextpage.intro|richtext_filters|safe }}
-{% endeditable %}
-</p>
-{% endif %}
+                {% if richtextpage.cta_title %}
+                <h2>
+                {% editable richtextpage.cta_title %}
+                {{ richtextpage.cta_title|richtext_filters|safe }}
+                {% endeditable %}
+                </h2>
+                {% endif %}
 
-{% editable richtextpage.content %}
-{{ richtextpage.content|richtext_filters|safe }}
-{% endeditable %}
+                {% if richtextpage.cta_body %}
+                <p>
+                {% editable richtextpage.cta_body %}
+                {{ richtextpage.cta_body|richtext_filters|safe }}
+                {% endeditable %}
+                </p>
 
-{% if richtextpage.closing %}
-<p>
-{% editable richtextpage.closing %}
-{{ richtextpage.closing|richtext_filters|safe }}
-{% endeditable %}
-</p>
-{% endif %}
+                {% endif %}
+            {% endwith %}
+        {% endif %}
+    {% endwith %}
+    {% with page.richtextpage as richtextpage %}
 
-{% endwith %}
-
+        {% editable richtextpage.content %}
+        {{ richtextpage.content|richtext_filters|safe }}
+        {% endeditable %}
+    {% endwith %}
 {% endblock %}
