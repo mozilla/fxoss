@@ -51,8 +51,8 @@ if (typeof tinyMCE != 'undefined') {
         theme_advanced_toolbar_location: "top",
         theme_advanced_toolbar_align: "left",
         theme_advanced_statusbar_location: "",
-        theme_advanced_buttons1: "bold,italic,|,link,unlink,|,image,|,media,charmap,|,code,|,table,|,bullist,numlist,blockquote,|,undo,redo,|,formatselect,|,search,replace,|,template,|,fullscreen,",
-        theme_advanced_buttons2: "",
+        theme_advanced_buttons1: "bold,italic,|,link,unlink,|,image,|,media,charmap,|,code,|,bullist,numlist,blockquote,|,undo,redo,|,formatselect,|,search,replace,|,template,|,fullscreen,",
+        theme_advanced_buttons2: "table,tablecontrols",
         theme_advanced_buttons3: "",
         theme_advanced_path: false,
         theme_advanced_blockformats: "p,h1,h2,h3,h4,pre",
@@ -79,7 +79,10 @@ if (typeof tinyMCE != 'undefined') {
         valid_children: "+button[a]",
 
         // template plugin
-        template_external_list_url: "/snippets/templates/"
+        template_external_list_url: "/snippets/templates/",
+
+        // table plugin
+        table_styles : "Default=default-table;Mini=mini-table"
     });
 
 }
