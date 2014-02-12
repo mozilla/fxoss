@@ -56,7 +56,7 @@ Next, execute the following::
 Remove the fields from the settings file and continue with the remaing
 migrations::
 
-    python manage.py migrate sandstone
+    python manage.py migrate
 
 You should now be able to run the development server::
 
