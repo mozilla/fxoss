@@ -464,10 +464,44 @@ input.focus {
 
 .main-column {
     .span(10);
+
+    h2 {
+        padding-top: 30px;
+        margin-top: 20px;
+        position: relative;
+        overflow: hidden; 
+        border-top: 1px solid #ddd;
+        
+        &:before {
+            content: ""; 
+            position:absolute; 
+            z-index: 1; 
+            width: 80%;  
+            top: -50px; 
+            height: 15px; 
+            left: 10%;
+            .border-radius(75px);
+            .box-shadow(0 0 45px 15px rgba(0, 0, 0, 0.85)); 
+        }
+
+        &:first-child {
+            padding-top: 0;
+            margin-top: 0;
+            border-top: none;
+
+            &:before {
+                .box-shadow(none);
+            }
+        }
+    }
 }
 
 .sidebar {
     .span(2);
+}
+
+.container {
+    padding-top: 40px;
 }
 
 /* {{{ Index Page */
@@ -499,6 +533,9 @@ input.focus {
     font-family: 'open sans light';
     color:#fff;
     font-size:16px;
+    border-width: 5px 0;
+    border-color: #005c9f;
+    border-style: solid;
     p {
         font-size: 18px;
     }
@@ -541,6 +578,7 @@ input.focus {
 
 /* {{{ Header Nav */
 #masthead {
+    padding-bottom: 50px;
 
     div, h2 {
         padding: (@baseLine * 1.5) 0 @baseLine;
@@ -934,7 +972,7 @@ nav.menu-bar {
     #main-content,
     .billboard,
     .container {
-        width: @widthTablet - (@gridGutterWidth * 2);
+        width: auto;
     }
 
     nav.menu-bar {
