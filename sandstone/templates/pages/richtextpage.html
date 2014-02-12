@@ -2,45 +2,51 @@
 
 {% load mezzanine_tags %}
 
-    {% block masthead-content %}
-
-
-    {% if page.inherit %}
-        {% with page.get_ascendants|last as last %}
-            {{ last.richtextpage.title }}
-        {% endwith %}
-    {% else %}
-        {% with page.richtextpage as richtextpage %}
-            <article class="home-column">
-                {% if richtextpage.title %}
-                <h1>
-                {% editable richtextpage.title %}
-                {{ richtextpage.title|richtext_filters|safe }}
-                {% endeditable %}
-                </h1>
+{% block masthead-content %}
+    {% with page.get_ascendants|last as last %}
+        {% if page.inherit %}
+                <article class="home-column">
+                    <h1>{{ last.richtextpage.title }}</h1>
+                  <div class="intro-column">
+                    <p>{{ last.richtextpage.intro }}</p>
+                  </div>
+               </article>
+                {% if last.richtextpage.cta_title %}
+                    <aside id="cta">
+                      <p><em>{{ last.richtextpage.cta_title }}</em></p>
+                      <div>{{ last.richtextpage.cta_body|richtext_filters|safe }}</div>
+                    <aside>
                 {% endif %}
-              <div class="intro-column">
-                {% if richtextpage.intro %}
-                <p>
-                {% editable richtextpage.intro %}
-                {{ richtextpage.intro|richtext_filters|safe }}
-                {% endeditable %}
-                </p>
+        {% else %}
+            {% with page.richtextpage as richtextpage %}
+                <article class="home-column">
+                    {% if richtextpage.title %}
+                    <h1>
+                    {% editable richtextpage.title %}
+                    {{ richtextpage.title|richtext_filters|safe }}
+                    {% endeditable %}
+                    </h1>
+                    {% endif %}
+                  <div class="intro-column">
+                    {% if richtextpage.intro %}
+                    <p>
+                    {% editable richtextpage.intro %}
+                    {{ richtextpage.intro|richtext_filters|safe }}
+                    {% endeditable %}
+                    </p>
+                    {% endif %}
+                  </div>
+               </article>
+                {% if richtextpage.cta_title %}
+                    <aside id="cta">
+                      <p><em>{{ richtextpage.cta_title }}</em></p>
+                      <div>{{ richtextpage.cta_body|richtext_filters|safe }}</div>
+                    <aside>
                 {% endif %}
-              </div>
-           </article>
-            <aside id="cta">
-              <p><em>I am a Call to Action!</em></p>
-              <div>
-                I am some rich text!
-                <a href="">Read More</a>
-              </div>
-            <aside>
-        {% endwith %}
-    {% endif %}
-
-
-    {% endblock masthead-content %}
+            {% endwith %}
+        {% endif %}
+    {% endwith %}
+{% endblock masthead-content %}
 
 
 {% block main %}{{ block.super }}
