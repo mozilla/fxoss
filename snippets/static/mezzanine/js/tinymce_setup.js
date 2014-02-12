@@ -52,7 +52,7 @@ if (typeof tinyMCE != 'undefined') {
         theme_advanced_toolbar_align: "left",
         theme_advanced_statusbar_location: "",
         theme_advanced_buttons1: "bold,italic,|,link,unlink,|,image,|,media,charmap,|,code,|,bullist,numlist,blockquote,|,undo,redo,|,formatselect,|,search,replace,|,template,|,fullscreen,",
-        theme_advanced_buttons2: "table,tablecontrols",
+        theme_advanced_buttons2: "table,tablecontrols,|,cite,ins,del,abbr,acronym,attribs,",
         theme_advanced_buttons3: "",
         theme_advanced_path: false,
         theme_advanced_blockformats: "p,h1,h2,h3,h4,pre",
@@ -64,7 +64,7 @@ if (typeof tinyMCE != 'undefined') {
         advlink_styles: "intern=internal;extern=external",
 
         // plugins
-        plugins: "inlinepopups,contextmenu,tabfocus,searchreplace,fullscreen,advimage,advlink,paste,media,table,template",
+        plugins: "inlinepopups,contextmenu,tabfocus,searchreplace,fullscreen,advimage,advlink,paste,media,table,template,xhtmlxtras",
         advimage_update_dimensions_onchange: true,
 
         // remove MS Word's inline styles when copying and pasting.
