@@ -61,9 +61,10 @@ EXTRA_MODEL_FIELDS = (
     (
         "mezzanine.pages.models.Page.inherit",
         "BooleanField",
-        ("Display Root Parent Title and Intro",),
+        ("Display Root Parent Title, Intro and Call to Action",),
         {"default": '', "blank": True,
-         "help_text": "If selected, the page will render using the root parent's Title and Intro in the masthead."},
+         "help_text":
+         "If selected, the page will render using the root parent's Title, Intro and Call to Action in the masthead."},
     ),
     (
         "mezzanine.pages.models.Page.cta_title",
