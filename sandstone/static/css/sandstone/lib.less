@@ -352,3 +352,18 @@
     padding: 0;
     border: 0;
 }
+
+.transition(@transition: all linear .25s) {
+  -webkit-transition: @transition;
+  -moz-transition: @transition;
+  -o-transition: @transition;
+  -ms-transition: @transition;
+  transition: @transition;
+}
+
+// Column spans for style guide column widths
+.span_guide(@columns) {
+    float: left;
+    width: (@gridColumnWidth * @columns) + (@gridGutterWidth * (@columns - 1));
+    margin: 0 (@gridGutterWidth / 2);
+}
