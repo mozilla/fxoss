@@ -47,9 +47,9 @@
                     <span class="toggle" role="button" aria-controls="nav-main-menu" tabindex="0">Menu</span>
                     {% page_menu "pages/menus/dropdown.html" %}
                   </nav>
-                    <div><a href="{% url "home" %}"><img src="{% static "img/sandstone/firefox-logo.png" %}" alt="Firefox OS"></a></div>
+                    <div id="logo"><a href="{% url "home" %}"><img src="{% static "img/sandstone/firefox-logo.png" %}" alt="Firefox OS"></a></div>
                     {% block masthead-content %}
-                       <article class="home-column">
+                       <article class="hero-column">
                           <h1>{{ title }}</h1>
                        </article>
                     {% endblock masthead-content %}
