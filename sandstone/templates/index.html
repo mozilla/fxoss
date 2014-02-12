@@ -4,66 +4,26 @@
 {% block meta_title %}{% trans "Home" %}{% endblock %}
 {% block title %}{% trans "Home" %}{% endblock %}
 
-{% block breadcrumb_menu %}
-    <li class="active">{% trans "Home" %}</li>
+{% block extra-body-class %}index{% endblock %}
+
+{% block masthead-content %}
+  <article class="home-column">
+    <h1>{% blocktrans %}Building the future<br>starts here{% endblocktrans %}</h1>
+    <div class="intro-column">
+      {% blocktrans %}And to the world of Firefox OS. On this site, you’ll find everything you need to customize  or build your own version of our groundbreaking mobile operating system and to use the Firefox OS brand on a phone<br>or tablet. Get started below.{% endblocktrans %}
+    </div>
+   </article>
+ {% endblock %}
+
+{% block sidebar %}{# exclude the sidebar #}{% endblock %}
+
+{% block index %}
+    <article class="cta-column"><i class="fa fa-lightbulb-o fa-4x pull-left icon"></i><h2>Learn</h2>Explore Firefox OS and the Firefox Marketplace. Get localization support, roadmaps and a complete, detailed list of every feature.<br><a href="/learn">Get started »</a></article>
+    <article class="cta-column"><i class="fa fa-code-fork fa-4x pull-left icon"></i><h2>Build</h2>Create and customize your own version of Firefox OS. Learn more about hardware requirements, supported chipsets, and how to contribute back to the community.<br><a href="/build">Build today »</a></article>
+    <article class="cta-column"><i class="fa fa-magic fa-4x pull-left icon"></i><h2>Market</h2>Take your product to market. Get access and support to the essential certifications and Firefox OS brand assets you’ll need, quickly and easily.<br><a href="/brand">Begin the process »</a></article>
 {% endblock %}
 
-{% block main %}
-    {% blocktrans %}
-    <h1>H1 Sample Header</h1>
-    <h2>H2 Sample Header</h2>
-    <h3>H3 Sample Header</h3>
-    <h4>H4 Sample Header</h4>
-    <h5>H5 Sample Header</h5>
-    <h6>H6 Sample Header</h6>
-    <ul>
-        <li>Thing </li>
-        <li>Thing </li>
-        <li>Thing </li>
-    </ul>
-    <ol>
-        <li>Thing </li>
-        <li>Thing </li>
-        <li>Thing </li>
-    </ol>
-     <table class="table">
-      <thead>
-        <tr>
-          <th>#</th>
-          <th>First Name</th>
-          <th>Last Name</th>
-          <th>Username</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td rowspan="2">1</td>
-          <td>John</td>
-          <td>Doe</td>
-          <td>jdoe</td>
-        </tr>
-        <tr>
-          <td>John</td>
-          <td>Doe</td>
-          <td>johndoe</td>
-        </tr>
-        <tr>
-          <td>2</td>
-          <td>Jane</td>
-          <td>Doe</td>
-          <td>janedoe</td>
-        </tr>
-        <tr>
-          <td>3</td>
-          <td colspan="2">Larry the Bird</td>
-          <td>larrybird</td>
-        </tr>
-      </tbody>
-    </table>
-    <p> Ph'nglui mglw'nafh Cthulhu R'lyeh wgah'nagl fhtagn. Azathoth naflTsathoggua
-        ph'n'gha Azathoth, hlirgh f'mg ilyaa naflfhtagn cgnaiih fhtagn s'uhn nasgn'wahl
-        ee hai, cgoka ph'k'yarnak h'sgn'wahl fm'latgh goka ftaghu 'bthnk r'luh.</p>
-    <p>Ftaghu Nyarlathotep chtenff chupadgh goka y'hah s'uhn mnahn', llll shugg
-        lllloth throd vulgtm hrii goka nnnuh'e, k'yarnak Dagon bug ee mnahn' ron. </p>
-    {% endblocktrans %}
-{% endblock %}
+{% block main %}{%endblock %}
+
+
+
