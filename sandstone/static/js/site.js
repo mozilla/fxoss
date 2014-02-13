@@ -68,5 +68,9 @@ $(document).ready(function() {
 
     );
 
-
+    $('.messages').on('click', '.close', function () {
+        $(this).parent('.alert').fadeOut(500, function () {
+            $(this).remove();
+        });
+    });
 });

@@ -39,6 +39,18 @@
         {% include "includes/google_analytics.html" %}
     </head>
     <body id="sandstone" class="sky {% block extra-body-class %}{% endblock %}">
+        {% nevercache %}
+        {% if messages %}
+        <div class="messages">
+        {% for message in messages %}
+        <div class="alert alert-dismissable alert-{{ message.tags }}" data-alert="alert">
+            <a class="close" data-dismiss="alert" aria-hidden="true"><i class="fa fa-times-circle"></i></a>
+            {{ message }}
+        </div>
+        {% endfor %}
+        </div>
+        {% endif %}
+        {% endnevercache %}
         <div id="outer-wrapper">
             <div id="wrapper">
                 <header id="masthead">
