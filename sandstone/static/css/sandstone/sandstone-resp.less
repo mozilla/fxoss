@@ -457,8 +457,6 @@ input.focus {
     text-shadow:none;
 }
 
-#fxoss-swoop {float:right;}
-
 .icon {color: #454f58;
 }
 
@@ -1056,6 +1054,11 @@ nav.menu-bar {
         }
 
     }
+    .index {
+        #outer-wrapper {
+            .index_no_swoop()
+        }
+    }
 
 }
 
@@ -1328,7 +1331,11 @@ nav.menu-bar {
         left: 12px;
         top: -10px;
     }
-
+    .index {
+        #outer-wrapper {
+            .index_no_swoop()
+        }
+    }
 }
 
 
@@ -1365,7 +1372,11 @@ nav.menu-bar {
             width: @widthMobileLandscape - @gridGutterWidth;
         }
     }
-
+    .index {
+        #outer-wrapper {
+            .index_no_swoop()
+        }
+    }
 }
 /* }}} */
 
