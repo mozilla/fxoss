@@ -1545,6 +1545,9 @@ form {
     .form-actions .primary {
         padding: 0 50px 0 50px;
     }
+    .form-actions .secondary {
+        float: right;
+    }
     .help-block {
         margin: 0;
         padding: 5px 0;
@@ -1602,6 +1605,40 @@ form {
             color: #a94442;
             .close(#a94442);
         }
+    }
+}
+/* }}} */
+
+/* {{{ Download Agreement */
+#download-agreement {
+    height: @userAgreementHeight;
+    overflow-y: scroll;
+    margin: 0 0 50px;
+    padding: 15px;
+    .inset;
+}
+/* }}} */
+
+/* {{{ Print Styles */
+@media print {
+    #nav-main-menu, .messages, #sidebar, .footer-nav, #logo {
+        display: none;
+    }
+
+    .sky {
+        #outer-wrapper, #main-content {
+            background: #fff;
+            border: none;
+            .box-shadow(none);
+        }
+    }
+
+    #masthead {
+        padding-bottom: 10px;
+    }
+
+    #download-agreement {
+        height: auto;
     }
 }
 /* }}} */
