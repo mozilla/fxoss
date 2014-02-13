@@ -1463,3 +1463,43 @@ form {
     }
 }
 /* }}} */
+
+/* {{{ Alert Messages */
+.messages {
+    .alert {
+        text-align: center;
+        padding: 5px 10% 10px;
+        .close(@color) {
+            .close {
+                float: right;
+                cursor: pointer;
+                color: @color;
+                &:active, &:hover {
+                    color: darken(@color, 10%);
+                }
+            }
+        }
+        .close(@textColorPrimary);
+        &.alert-info {
+            background-color: #d9edf7;
+            color: #31708f;
+            .close(#31708f);
+        }
+        &.alert-success {
+            background-color: #dff0d8;
+            color: #3c763d;
+            .close(#3c763d);
+        }
+        &.alert-warning {
+            background-color: #fcf8e3;
+            color: #8a6d3b;
+            .close(#8a6d3b);
+        }
+        &.alert-error {
+            background-color: #f2dede;
+            color: #a94442;
+            .close(#a94442);
+        }
+    }
+}
+/* }}} */
