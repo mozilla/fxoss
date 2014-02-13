@@ -1516,3 +1516,27 @@ form {
     .inset;
 }
 /* }}} */
+
+/* {{{ Print Styles */
+@media print {
+    #nav-main-menu, .messages, #sidebar, .footer-nav, #logo {
+        display: none;
+    }
+
+    .sky {
+        #outer-wrapper, #main-content {
+            background: #fff;
+            border: none;
+            .box-shadow(none);
+        }
+    }
+
+    #masthead {
+        padding-bottom: 10px;
+    }
+
+    #download-agreement {
+        height: auto;
+    }
+}
+/* }}} */
