@@ -39,8 +39,9 @@ create a Rich Text Page:
   * If publication dates are required, set the optional **Published from** and **Expires
     on** fields
   * **Show in menus** allows the author to indiciate which menu(s) the navigation
-    element should appear in. The current layout supports only *Top navigation
-    bar* and *Left-hand tree* menus.
+    element should appear in. The FxOSS theme requires *Top navigation
+    bar* and *Left-hand tree* menus to be checked in order for the node to render
+    in a responsive manner. The footer nav is unused in this theme.
   * **Subtitle** of the page
   * **Intro Paragraph**
   * **Content**: This field supports WYSIWYG editing, and easy insertion of related
