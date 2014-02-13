@@ -95,7 +95,7 @@ RICHTEXT_FILTER_LEVEL = 3
 # Disable Front End Editing
 INLINE_EDITING_ENABLED = False
 
-SITE_TITLE = "Mozilla Labs | Mobile Partners"
+SITE_TITLE = "Mozilla Mobile Partners"
 
 GOOGLE_ANALYTICS_ID = 'UA-35433268-52'
 ########################
