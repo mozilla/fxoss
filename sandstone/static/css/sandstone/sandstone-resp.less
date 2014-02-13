@@ -1380,3 +1380,37 @@ nav.menu-bar {
 /* }}} */
 
 
+/* {{{ Default Form Styles */
+form {
+    legend {
+        .open-sans-light;
+        font-size: 32px;
+        letter-spacing: -1px;
+        font-weight: bold;
+        margin: 0 0 20px 0;
+        line-height: 100%;
+        text-shadow: 0px 1px 0px rgba(255,255,255,0.75);
+        color: @textColorSecondary;
+    }
+    .form-group {
+        padding: 15px 0;
+    }
+    .control-label {
+        display: block;
+        font-weight: bold;
+        text-transform: uppercase;
+        padding: 0 0 5px 0;
+    }
+    input[type=text], input[type=password], select,  {
+        min-width: 200px;
+    }
+    textarea {
+        min-width: 300px;
+        min-height: 100px;
+    }
+    .signup {
+        padding: 0 50px 0 75px;
+        margin-bottom: 20px;
+    }
+}
+/* }}} */
