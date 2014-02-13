@@ -4,34 +4,12 @@
 
 {% block main %}
 
+{% with page.richtextpage as richtextpage %}
+
 {% if request.user.is_authenticated %}
-    <h1>
-    {% editable page.richtextpage.title %}
-    {{ page.richtextpage.title|richtext_filters|safe }}
+    {% editable richtextpage.content %}
+    {{ richtextpage.content|richtext_filters|safe }}
     {% endeditable %}
-    </h1>
-
-    <h2>
-    {% editable page.richtextpage.subtitle %}
-    {{ page.richtextpage.subtitle|richtext_filters|safe }}
-    {% endeditable %}
-    </h2>
-
-    <p>
-    {% editable page.richtextpage.intro %}
-    {{ page.richtextpage.intro|richtext_filters|safe }}
-    {% endeditable %}
-    </p>
-
-    {% editable page.richtextpage.content %}
-    {{ page.richtextpage.content|richtext_filters|safe }}
-    {% endeditable %}
-
-    <p>
-    {% editable page.richtextpage.closing %}
-    {{ page.richtextpage.closing|richtext_filters|safe }}
-    {% endeditable %}
-    </p>
 {% else %}
     <h1>{% trans "Partner with us" %}</h1>
     <p>
@@ -43,7 +21,9 @@
     <a href="{% url 'signup' %}">{% trans "Register" %}</a>
 {% endif %}
 
+{% endwith %}
 
 {% endblock %}
+
 
 
