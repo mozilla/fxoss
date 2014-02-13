@@ -29,6 +29,33 @@ Create the PostgreSQL database and run the initial syncdb/migrate::
 
     createdb fxoss
     python manage.py syncdb
+
+Due to extensions to the Page Model, the initial migrations require special
+attention. This will be resolved in a future version.  To migrate the site, you
+will need to temporarily add the following snippet to
+``projects.settings.base.EXTRA_MODEL_FIELDS``::
+
+    (
+        "mezzanine.pages.models.Page.closing",
+        "TextField",  # 'django.db.models.' is implied if path is omitted.
+        ("Closing Paragraph",),
+        {"default": '', "blank": True},
+    ),
+     (
+        "mezzanine.pages.models.Page.subtitle",
+        "CharField",  # 'django.db.models.' is implied if path is omitted.
+        ("Subtitle",),
+        {"max_length": 128, "default": '', "blank": True},
+    )
+
+
+Next, execute the following::
+
+    python manage.py migrate sandstone 0004
+
+Remove the fields from the settings file and continue with the remaing
+migrations::
+
     python manage.py migrate
 
 You should now be able to run the development server::
