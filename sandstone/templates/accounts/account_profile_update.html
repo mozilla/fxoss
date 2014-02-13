@@ -1,0 +1,6 @@
+{% extends "accounts/account_form.html" %}
+{% load i18n %}
+
+{% block account_form_actions %}
+    <button class="primary button button-blue arrow" type="submit" value="{{ title }}"><span>{% trans "Update Profile" %}</span></button>
+{% endblock %}
