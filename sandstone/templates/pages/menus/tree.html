@@ -10,9 +10,9 @@
   </li>
   {% endif %}
   {% if page.in_menu %}
-  <li class="{% if page.is_current_or_ascendant%}path active{% endif %}{% if page.has_children_in_menu %} has-children{% endif %}">
+  <li class="{% if page.is_current_or_ascendant%}path active{% else %}{% endif %}{% if page.has_children_in_menu %} has-children{% endif %}">
     <a href="{{ page.get_absolute_url }}">{{ page.title }}</a>
-    {% if page.has_children_in_menu %}{% page_menu page %}{% endif %}
+    {% page_menu page %}
   </li>
   {% endif %}
   {% endfor %}
