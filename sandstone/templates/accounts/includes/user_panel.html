@@ -1,8 +1,8 @@
 {% load i18n future mezzanine_tags accounts_tags %}
 
     {% if request.user.is_authenticated %}
-        <li class="nav-user-item"><a href="{% url "profile_update" %}">{{ request.user.email }}</a></li>
-        <li class="nav-user-item"><a href="{% url "logout" %}?next={{ request.path }}">{% trans "Sign out" %} &raquo;</a><li>
+        <li class="nav-user-item dropdown"><a href="{% url 'profile_update' %}">{{ request.user.email }}</a></li>
+        <li class="nav-user-item dropdown last"><a href="{% url 'logout' %}?next={{ request.path }}">{% trans "Sign out" %} &raquo;</a><li>
     {% else %}
-        <li class="nav-user-item"><a href="{% url "login" %}?next={{ request.path }}">{% trans "Sign in" %} &raquo;</a></li>
+        <li class="nav-user-item dropdown last"><a href="{% url 'login' %}?next={{ request.path }}">{% trans "Sign in" %} &raquo;</a></li>
     {% endif %}
