@@ -2,9 +2,16 @@
 {% load i18n %}
 
 {% block main %}
-{{ block.super }}
+<div id='download-agreement'>
+    {{ block.super }}
+</div>
 <form action='' method='post'>{% csrf_token %}
-    {{ form.as_p }}
-    <button type='submit'>{% trans "Continue" %}</button>
+    <div class="form-actions">
+        <button class="primary button" type="submit" value="agree" name="agree">{% trans "Agree" %}</button>
+        <a class="button button-negative" href="/">{% trans "Cancel" %}</a>
+        <a class="secondary button insensitive" rel="print" onClick="window.print()">
+            <i class="fa fa-print"></i> {% trans "Print" %}
+        </a>
+    </div>
 </form>
 {% endblock %}
