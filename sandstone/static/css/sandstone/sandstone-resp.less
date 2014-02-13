@@ -1021,6 +1021,44 @@ nav.menu-bar {
         width: auto;
     }
 
+    .home-column {
+        .span(12);
+        h1 {
+            font-size: 48px;
+            line-height: 40px;
+        }
+    }
+
+    .intro-column {
+        .span(7);
+        font-size: 14px;
+        line-height:20px;
+
+    .hero-column {
+        .span(9);
+
+        h1 {
+            font-size: 48px;
+            line-height: 40px;
+        }
+        .intro-column {
+            .span(8);
+            font-size: 16px;
+            line-height:24px;
+        }
+    }
+
+        }
+    #cta {
+        .span(3);
+        padding-top: 18px;
+        font-family: 'open sans light';
+        font-size:14px;
+        p {
+            font-size: 14px;
+        }
+    }
+
     nav.menu-bar {
         font-size: .9375em;
     }
@@ -1103,8 +1141,33 @@ nav.menu-bar {
         margin-left: auto;
     }
 
-
     #masthead {
+        .home-column {
+            .span(12);
+            h1 {
+                font-size: 36px;
+                line-height: 30px;
+            }
+        }
+
+        .hero-column {
+            .span(9);
+
+            h1 {
+                font-size: 36px;
+                line-height: 30px;
+            }
+        }
+
+        #cta {
+            .span(3);
+            padding-top: 16px;
+            font-size:12px;
+            p {
+                font-size: 12px;
+            }
+        }
+
         h2 {
             padding-top: @baseLine / 2;
             padding-bottom: @baseLine / 2;
@@ -1352,16 +1415,55 @@ nav.menu-bar {
     #main-content,
     .billboard,
     .container,
-    .main-column, .home-column
+    .main-column, .home-column, .hero-column
     {
         width: auto;
     }
 
-    .main-column, .home-column
+    .main-column, .home-column, .hero-column
     {
         padding-left: 0;
         padding-right: 0;
     }
+
+        .home-column {
+            .span(12);
+            h1 {
+                font-size: 32px;
+                line-height: 32px;
+                letter-spacing: -2px;
+                color: #fff;
+                text-shadow:none;
+            }
+        }
+
+        .intro-column {
+            .span(7);
+            font-size: 14px;
+            line-height:18px;
+            color: #fff;
+            text-shadow:none;
+        }
+
+        .hero-column {
+            .span(9);
+
+            h1 {
+                font-size: 32px;
+                line-height: 32px;
+                letter-spacing: -2px;
+                color: #fff;
+                text-shadow:none;
+            }
+            .intro-column {
+                .span(8);
+                font-size: 14px;
+                line-height: 18px;
+                font-family: 'open sans light';
+                letter-spacing: -0.6px;
+            }
+        }
+
 
     #sidebar {
         display: none;
