@@ -41,6 +41,9 @@ a {
         color: darken(@linkBlue, 10%);
         text-decoration: underline;
     }
+    &.follow:after {
+        content: "\00BB";
+    }
 }
 
 .sand {
@@ -869,6 +872,9 @@ nav.menu-bar {
         a:only-child {
             background-image: none;
         }
+    }
+    nav a#sidebar-active {
+            color: @linkBlue;
     }
 }
 
