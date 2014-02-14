@@ -586,10 +586,12 @@ input.focus {
         padding-top: 22px;
         font-family: 'open sans light';
         color:#fff;
-        border-width: 5px 0;
-        border-color: #005c9f;
-        border-style: solid;
+        margin-bottom: 25px;
+        .title {
+            padding-top: 20px;
+        }
         p {
+
             font-size: 14px;
         }
         em {
@@ -601,6 +603,13 @@ input.focus {
         div {
             padding: 0 0;
             margin: 0 0;
+        }
+        &:before, &:after {
+            content: "";
+            display: block;
+            height: 5px;
+            width: 100%;
+            #gradient .striped(#005c9f, 4px 4px);
         }
     }
 
