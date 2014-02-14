@@ -764,7 +764,19 @@ nav.menu-bar {
 
 .mini-table {
     .default-table;
-    width: 60%;
+    width: @rightColumnWidth;
+}
+
+.two-column {
+   .default-table;
+    tbody tr td {
+        &:first-child {
+            width: @leftColumnWidth;
+        }
+        &:last-child {
+            width: @rightColumnWidth;
+        }
+    }
 }
 
 
@@ -1495,16 +1507,18 @@ nav.menu-bar {
 /* {{{ Common Content Snippets */
 .mini-title {
     float: left;
-    width: 30%;
+    width: @leftColumnWidth - 5%;
     text-transform: uppercase;
     font-weight: bold;
-    font-size: 20px;
+    font-size: 16px;
     clear: both;
+    padding-right: 5%;
+    line-height: 1.4;
 }
 
 .offset-block {
     float: left;
-    width: 70%;
+    width: @rightColumnWidth;
 }
 /* }}} */
 /* {{{ Default Form Styles */
