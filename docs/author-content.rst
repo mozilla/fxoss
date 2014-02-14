@@ -164,3 +164,27 @@ content into the original rich text field at the cursor location. These snippets
 to only contain the expected layout and not the content itself. Once the snippet has been
 inserted you will likely need to modify the content which was inserted with the relevant
 text rather than the snippet placeholder.
+
+Default Snippets
+-------------------------
+
+**Requirements Table**::
+
+    <h3 class="mini-title">Category Name</h3>
+    <table border="0" class="mini-table">
+    <tbody>
+    <tr>
+    <td>Manufacturer</td>
+    <td>Versions Supported</td>
+    </tr>
+    <tr>
+    <td>Foo</td>
+    <td>Bar</td>
+    </tr>
+    </tbody>
+    </table>
+
+**Offset Title Block**::
+
+  <h3 class="mini-title">Title</h3>
+  <p class="offset-block">Lorem Ipsum <br> <a class="follow" href="http://google.com">Read More</a></p>
