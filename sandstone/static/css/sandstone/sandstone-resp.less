@@ -467,6 +467,7 @@ input.focus {
     .span(10);
 
     h2 {
+        clear: both;
         padding-top: 30px;
         margin-top: 20px;
         position: relative;
@@ -475,7 +476,7 @@ input.focus {
 
         &:before {
             content: "";
-            position:absolute;
+            position: absolute;
             z-index: 1;
             width: 80%;
             top: -50px;
@@ -494,6 +495,13 @@ input.focus {
                 .box-shadow(none);
             }
         }
+    }
+}
+
+// Adjust top height to render closer to the same in Chrome and Firefox
+@-moz-document url-prefix() {
+    .main-column h2:before {
+        top: -60px;
     }
 }
 
