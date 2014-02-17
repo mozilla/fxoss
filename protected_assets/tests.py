@@ -1,5 +1,7 @@
 from __future__ import unicode_literals
 
+from urllib import urlencode
+
 from django.contrib.auth import get_user_model
 from django.core.urlresolvers import reverse
 from django.test import TestCase
@@ -53,7 +55,7 @@ class ProtectAssetTestCase(AgreementMixin, TestCase):
     def test_agreement_redirect(self):
         """If user has not signed the agreement they should be redirected to sign."""
         response = self.client.get(self.asset_url)
-        expected_url = '%s?next=%s' % (self.agreement_url, self.asset_url)
+        expected_url = '%s?%s' % (self.agreement_url, urlencode({'next': self.asset_url}))
         self.assertRedirects(response, expected_url)
 
     def test_already_signed(self):
@@ -68,8 +70,15 @@ class ProtectAssetTestCase(AgreementMixin, TestCase):
         """User will need to resign the agreement if they signed and older version."""
         self.create_agreement(user=self.user, version='0.9')
         response = self.client.get(self.asset_url)
-        expected_url = '%s?next=%s' % (self.agreement_url, self.asset_url)
+        expected_url = '%s?%s' % (self.agreement_url, urlencode({'next': self.asset_url}))
         self.assertRedirects(response, expected_url)
+
+    def test_return_to_referring_page(self):
+        """Redirect to the original page after signing the user agreement."""
+        response = self.client.get(self.asset_url, HTTP_REFERER='/')
+        expected_url = '%s?%s' % (self.agreement_url, urlencode({'next': '/'}))
+        self.assertRedirects(response, expected_url)
+        self.assertEqual(self.client.session['waiting_download'], self.asset_url)
 
 
 class SignAgreementTestCase(AgreementMixin, TestCase):
@@ -94,3 +103,13 @@ class SignAgreementTestCase(AgreementMixin, TestCase):
         response = self.client.post(url, data={'agree': 'on'})
         self.assertRedirects(response, next_url)
         self.assertTrue(Agreement.objects.filter(user=self.user).exists())
+
+    def test_mark_download_as_ready(self):
+        """If download is waiting in the session it should be marked as ready."""
+        session  = self.client.session
+        session['waiting_download'] = self.asset_url
+        session.save()
+        response = self.client.post(self.agreement_url, data={'agree': 'on'})
+        self.assertRedirects(response, '/')
+        self.assertNotIn('waiting_download', self.client.session)
+        self.assertEqual(self.client.session['ready_download'], self.asset_url)
