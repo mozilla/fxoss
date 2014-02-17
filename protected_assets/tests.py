@@ -1,5 +1,7 @@
 from __future__ import unicode_literals
 
+from urllib import urlencode
+
 from django.contrib.auth import get_user_model
 from django.core.urlresolvers import reverse
 from django.test import TestCase
@@ -53,7 +55,7 @@ class ProtectAssetTestCase(AgreementMixin, TestCase):
     def test_agreement_redirect(self):
         """If user has not signed the agreement they should be redirected to sign."""
         response = self.client.get(self.asset_url)
-        expected_url = '%s?next=%s' % (self.agreement_url, self.asset_url)
+        expected_url = '%s?%s' % (self.agreement_url, urlencode({'next': self.asset_url}))
         self.assertRedirects(response, expected_url)
 
     def test_already_signed(self):
@@ -68,7 +70,7 @@ class ProtectAssetTestCase(AgreementMixin, TestCase):
         """User will need to resign the agreement if they signed and older version."""
         self.create_agreement(user=self.user, version='0.9')
         response = self.client.get(self.asset_url)
-        expected_url = '%s?next=%s' % (self.agreement_url, self.asset_url)
+        expected_url = '%s?%s' % (self.agreement_url, urlencode({'next': self.asset_url}))
         self.assertRedirects(response, expected_url)
 
 
