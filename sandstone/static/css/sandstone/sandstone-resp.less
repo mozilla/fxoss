@@ -568,7 +568,7 @@ input.focus {
 
 /* {{{ Header Nav */
 #masthead {
-    padding-bottom: 50px;
+    padding-bottom: 25px;
 
     div, h2 {
         padding: (@baseLine * 1.5) 0 @baseLine;
@@ -586,12 +586,16 @@ input.focus {
         padding-top: 22px;
         font-family: 'open sans light';
         color:#fff;
-        font-size:16px;
-        border-width: 5px 0;
-        border-color: #005c9f;
-        border-style: solid;
+        margin-bottom: 25px;
+        .title {
+            padding-top: 20px;
+        }
         p {
-            font-size: 18px;
+
+            font-size: 14px;
+        }
+        em {
+            font-size: 17px;
         }
         a {
             color:#ffcc02;
@@ -600,12 +604,23 @@ input.focus {
             padding: 0 0;
             margin: 0 0;
         }
+        &:before, &:after {
+            content: "";
+            display: block;
+            height: 5px;
+            width: 100%;
+            #gradient .striped(#005c9f, 4px 4px);
+        }
     }
 
     .intro-column {
-        padding-top:10px;
-        margin-left:0px;
+        padding: 0 0 25px;
+        margin-left: 0px;
+        p {
+            padding: 0;
+            margin: 0;
         }
+    }
 
     nav {
         float: right;

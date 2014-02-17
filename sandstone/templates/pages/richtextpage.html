@@ -13,7 +13,7 @@
                </article>
                 {% if last.richtextpage.cta_title %}
                     <aside id="cta">
-                      <p><em>{{ last.richtextpage.cta_title }}</em></p>
+                      <p class="title"><em>{{ last.richtextpage.cta_title }}</em></p>
                       <div>{{ last.richtextpage.cta_body|richtext_filters|safe }}</div>
                     <aside>
                 {% endif %}
@@ -39,7 +39,7 @@
                </article>
                 {% if richtextpage.cta_title %}
                     <aside id="cta">
-                      <p><em>{{ richtextpage.cta_title }}</em></p>
+                      <p class="title"><em>{{ richtextpage.cta_title }}</em></p>
                       {{ richtextpage.cta_body|richtext_filters|safe }}
                     <aside>
                 {% endif %}
