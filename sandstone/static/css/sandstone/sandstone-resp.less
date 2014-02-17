@@ -1164,15 +1164,9 @@ nav.menu-bar {
     .main-column, .home-column
     {
         width: auto;
-        padding-left: @gridGutterWidth / 2;
-        padding-right: @gridGutterWidth / 2;
-        padding-bottom: @gridGutterWidth;
-    }
-
-    .main-column, .home-column
-    {
         padding-left: 0;
         padding-right: 0;
+        padding-bottom: @gridGutterWidth;
     }
 
     #sidebar {
@@ -1184,20 +1178,18 @@ nav.menu-bar {
     }
 
     #masthead {
-        .home-column {
-            .span(12);
+        .home-column, .hero-column {
+            .span(4);
+
             h1 {
-                font-size: 36px;
+                font-size: 32px;
                 line-height: 30px;
             }
-        }
-
-        .hero-column {
-            .span(9);
-
-            h1 {
-                font-size: 36px;
-                line-height: 30px;
+            .intro-column {
+                .span(4);
+                font-size: 14px;
+                line-height:18px;
+                margin: 0 0;
             }
         }
 
