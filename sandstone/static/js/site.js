@@ -54,14 +54,23 @@ $(document).ready(function() {
     $('#sidebar nav ul li.has-children').hover(
       function() {
         if (!$(this).hasClass('active')) {
+            $(this).find( "ul" ).slideDown('slow');
             $(this).addClass('active');
         }
-
       },
 
       function() {
         if ($(this).hasClass('active') && !$(this).hasClass('path')) {
-            $(this).removeClass('active');
+            $(this)
+                .find('ul')
+                .slideUp(
+                    'slow',
+                    function() {
+                        $(this)
+                            .parent('li')
+                            .removeClass('active');
+                    }
+                );
         }
 
       }
