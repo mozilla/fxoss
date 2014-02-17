@@ -340,6 +340,10 @@ FILEBROWSER_SELECT_FORMATS = {
     'media': ['Video', 'Audio'],
 }
 
+# Set uploadify file size limit to 100MB
+FILEBROWSER_MAX_UPLOAD_SIZE = 104857600
+
+
 #################################
 # ACCOUNT REGISTRATION SETTINGS #
 #################################
