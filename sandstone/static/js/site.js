@@ -73,4 +73,11 @@ $(document).ready(function() {
             $(this).remove();
         });
     });
+
+    $('meta[name=_download]').each(function (i, elem) {
+        var path = $(elem).attr('content');
+        if (path) {
+            $('<iframe>', {src: path}).hide().appendTo($('body'));
+        }
+    });
 });

@@ -25,7 +25,7 @@ def protected_download(request, path):
         params = {'next': request.path}
         previous = request.META.get('HTTP_REFERER', None) or None
         if previous is not None:
-            params['next'] = '%s?%s' % (previous, urllib.urlencode({'download': '1'}))
+            params['next'] = previous
             request.session['waiting_download'] = request.path
         agreement_url = '%s?%s' % (
             reverse('page', kwargs={'slug': 'download-agreement'}),
@@ -39,4 +39,6 @@ def protected_download(request, path):
     response['Content-Disposition'] = 'attachment; filename=%s' % os.path.basename(path)
     if request.path == request.session.get('waiting_download'):
          del request.session['waiting_download']
+    if request.path == request.session.get('ready_download'):
+         del request.session['ready_download']
     return response

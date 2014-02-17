@@ -28,5 +28,8 @@ def download_agreement(request, page):
             next_page = next_page or default_next
             if not is_safe_url(url=next_page, host=request.get_host()):
                 next_page = default_next
+            if 'waiting_download' in request.session:
+                request.session['ready_download'] = request.session['waiting_download']
+                del request.session['waiting_download']
             return redirect(next_page)
     return {"form": form}
