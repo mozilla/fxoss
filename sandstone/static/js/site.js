@@ -50,33 +50,6 @@ $(document).ready(function() {
         .focusin(function(e) { $('#sidebar').toggleClass('child-focus'); })
         .focusout(function(e) { $('#sidebar').toggleClass('child-focus'); });
 
-
-    $('#sidebar nav ul li.has-children').hover(
-      function() {
-        if (!$(this).hasClass('active')) {
-            $(this).find( "ul" ).slideDown('slow');
-            $(this).addClass('active');
-        }
-      },
-
-      function() {
-        if ($(this).hasClass('active') && !$(this).hasClass('path')) {
-            $(this)
-                .find('ul')
-                .slideUp(
-                    'slow',
-                    function() {
-                        $(this)
-                            .parent('li')
-                            .removeClass('active');
-                    }
-                );
-        }
-
-      }
-
-    );
-
     $('.messages').on('click', '.close', function () {
         $(this).parent('.alert').fadeOut(500, function () {
             $(this).remove();
