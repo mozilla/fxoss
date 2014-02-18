@@ -82,7 +82,7 @@ if (typeof tinyMCE != 'undefined') {
         template_external_list_url: "/snippets/templates/",
 
         // table plugin
-        table_styles : "Default=default-table;Two Column=two-column;Mini=mini-table"
+        table_styles : "Default=default-table;Two Column=two-column;Mini=mini-table;Simple Bordered=bordered-table"
     });
 
 }
