@@ -1,0 +1,10 @@
+{% load i18n %}
+{% block main %}
+{% trans "Hi there," %}
+
+{% trans "Thanks for creating a Firefox OS partner account. We’re looking forward to working with you and to bringing your exciting new Firefox OS device to market." %}
+
+{% trans "To get started, please use the link below to activate your account." %}
+
+http://{{ request.get_host }}{{ verify_url }}
+{% endblock %}
