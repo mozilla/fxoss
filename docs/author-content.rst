@@ -188,3 +188,22 @@ Default Snippets
 
   <h3 class="mini-title">Title</h3>
   <p class="offset-block">Lorem Ipsum <br> <a class="follow" href="http://google.com">Read More</a></p>
+
+
+CSS Classes and Tables
+---------------------------
+
+There are a number of CSS classes defined that will allow tabular content to conform
+to the standard site look and feel. All of these are accessible when using
+TinyMCE's *Insert/Edit Table* functionality. The popup window has a *class* selector from which
+you can choose one of the following options:
+
+
+**Default**: Extends the full width of the content well.
+
+**Two Column**: TODO
+
+**Mini**: TODO
+
+**Simple Bordered**: A simple outlined table. All table cells and table headers will
+have solid 1px border. No additional font related styling for td or th cells.
