@@ -23,6 +23,12 @@
         <p>{% trans "By creating an account, you'll get access and support to the essential certifications and Firefox OS brand assets needed to build a Firefox OS phone. Your contact information will be shared with our Business Development team and will be used to notify you regarding material changes to the agreements, tools and/or assets provided on this website." %}</p>
         <span class="required-fields">{% trans " = Required Field" %}</span>
         {% fields_for form %}
+
+        <p>{% trans "After you submit your information, we will send you a verification email to activate your account. We will also use your information to communicate with you about Firefox OS and Mozilla initiatives." %}</p>
+
+        <p>{% trans "By proceeding, I agree to the <a href='http://www.mozilla.org/en-US/about/legal.html'>Legal Notice</a> and  <a href='http://www.mozilla.org/en-US/privacy/policies/websites/'>Privacy Notice</a> for Mozilla websites." %}</p>
+
+
         <div class="form-actions">
             <button class="signup button button-blue arrow" type="submit" value="{{ title }}"><span>Submit</span></button>
         </div>
