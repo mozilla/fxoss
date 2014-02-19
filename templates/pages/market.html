@@ -11,14 +11,14 @@
     {{ richtextpage.content|richtext_filters|safe }}
     {% endeditable %}
 {% else %}
-    <h1>{% trans "Partner with us" %}</h1>
+    <h2>{% trans "Partner With Us" %}</h2>
     <p>
     {% trans "As a brand, Firefox is a global leader in web recognition, trust and security. By partnering with us, you too can benefit from these great attributes." %}
     </p>
     <p>
     {% trans "We've made it very easy and straight forward to take the Open Source B2G operating system, and brand it 'Firefox OS'. Register below and build a Firefox OS phone." %}
     </p>
-    <a href="{% url 'signup' %}">{% trans "Register" %}</a>
+    <a href="{% url 'signup' %}">{% trans "Register" %}</a> or <a href="{% url 'login' %}">{% trans "Sign In" %}
 {% endif %}
 
 {% endwith %}
