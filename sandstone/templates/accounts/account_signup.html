@@ -21,6 +21,7 @@
         <fieldset>
         <legend>{{ title }}</legend>
         <p>{% trans "By creating an account, you'll get access and support to the essential certifications and Firefox OS brand assets needed to build a Firefox OS phone. Your contact information will be shared with our Business Development team and will be used to notify you regarding material changes to the agreements, tools and/or assets provided on this website." %}</p>
+        <span class="required-fields">{% trans " = Required Field" %}</span>
         {% fields_for form %}
         <div class="form-actions">
             <button class="signup button button-blue arrow" type="submit" value="{{ title }}"><span>Submit</span></button>
