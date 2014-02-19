@@ -1706,3 +1706,22 @@ form {
     }
 }
 /* }}} */
+
+// Responsive issues for the homepage
+@media only screen and (min-width: @breakDesktop) and (max-width: 1350px) {
+    .home-column .intro-column {
+        max-width: @widthDesktop - 550px;
+    }
+}
+
+@media only screen and (min-width: @breakDesktop) and (max-width: 1250px) {
+    .home-column {
+        h1 {
+            font-size: 62px;
+            line-height: 60px;
+        }
+         .intro-column {
+            max-width: @widthDesktop - 625px;
+        }
+    }
+}
