@@ -245,7 +245,6 @@ ROOT_URLCONF = "%s.urls" % PROJECT_DIRNAME
 # Don't forget to use absolute paths, not relative paths.
 TEMPLATE_DIRS = (os.path.join(PROJECT_ROOT, "templates"),)
 
-
 ################
 # APPLICATIONS #
 ################
@@ -311,6 +310,7 @@ MIDDLEWARE_CLASSES = [
     # "mezzanine.core.middleware.SSLRedirectMiddleware",
     "mezzanine.pages.middleware.PageMiddleware",
     "mezzanine.core.middleware.FetchFromCacheMiddleware",
+    "protected_assets.middleware.XForwardedForMiddleware"
 ]
 
 # Store these package names here as they may change in the future since
@@ -343,6 +343,7 @@ FILEBROWSER_SELECT_FORMATS = {
 # Set uploadify file size limit to 100MB
 FILEBROWSER_MAX_UPLOAD_SIZE = 104857600
 
+USE_X_FORWARDED_HOST = True
 
 #################################
 # ACCOUNT REGISTRATION SETTINGS #

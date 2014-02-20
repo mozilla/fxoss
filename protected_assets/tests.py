@@ -9,6 +9,9 @@ from django.test import TestCase
 from mezzanine.conf import settings
 from mezzanine.pages.models import RichTextPage
 
+from mock import Mock
+
+from .middleware import XForwardedForMiddleware
 from .models import Agreement
 
 
@@ -113,3 +116,27 @@ class SignAgreementTestCase(AgreementMixin, TestCase):
         self.assertRedirects(response, '/')
         self.assertNotIn('waiting_download', self.client.session)
         self.assertEqual(self.client.session['ready_download'], self.asset_url)
+
+
+class XForwardedForMiddlewareTestCase(TestCase):
+
+    def setUp(self):
+        self.xforward = XForwardedForMiddleware()
+        self.request = Mock()
+        self.request.META = {'REMOTE_ADDR': '0.0.0.0'}
+
+    def test_process_request_without_proxy(self):
+        self.assertEqual(self.xforward.process_request(self.request), None)
+        self.assertEqual('0.0.0.0', self.request.META['REMOTE_ADDR'])
+
+    def test_process_request_with_proxy(self):
+        self.request.META.update({'HTTP_X_FORWARDED_FOR': '1.1.1.1'})
+        self.assertEqual(self.xforward.process_request(self.request), None)
+        self.assertEqual('1.1.1.1', self.request.META['REMOTE_ADDR'])
+
+    def test_process_request_with_multiple_proxies(self):
+        self.request.META.update({'HTTP_X_FORWARDED_FOR': '1.1.1.1, 2.2.2.2, 3.3.3.3'})
+        self.assertEqual(self.xforward.process_request(self.request), None)
+        self.assertEqual('1.1.1.1', self.request.META['REMOTE_ADDR'])
+
+
