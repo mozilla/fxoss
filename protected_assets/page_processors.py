@@ -17,10 +17,11 @@ def download_agreement(request, page):
         form = AgreementForm(request.POST)
         if form.is_valid():
             settings.use_editable()
-            ip = request.META.get('REMOTE_ADDR') or None
             if "HTTP_X_FORWARDED_FOR" in request.META:
                 parts = request.META["HTTP_X_FORWARDED_FOR"].split(",", 1)
                 ip = parts[0]
+            else:
+                ip = request.META.get('REMOTE_ADDR') or None
             Agreement.objects.create(
                 user=request.user,
                 ip=ip,
