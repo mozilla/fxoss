@@ -9,9 +9,6 @@ from django.test import TestCase
 from mezzanine.conf import settings
 from mezzanine.pages.models import RichTextPage
 
-from mock import Mock
-
-from .middleware import XForwardedForMiddleware
 from .models import Agreement
 
 
@@ -117,26 +114,22 @@ class SignAgreementTestCase(AgreementMixin, TestCase):
         self.assertNotIn('waiting_download', self.client.session)
         self.assertEqual(self.client.session['ready_download'], self.asset_url)
 
-
-class XForwardedForMiddlewareTestCase(TestCase):
-
-    def setUp(self):
-        self.xforward = XForwardedForMiddleware()
-        self.request = Mock()
-        self.request.META = {'REMOTE_ADDR': '0.0.0.0'}
-
     def test_process_request_without_proxy(self):
-        self.assertEqual(self.xforward.process_request(self.request), None)
-        self.assertEqual('0.0.0.0', self.request.META['REMOTE_ADDR'])
+        """Check IP of agreement with no proxy in place."""
+        self.client.post(self.agreement_url, data={'agree': 'on'})
+        agreement = Agreement.objects.get(user=self.user)
+        self.assertEqual('127.0.0.1', agreement.ip)
 
     def test_process_request_with_proxy(self):
-        self.request.META.update({'HTTP_X_FORWARDED_FOR': '1.1.1.1'})
-        self.assertEqual(self.xforward.process_request(self.request), None)
-        self.assertEqual('1.1.1.1', self.request.META['REMOTE_ADDR'])
+        """Check IP of agreement with a single proxy in place."""
+        self.client.post(self.agreement_url, data={'agree': 'on'}, HTTP_X_FORWARDED_FOR='1.1.1.1')
+        agreement = Agreement.objects.get(user=self.user)
+        self.assertEqual('1.1.1.1', agreement.ip)
 
     def test_process_request_with_multiple_proxies(self):
-        self.request.META.update({'HTTP_X_FORWARDED_FOR': '1.1.1.1, 2.2.2.2, 3.3.3.3'})
-        self.assertEqual(self.xforward.process_request(self.request), None)
-        self.assertEqual('1.1.1.1', self.request.META['REMOTE_ADDR'])
+        """Check IP of agreement with multiple proxies in place."""
+        self.client.post(self.agreement_url, data={'agree': 'on'}, HTTP_X_FORWARDED_FOR='1.1.1.1, 2.2.2.2, 3.3.3.3')
+        agreement = Agreement.objects.get(user=self.user)
+        self.assertEqual('1.1.1.1', agreement.ip)
 
 
