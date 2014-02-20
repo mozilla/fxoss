@@ -1195,7 +1195,7 @@ nav.menu-bar {
     .container,
     .main-column, .home-column
     {
-        width: auto;
+        width: 100%;
         padding-left: 0;
         padding-right: 0;
         padding-bottom: @gridGutterWidth;
@@ -1304,12 +1304,16 @@ nav.menu-bar {
 
     .mini-title {
         float: none;
-        width: auto;
+        width: 100%;
     }
 
     .offset-block {
         float: none;
-        width: auto;
+        width: 100%;
+    }
+
+    .mini-table {
+        width: 100%;
     }
 
     nav.menu-bar {
@@ -1474,6 +1478,23 @@ nav.menu-bar {
             .index_no_swoop()
         }
     }
+    #download-agreement {
+        font-size: 12px;
+        overflow-x: scroll;
+        width: 85%;
+    }
+    #agreement-form {
+        .form-actions .button {
+            display: block;
+            width: 200px;
+            float: none;
+            margin: 10px auto;
+            text-align: center;
+            &.primary {
+                width: 240px;
+            }
+        }
+    }
 }
 
 
@@ -1492,7 +1513,7 @@ nav.menu-bar {
     .container,
     .main-column, .home-column, .hero-column
     {
-        width: auto;
+        width: 100%;
     }
 
     .main-column, .home-column, .hero-column

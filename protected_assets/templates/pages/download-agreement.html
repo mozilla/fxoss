@@ -10,7 +10,7 @@
 <div id='download-agreement'>
     {{ block.super }}
 </div>
-<form action='' method='post'>{% csrf_token %}
+<form id='agreement-form' action='' method='post'>{% csrf_token %}
     <div class="form-actions">
         <button class="primary button" type="submit" value="agree" name="agree">{% trans "Agree" %}</button>
         <a class="button button-negative" href="/">{% trans "Cancel" %}</a>
