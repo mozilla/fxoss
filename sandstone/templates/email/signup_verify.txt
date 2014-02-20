@@ -7,4 +7,6 @@
 {% trans "To get started, please use the link below to activate your account." %}
 
 http://{{ request.get_host }}{{ verify_url }}
+
+{% trans "Thanks, the Firefox OS team" %}
 {% endblock %}
