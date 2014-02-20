@@ -113,3 +113,23 @@ class SignAgreementTestCase(AgreementMixin, TestCase):
         self.assertRedirects(response, '/')
         self.assertNotIn('waiting_download', self.client.session)
         self.assertEqual(self.client.session['ready_download'], self.asset_url)
+
+    def test_process_request_without_proxy(self):
+        """Check IP of agreement with no proxy in place."""
+        self.client.post(self.agreement_url, data={'agree': 'on'})
+        agreement = Agreement.objects.get(user=self.user)
+        self.assertEqual('127.0.0.1', agreement.ip)
+
+    def test_process_request_with_proxy(self):
+        """Check IP of agreement with a single proxy in place."""
+        self.client.post(self.agreement_url, data={'agree': 'on'}, HTTP_X_FORWARDED_FOR='1.1.1.1')
+        agreement = Agreement.objects.get(user=self.user)
+        self.assertEqual('1.1.1.1', agreement.ip)
+
+    def test_process_request_with_multiple_proxies(self):
+        """Check IP of agreement with multiple proxies in place."""
+        self.client.post(self.agreement_url, data={'agree': 'on'}, HTTP_X_FORWARDED_FOR='1.1.1.1, 2.2.2.2, 3.3.3.3')
+        agreement = Agreement.objects.get(user=self.user)
+        self.assertEqual('1.1.1.1', agreement.ip)
+
+
