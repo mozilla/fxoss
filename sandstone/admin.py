@@ -16,14 +16,15 @@ rt_page_fieldsets[0][1]["fields"].insert(4, "inherit")
 rt_page_fieldsets[0][1]["fields"].insert(5, "cta_title")
 rt_page_fieldsets[0][1]["fields"].insert(6, "cta_body")
 rt_page_fieldsets[0][1]["fields"].insert(7, "content")
+rt_page_fieldsets[0][1]["fields"].insert(8, "foo")
 
 
 class SandstoneRichTextPageAdmin(PageAdmin, reversion.VersionAdmin):
     fieldsets = rt_page_fieldsets
-
+    history_latest_first = True
 
 class SandstoneFormAdmin(FormAdmin, reversion.VersionAdmin):
-    pass
+    history_latest_first = True
 
 
 admin.site.unregister(Form)
