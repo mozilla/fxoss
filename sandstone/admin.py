@@ -23,6 +23,7 @@ class SandstoneRichTextPageAdmin(PageAdmin, reversion.VersionAdmin):
     fieldsets = rt_page_fieldsets
     history_latest_first = True
 
+
 class SandstoneFormAdmin(FormAdmin, reversion.VersionAdmin):
     history_latest_first = True
 
