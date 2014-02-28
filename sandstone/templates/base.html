@@ -55,20 +55,22 @@
         {% endif %}
         {% endnevercache %}
         <div id="outer-wrapper">
-            <div id="wrapper">
-                <header id="masthead">
-                  <a href="https://www.mozilla.org/" id="tabzilla">Mozilla</a>
-                  <nav id="nav-main" role="navigation">
-                    <span class="toggle" role="button" aria-controls="nav-main-menu" tabindex="0">Menu</span>
-                    {% page_menu "pages/menus/dropdown.html" %}
-                  </nav>
-                    <div id="logo"><a href="{% url "home" %}"><img src="{% static "img/sandstone/firefox-logo.png" %}" alt="Firefox OS"></a></div>
-                    {% block masthead-content %}
-                       <article class="hero-column">
-                          <h1>{{ title }}</h1>
-                       </article>
-                    {% endblock masthead-content %}
-                </header>
+            <div id="swoop-wrapper">
+                <div id="wrapper">
+                    <header id="masthead">
+                      <a href="https://www.mozilla.org/" id="tabzilla">Mozilla</a>
+                      <nav id="nav-main" role="navigation">
+                        <span class="toggle" role="button" aria-controls="nav-main-menu" tabindex="0">Menu</span>
+                        {% page_menu "pages/menus/dropdown.html" %}
+                      </nav>
+                        <div id="logo"><a href="{% url "home" %}"><img src="{% static "img/sandstone/firefox-logo.png" %}" alt="Firefox OS"></a></div>
+                        {% block masthead-content %}
+                           <article class="hero-column">
+                              <h1>{{ title }}</h1>
+                           </article>
+                        {% endblock masthead-content %}
+                    </header>
+                </div>
             </div>
         </div>
         <div id="main-content">
