@@ -1,0 +1,45 @@
+{% extends "admin/base_site.html" %}
+
+{% load concurrency i18n%}
+
+{% block title %}{% trans "Editing Conflict Occurred" %}{% endblock %}
+
+{% block content_title %}<h1>{% trans "Editing Conflict Occurred" %}</h1>{% endblock %}
+
+{% block coltype %}flex{% endblock %}
+
+{% block content %}
+<div id="content-main">
+    <div class="result-list-container">
+        <p class="errornote">{% trans "Unable to save revision!!" %}</p>
+        <p>{% trans "Another author has saved changes to this object while you were editing. This view provides the differences between versions. You will need to copy the changes you would like to keep and re-edit the object." %}</p>
+        <p>{% trans "Fields with differences are presented for your review." %}</p>
+        <div class="result-list">
+            <table cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>{% trans "Field" %}</th>
+                        <th>{% trans "Current" %}</th>
+                        <th>{% trans "Stored" %}</th>
+                        <th>{% trans "Diff" %}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for field, current, stored, entry in diff %}
+                    {% if not field.primary_key and not field|is_version %}
+                        <tr class="{% cycle 'row1' 'row2' %}">
+                            <td>{{ field.verbose_name }}</td>
+                            <td>{{ current }}</td>
+                            <td>{{ stored }}</td>
+                            <td>{{ entry }}</td>
+                        </tr>
+                    {% endif %}
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+   </div>
+    <div><a href="{{ request_path }}">{% trans "Edit" %}</a></div>
+</div>
+{% endblock %}
+

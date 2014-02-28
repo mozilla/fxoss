@@ -269,6 +269,7 @@ INSTALLED_APPS = [
     "mezzanine.pages",
     "mezzanine.accounts",
     #"mezzanine.mobile",
+    "concurrency",
     "registration_salesforce",
     'protected_assets',
 ]
@@ -310,6 +311,7 @@ MIDDLEWARE_CLASSES = [
     # "mezzanine.core.middleware.SSLRedirectMiddleware",
     "mezzanine.pages.middleware.PageMiddleware",
     "mezzanine.core.middleware.FetchFromCacheMiddleware",
+    "concurrency.middleware.ConcurrencyMiddleware",
 ]
 
 # Store these package names here as they may change in the future since
@@ -354,6 +356,13 @@ ACCOUNTS_NO_USERNAME = True
 # set to True to include additional form fields for debugging Salesforce
 # Integration
 DEBUG_SALESFORCE = False
+
+###############################
+# django-concurrency settings #
+###############################
+
+CONCURRENCY_HANDLER409 = 'sandstone.views.conflict'
+CONCURRENCY_POLICY = 2
 
 
 #########################
