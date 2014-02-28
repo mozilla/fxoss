@@ -269,6 +269,7 @@ INSTALLED_APPS = [
     "mezzanine.pages",
     "mezzanine.accounts",
     #"mezzanine.mobile",
+    "reversion",
     "concurrency",
     "registration_salesforce",
     'protected_assets',

@@ -1,5 +1,8 @@
+import reversion
+
 from concurrency import forms
 from concurrency.admin import ConcurrencyActionMixin, ConcurrencyListEditableMixin
+from concurrency.api import disable_concurrency
 from concurrency.forms import VersionWidget
 
 from copy import deepcopy
@@ -24,22 +27,31 @@ form_page_fieldsets = deepcopy(FormAdmin.fieldsets)
 form_page_fieldsets[0][1]["fields"].insert(-1, "version")
 
 
-class SandstoneRichTextPageAdmin(ConcurrencyActionMixin,
-                                 ConcurrencyListEditableMixin,
+# Allows django-reversion and django-concurrency to work together
+class ConcurrencyReversionAdmin(reversion.VersionAdmin,
+                                ConcurrencyActionMixin,
+                                ConcurrencyListEditableMixin,):
+    def render_revision_form(self, request, obj, version, context, revert=False, recover=False):
+        with disable_concurrency(obj):
+            return super(ConcurrencyReversionAdmin, self).render_revision_form(request, obj, version, context, revert, recover)
+
+
+class SandstoneRichTextPageAdmin(ConcurrencyReversionAdmin,
                                  PageAdmin):
     fieldsets = rt_page_fieldsets
+    history_latest_first = True
     formfield_overrides = {forms.VersionField: {'widget': VersionWidget}}
 
 
-class SandstoneFormAdmin(ConcurrencyActionMixin,
-                         ConcurrencyListEditableMixin,
+class SandstoneFormAdmin(ConcurrencyReversionAdmin,
                          FormAdmin):
     fieldsets = form_page_fieldsets
+    history_latest_first = True
     formfield_overrides = {forms.VersionField: {'widget': VersionWidget}}
 
 
 admin.site.unregister(Form)
 admin.site.unregister(RichTextPage)
 
-admin.site.register(Form, SandstoneFormAdmin)
 admin.site.register(RichTextPage, SandstoneRichTextPageAdmin)
+admin.site.register(Form, SandstoneFormAdmin)
