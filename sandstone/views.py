@@ -28,12 +28,13 @@ def conflict(request, target=None, template_name='409.html'):
     try:
         saved = target.__class__._default_manager.get(pk=target.pk)
         diff = get_diff(target, saved)
+        target_url = target.__class__.get_admin_url(target)
     except target.__class__.DoesNotExists:
         saved = None
         diff = None
-
+        target_url = None
     ctx = RequestContext(request, {'target': target,
                                    'diff': diff,
                                    'saved': saved,
-                                   'request_path': request.path})
+                                   'target_url': target_url})
     return ConflictResponse(template.render(ctx))
