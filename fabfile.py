@@ -18,11 +18,10 @@ from fabric.colors import yellow, green, blue, red
 ################
 # Config setup #
 ################
-
+sys.path.append('project')
 conf = {}
 if sys.argv[0].split(os.sep)[-1] in ("fab",             # POSIX
                                      "fab-script.py"):  # Windows
-    # Ensure we import settings from the current dir
     try:
         conf = __import__("settings", globals(), locals(), [], 0).FABRIC
         try:
@@ -57,7 +56,6 @@ env.locale = conf.get("LOCALE", "en_US.UTF-8")
 env.secret_key = conf.get("SECRET_KEY", "")
 env.nevercache_key = conf.get("NEVERCACHE_KEY", "")
 
-
 ##################
 # Template setup #
 ##################
@@ -70,12 +68,13 @@ templates = {
     "nginx": {
         "local_path": "deploy/nginx.conf",
         "remote_path": "/etc/nginx/sites-enabled/%(proj_name)s.conf",
-        "reload_command": "service nginx restart",
+        "reload_command": "rm -f /etc/nginx/sites-enabled/default; service nginx restart",
     },
     "supervisor": {
         "local_path": "deploy/supervisor.conf",
         "remote_path": "/etc/supervisor/conf.d/%(proj_name)s.conf",
-        "reload_command": "supervisorctl reload",
+        "reload_command": "service supervisor stop && "
+                          "service supervisor start",
     },
     "cron": {
         "local_path": "deploy/crontab",
@@ -86,10 +85,12 @@ templates = {
     "gunicorn": {
         "local_path": "deploy/gunicorn.conf.py",
         "remote_path": "%(proj_path)s/gunicorn.conf.py",
+        "reload_command": "supervisorctl restart %(proj_name)s:"
+                          "gunicorn_%(proj_name)s"
     },
     "settings": {
         "local_path": "deploy/live_settings.py",
-        "remote_path": "%(proj_path)s/settings/local.py",
+        "remote_path": "%(proj_path)s/project/settings/local.py",
     },
 }
 
@@ -204,7 +205,9 @@ def get_templates():
     return injected
 
 
-def upload_template_and_reload(name):
+@task
+@log_call
+def upload_template_and_reload(name, force=False):
     """
     Uploads a template only if it has changed, and if so, reload a
     related service.
@@ -230,7 +233,7 @@ def upload_template_and_reload(name):
             env.db_pass = db_pass()
         local_data %= env
     clean = lambda s: s.replace("\n", "").replace("\r", "").strip()
-    if clean(remote_data) == clean(local_data):
+    if clean(remote_data) == clean(local_data) and not force:
         return
     upload_template(local_path, remote_path, env, use_sudo=True, backup=False)
     if owner:
@@ -307,7 +310,7 @@ def python(code, show=True):
     """
     Runs Python code in the project's virtual environment, with Django loaded.
     """
-    setup = "import os; os.environ[\'DJANGO_SETTINGS_MODULE\']=\'settings\';"
+    setup = "import os; os.environ[\'DJANGO_SETTINGS_MODULE\']=\'project.settings\';"
     full_code = 'python -c "%s%s"' % (setup, code.replace("`", "\\\`"))
     with project():
         result = run(full_code, show=False)
@@ -351,20 +354,14 @@ def install():
     apt("nginx libjpeg-dev python-dev python-setuptools git-core "
         "postgresql libpq-dev memcached supervisor")
     sudo("easy_install pip")
-    sudo("pip install virtualenv mercurial")
+    sudo("pip install virtualenv mercurial virtualenvwrapper")
 
 
 @task
 @log_call
-def create():
-    """
-    Create a new virtual environment for a project.
-    Pulls the project's repo from version control, adds system-level
-    configs for the project, and initialises the database with the
-    live host.
-    """
-
-    # Create virtualenv
+def create_virtualenv():
+    if not exists(env.venv_home):
+        run('mkdir -p %s' % env.venv_home)
     with cd(env.venv_home):
         if exists(env.proj_name):
             prompt = input("\nVirtualenv exists: %s\nWould you like "
@@ -377,7 +374,8 @@ def create():
         vcs = "git" if env.git else "hg"
         run("%s clone %s %s" % (vcs, env.repo_url, env.proj_path))
 
-    # Create DB and DB user.
+
+def create_database_user_and_database():
     pw = db_pass()
     user_sql_args = (env.proj_name, pw.replace("'", "\'"))
     user_sql = "CREATE USER %s WITH ENCRYPTED PASSWORD '%s';" % user_sql_args
@@ -388,7 +386,10 @@ def create():
          "LC_CTYPE = '%s' LC_COLLATE = '%s' TEMPLATE template0;" %
          (env.proj_name, env.proj_name, env.locale, env.locale))
 
-    # Set up SSL certificate.
+
+@task
+@log_call
+def upload_ssl_cert():
     conf_path = "/etc/nginx/conf"
     if not exists(conf_path):
         sudo("mkdir %s" % conf_path)
@@ -407,19 +408,39 @@ def create():
                 upload_template(crt_local, crt_file, use_sudo=True)
                 upload_template(key_local, key_file, use_sudo=True)
 
-    # Set up project.
-    upload_template_and_reload("settings")
+
+
+def pip_install_requirements():
     with project():
         if env.reqs_path:
             pip("-r %s/%s" % (env.proj_path, env.reqs_path))
         pip("gunicorn setproctitle south psycopg2 "
             "django-compressor python-memcached")
+
+
+@task
+@log_call
+def createdb():
+    create_database_user_and_database()
+    with project():
         manage("createdb --noinput --nodata")
+
+
+@task
+@log_call
+def create_or_update_site():
+    with project():
         python("from django.conf import settings;"
                "from django.contrib.sites.models import Site;"
                "site, _ = Site.objects.get_or_create(id=settings.SITE_ID);"
                "site.domain = '" + env.live_host + "';"
                "site.save();")
+
+
+@task
+@log_call
+def set_admin_password():
+    with project():
         if env.admin_pass:
             pw = env.admin_pass
             user_py = ("from mezzanine.utils.models import get_user_model;"
@@ -432,7 +453,32 @@ def create():
             shadowed = "*" * len(pw)
             print_command(user_py.replace("'%s'" % pw, "'%s'" % shadowed))
 
+
+@task
+@log_call
+def create():
+    """
+    Create a new virtual environment for a project.
+    Pulls the project's repo from version control, adds system-level
+    configs for the project, and initialises the database with the
+    live host.
+    """
+
+    create_virtualenv()
+    upload_template_and_reload("settings")
+    pip_install_requirements()
+    createdb()
+    create_or_update_site()
+    set_admin_password()
+
     return True
+
+
+@task
+@log_call
+def drop_database_and_user():
+    psql("DROP DATABASE IF EXISTS %s;" % env.proj_name)
+    psql("DROP USER IF EXISTS %s;" % env.proj_name)
 
 
 @task
@@ -447,8 +493,7 @@ def remove():
         remote_path = template["remote_path"]
         if exists(remote_path):
             sudo("rm %s" % remote_path)
-    psql("DROP DATABASE IF EXISTS %s;" % env.proj_name)
-    psql("DROP USER IF EXISTS %s;" % env.proj_name)
+    drop_database_and_user()
 
 
 ##############
@@ -457,16 +502,14 @@ def remove():
 
 @task
 @log_call
-def restart():
-    """
-    Restart gunicorn worker processes for the project.
-    """
-    pid_path = "%s/gunicorn.pid" % env.proj_path
-    if exists(pid_path):
-        sudo("kill -HUP `cat %s`" % pid_path)
+def gunicorn(action):
+    if action.upper() == 'HUP':
+        pid_path = "%s/gunicorn.pid" % env.proj_path
+        if exists(pid_path):
+            sudo("kill -HUP `cat %s`" % pid_path)
     else:
-        start_args = (env.proj_name, env.proj_name)
-        sudo("supervisorctl start %s:gunicorn_%s" % start_args)
+        sudo("supervisorctl %s %s:gunicorn_%s" %
+             (action, env.proj_name, env.proj_name))
 
 
 @task
@@ -501,7 +544,7 @@ def deploy():
         manage("collectstatic -v 0 --noinput")
         manage("syncdb --noinput")
         manage("migrate --noinput")
-    restart()
+    gunicorn('restart')
     return True
 
 
