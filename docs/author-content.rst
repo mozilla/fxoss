@@ -120,19 +120,27 @@ of an existing Page via the front end.
 
 Download Agreement
 -------------------------
+The download agreement is located in the **Protected_Assets** section, under
+**Agreements**. Here you can see a list of all past and current agreements.
 
-The download agreement is a special case of a **Page** record. The content of
-the page should be the agreement text. The slug of the agreement should be *download-agreement*.
-This can be changed by opening the **Meta data** section at the bottom of the page
-editor and setting *download-agreement* in the **URL** field. This page should also be
-marked as **Login Required** using the checkbox in the editor.
+When the download agreement changes, you will need to add a new entry in the
+agreement list:
 
-It is also possible to change the version of the agreement. Changing the version will
-force all users to resign the agreement. This is managed under the site settings:
+  1. Click **Agreements**.
+  2. Click **Add Agreement** in the top right of the listing.
+  3. Enter a version name and select the PDF file for the new agreement.
+  4. Click **Save**.
 
-  1. Navigate to the **Site > Settings** from the Dashboard
-  2. Change the **Download Agreement Version** under **Miscellaneous**
-  3. Press **Save**
+You will also need to update the **Download Agreement Version** setting to
+match the version of the agreement you just added:
+
+  1. Navigate to the **Site > Settings** from the Dashboard.
+  2. Change the **Download Agreement Version** under **Miscellaneous** to match
+     **exactly** the version of the current agreement.
+  3. Press **Save**.
+
+You may also see a list of signed agreements, including which specific version
+was signed, under the **Protected_Assets > Signed Agreements** section.
 
 Protected Downloads
 -------------------------

@@ -8,12 +8,15 @@
 
 {% block main %}
 <div id='download-agreement'>
-    {{ block.super }}
+    <iframe src="{% static "pdfjs/web/viewer.html" %}?file={{ agreement.url }}"></iframe>
 </div>
 <form id='agreement-form' action='' method='post'>{% csrf_token %}
     <div class="form-actions">
         <button class="primary button" type="submit" value="agree" name="agree">{% trans "Agree" %}</button>
         <a class="button button-negative" href="/">{% trans "Cancel" %}</a>
+        <a class="secondary button insensitive" href="{{ agreement.url }}">
+            <i class="fa fa-download"></i> {% trans "Download" %}
+        </a>
         <a id="print" class="secondary button insensitive" rel="print">
             <i class="fa fa-print"></i> {% trans "Print" %}
         </a>

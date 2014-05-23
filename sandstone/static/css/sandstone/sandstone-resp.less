@@ -1636,6 +1636,7 @@ form {
     }
     .form-actions .secondary {
         float: right;
+        margin-left: 5px;
     }
     .help-block {
         margin: 0;
@@ -1701,10 +1702,14 @@ form {
 /* {{{ Download Agreement */
 #download-agreement {
     height: @userAgreementHeight;
-    overflow-y: scroll;
     margin: 0 0 50px;
-    padding: 15px;
+    padding: 2px;
     .inset;
+
+    iframe {
+        width: 100%;
+        height: 100%;
+    }
 }
 /* }}} */
 
