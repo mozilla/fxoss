@@ -6,6 +6,7 @@ from django.utils.translation import ugettext_lazy as _
 
 class Agreement(models.Model):
     """Marketing agreement that users can sign."""
+    name = models.CharField(max_length=255, default='Prototype Branding Agreement')
     version = models.CharField(max_length=20, unique=True)
     created = models.DateTimeField(default=now, editable=False)
 
@@ -23,7 +24,6 @@ class Agreement(models.Model):
 
 class SignedAgreement(models.Model):
     """Record of user signing the user agreement."""
-
     user = models.ForeignKey(settings.AUTH_USER_MODEL,
         help_text=_('User which signed the agreement.'))
     timestamp = models.DateTimeField(default=now,
@@ -32,3 +32,6 @@ class SignedAgreement(models.Model):
         help_text=_('IP address of the signing request.'))
     agreement = models.ForeignKey(Agreement, null=True,
                                   help_text=_('Version of the agreement which was signed.'))
+
+    class Meta:
+        ordering = ['-timestamp']
