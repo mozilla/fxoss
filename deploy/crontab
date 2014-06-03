@@ -1,1 +1,9 @@
-#*/5 * * * * %(user)s %(manage)s poll_twitter
+#min hour dom month dow user cmd
+{% if pg_backup_dir -%}
+0 * * * * postgres {{pg_backup_dir}}/backup_db
+0 0 * * * postgres {{pg_backup_dir}}/rotate_db_backups
+{%- endif %}
+{% if media_backup_dir -%}
+0 * * * * {{user}} rsync -av {{proj_path}}/media/ {{media_backup_dir}}
+{%- endif %}
+

@@ -1,0 +1,2 @@
+#!/bin/bash
+pg_dump {{proj_name}} | gzip > {{pg_backup_dir}}/{{proj_name}}-`date +%FT%T`.sql.gz
