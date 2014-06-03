@@ -16,12 +16,6 @@ from mezzanine.utils.views import render
 from .forms import UserRegistrationLeadForm
 
 
-SALESFORCE_FIELD_MAPPINGS = {
-    'type_of_device': '00NU0000003WwlV',
-    'mobile_product_interest': '00NU0000003WwlQ'
-}
-
-
 def signup(request, template="accounts/account_signup.html"):
     """
     Signup form.
@@ -38,22 +32,6 @@ def signup(request, template="accounts/account_signup.html"):
 
         # save the user
         new_user = form.save()
-
-        # Generate Salesforce Lead
-        # Pop non-Salesforce Fields
-        for field in ['password1', 'password2']:
-            data.pop(field)
-        for k, v in SALESFORCE_FIELD_MAPPINGS.items():
-            data[v] = data.pop(k)
-        data['oid'] = '00DU0000000IrgO'
-        # As we're doing the Salesforce POST in the background here,
-        # `retURL` is never visited/seen by the user. I believe it
-        # is required by Salesforce though, so it should hang around
-        # as a placeholder (with a valid URL, just in case).
-        data['retURL'] = (request.build_absolute_uri())
-
-        r = requests.post('https://www.salesforce.com/servlet/'
-                          'servlet.WebToLead?encoding=UTF-8', data)
 
         if not new_user.is_active:
             if settings.ACCOUNTS_APPROVAL_REQUIRED:

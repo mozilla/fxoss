@@ -25,19 +25,18 @@ class RegistrationTestCase(TestCase):
         response = self.client.get(self.url)
         self.assertEqual(response.status_code, 200)
 
-    @patch('requests.post')
-    def test_successful_post(self, sf_post):
+    def test_successful_post(self):
         """
         A successful POST request
         """
         response = self.client.post(self.url, data=self.data)
-        self.assertTrue(sf_post.called)
         self.assertEqual(response.status_code, 302)
         users = User.objects.all()
         self.assertEqual(1, users.count())
         user = users[0]
         self.assertFalse(user.is_active)
         self.assertEqual(self.data['first_name'], user.first_name)
+        self.assertFalse(user.profile.salesforce_id)
 
     @patch('requests.post')
     def test_honeypot_post(self, sf_post):

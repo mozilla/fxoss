@@ -14,7 +14,19 @@ from mezzanine.core.forms import Html5Mixin
 from mezzanine.utils.models import get_user_model
 from mezzanine.utils.urls import slugify, unique_slug
 
+from .models import Profile
+
+
 User = get_user_model()
+
+
+def create_or_update_profile(user, data):
+    profile_kwargs = {field.name: data[field.name]
+                      for field in Profile._meta.fields
+                      if data.get(field.name)}
+
+    if not Profile.objects.filter(user=user).update(**profile_kwargs):
+        Profile.objects.create(user=user, **profile_kwargs)
 
 
 class HoneyPotWidget(widgets.CheckboxInput):
@@ -39,53 +51,6 @@ class UserRegistrationLeadForm(Html5Mixin, forms.ModelForm):
     NOTE: Profile Model field injection as defined by ``AUTH_PROFILE_MODULE``
     is disabled in this implementation!
     """
-    INDUSTRY_CHOICES = (
-        ('', '--None--'),
-        ('Agriculture', 'Agriculture'),
-        ('Apparel', 'Apparel'),
-        ('Banking', 'Banking'),
-        ('Biotechnology', 'Biotechnology'),
-        ('Chemicals', 'Chemicals'),
-        ('Communications', 'Communications'),
-        ('Construction', 'Construction'),
-        ('Consulting', 'Consulting'),
-        ('Education', 'Education'),
-        ('Electronics', 'Electronics'),
-        ('Energy', 'Energy'),
-        ('Engineering', 'Engineering'),
-        ('Entertainment', 'Entertainment'),
-        ('Environmental', 'Environmental'),
-        ('Finance', 'Finance'),
-        ('Food &amp; Beverage', 'Food &amp; Beverage'),
-        ('Government', 'Government'),
-        ('Healthcare', 'Healthcare'),
-        ('Hospitality', 'Hospitality'),
-        ('Insurance', 'Insurance'),
-        ('Machinery', 'Machinery'),
-        ('Manufacturing', 'Manufacturing'),
-        ('Media', 'Media'),
-        ('Not For Profit', 'Not For Profit'),
-        ('Other', 'Other'),
-        ('Recreation', 'Recreation'),
-        ('Retail', 'Retail'),
-        ('Shipping', 'Shipping'),
-        ('Technology', 'Technology'),
-        ('Telecommunications', 'Telecommunications'),
-        ('Transportation', 'Transportation'),
-        ('Utilities', 'Utilities'),
-    )
-
-    DEVICE_CHOICES = (
-        ('Tablet', 'Tablet'),
-        ('Wearable', 'Wearable'),
-        ('Other', 'Other'),
-    )
-
-    INTEREST_CHOICES = (
-        ('Firefox OS', 'Firefox OS'),
-        ('Firefox Marketplace', 'Firefox Marketplace'),
-        ('Other', 'Other'),
-    )
 
     password1 = forms.CharField(label=_("Password"),
                                 widget=forms.PasswordInput(render_value=False))
@@ -211,17 +176,17 @@ class UserRegistrationLeadForm(Html5Mixin, forms.ModelForm):
 
     industry = forms.ChoiceField(
         required=False,
-        choices=INDUSTRY_CHOICES
+        choices=Profile.INDUSTRY_CHOICES
     )
 
     type_of_device = forms.MultipleChoiceField(
         required=False,
-        choices=DEVICE_CHOICES
+        choices=Profile.DEVICE_CHOICES
     )
 
     mobile_product_interest = forms.MultipleChoiceField(
         required=False,
-        choices=INTEREST_CHOICES
+        choices=Profile.INTEREST_CHOICES
     )
 
     description = forms.CharField(
@@ -351,4 +316,6 @@ class UserRegistrationLeadForm(Html5Mixin, forms.ModelForm):
                 user = authenticate(uidb36=int_to_base36(user.id),
                                     token=token,
                                     is_active=True)
+
+        create_or_update_profile(user, self.cleaned_data)
         return user
