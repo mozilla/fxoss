@@ -1,23 +1,62 @@
-# -*- coding: utf-8 -*-
-from south.utils import datetime_utils as datetime
 from south.db import db
 from south.v2 import SchemaMigration
-from django.db import models
 
 
 class Migration(SchemaMigration):
+    depends_on = (
+        ("pages", "0009_add_field_page_in_menus"),
+        ("forms", "0005_auto__chg_field_fieldentry_value"),
+    )
 
     def forwards(self, orm):
+        # Adding field 'Page.intro'
+        db.add_column(u'pages_page', u'intro',
+                      self.gf('django.db.models.fields.TextField')(default=u''),
+                      keep_default=False)
+
+        # Adding field 'Page.cta_title'
+        db.add_column(u'pages_page', u'cta_title',
+                      self.gf('django.db.models.fields.CharField')(default=u'', max_length=128, blank=True),
+                      keep_default=False)
+
+        # Adding field 'Page.cta_body'
+        db.add_column(u'pages_page', u'cta_body',
+                      self.gf('mezzanine.core.fields.RichTextField')(default=u'', blank=True),
+                      keep_default=False)
+
+        # Adding field 'Page.inherit'
+        db.add_column(u'pages_page', u'inherit',
+                      self.gf('django.db.models.fields.BooleanField')(default=False),
+                      keep_default=False)
+
         # Adding field 'Form.version'
         db.add_column(u'forms_form', 'version',
                       self.gf('concurrency.fields.IntegerVersionField')(name='version', db_tablespace=''),
                       keep_default=False)
 
+        # Adding field 'RichTextPage.version'
+        db.add_column(u'pages_richtextpage', 'version',
+                      self.gf('concurrency.fields.IntegerVersionField')(name='version', db_tablespace=''),
+                      keep_default=False)
 
     def backwards(self, orm):
+        # Deleting field 'RichTextPage.version'
+        db.delete_column(u'pages_richtextpage', 'version')
+
         # Deleting field 'Form.version'
         db.delete_column(u'forms_form', 'version')
 
+        # Deleting field 'Page.inherit'
+        db.delete_column(u'pages_page', u'inherit')
+
+        # Deleting field 'Page.cta_title'
+        db.delete_column(u'pages_page', u'cta_title')
+
+        # Deleting field 'Page.cta_body'
+        db.delete_column(u'pages_page', u'cta_body')
+
+        # Deleting field 'Page.intro'
+        db.delete_column(u'pages_page', u'intro')
 
     models = {
         u'forms.field': {
@@ -60,6 +99,10 @@ class Migration(SchemaMigration):
             'form': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "u'entries'", 'to': u"orm['forms.Form']"}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'})
         },
+        u'pages.link': {
+            'Meta': {'ordering': "(u'_order',)", 'object_name': 'Link', '_ormbases': [u'pages.Page']},
+            u'page_ptr': ('django.db.models.fields.related.OneToOneField', [], {'to': u"orm['pages.Page']", 'unique': 'True', 'primary_key': 'True'})
+        },
         u'pages.page': {
             'Meta': {'ordering': "(u'titles',)", 'object_name': 'Page'},
             '_meta_title': ('django.db.models.fields.CharField', [], {'max_length': '500', 'null': 'True', 'blank': 'True'}),
@@ -88,6 +131,12 @@ class Migration(SchemaMigration):
             'titles': ('django.db.models.fields.CharField', [], {'max_length': '1000', 'null': 'True'}),
             'updated': ('django.db.models.fields.DateTimeField', [], {'null': 'True'})
         },
+        u'pages.richtextpage': {
+            'Meta': {'ordering': "(u'_order',)", 'object_name': 'RichTextPage', '_ormbases': [u'pages.Page']},
+            'content': ('mezzanine.core.fields.RichTextField', [], {}),
+            u'page_ptr': ('django.db.models.fields.related.OneToOneField', [], {'to': u"orm['pages.Page']", 'unique': 'True', 'primary_key': 'True'}),
+            'version': ('concurrency.fields.IntegerVersionField', [], {'name': "'version'", 'db_tablespace': "''"})
+        },
         u'sites.site': {
             'Meta': {'ordering': "(u'domain',)", 'object_name': 'Site', 'db_table': "u'django_site'"},
             'domain': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
@@ -96,4 +145,4 @@ class Migration(SchemaMigration):
         }
     }
 
-    complete_apps = ['forms']
+    complete_apps = ['pages', 'forms']
