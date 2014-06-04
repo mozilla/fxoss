@@ -84,10 +84,6 @@ EXTRA_MODEL_FIELDS = (
 #
 # BLOG_USE_FEATURED_IMAGE = True
 
-# If True, the south application will be automatically added to the
-# INSTALLED_APPS setting.
-USE_SOUTH = True
-
 # Content Authors are trusted internal authors, they do not need filtering of
 # HTML via the WYSIWYG editor
 RICHTEXT_FILTER_LEVEL = 3
@@ -273,6 +269,8 @@ INSTALLED_APPS = [
     "concurrency",
     "registration_salesforce",
     'protected_assets',
+    'south',
+    'django_nose',
 ]
 
 
@@ -402,3 +400,9 @@ except ImportError:
     pass
 else:
     set_dynamic_settings(globals())
+
+###########
+# TESTING #
+###########
+
+TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
