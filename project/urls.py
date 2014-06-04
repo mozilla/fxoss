@@ -17,10 +17,8 @@ admin.autodiscover()
 # to the project's homepage.
 
 urlpatterns = i18n_patterns("",
-    # Change the admin prefix here to use an alternate URL for the
-    # admin interface, which would be marginally more secure.
-    (r"^admin/", include(admin.site.urls)),
     (r'^', include('protected_assets.urls')),
+    (r"^admin/", include(admin.site.urls)),
 )
 
 # Protected downloads

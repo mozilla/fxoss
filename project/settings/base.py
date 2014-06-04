@@ -406,3 +406,4 @@ else:
 ###########
 
 TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
+NOSE_ARGS = ['--logging-filter=-concurrency,-south']
