@@ -4,3 +4,33 @@
 {% block account_form_actions %}
     <button class="primary button button-blue arrow" type="submit" value="{{ title }}"><span>{% trans "Update Profile" %}</span></button>
 {% endblock %}
+
+{% block main %}
+  {{ block.super }}
+
+  <h2>{% trans "Signed Agreements" %}</h2>
+  {% if user.signedagreement_set.all %}
+    <table class="table">
+      <thead>
+        <tr>
+          <th>{% trans "Name" %}</th>
+          <th>{% trans "Version" %}</th>
+          <th>{% trans "Date" %}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for signed_agreement in user.signedagreement_set.all %}
+          <tr>
+            <td>
+              <a href="{{ signed_agreement.agreement.agreement_pdf.url }}">
+                {{ signed_agreement.agreement.name }}
+              </a>
+            </td>
+            <td>{{ signed_agreement.agreement.version }}</td>
+            <td>{{ signed_agreement.timestamp|date:"DATE_FORMAT" }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% endif %}
+{% endblock %}
