@@ -3,9 +3,9 @@ from __future__ import unicode_literals
 SECRET_KEY = "%(secret_key)s"
 NEVERCACHE_KEY = "%(nevercache_key)s"
 
-DEFAULT_FROM_EMAIL = "%(default_from_email)"
-EMAIL_HOST = "%(email_host)"
-SERVER_EMAIL = "%(server_email)"
+DEFAULT_FROM_EMAIL = "%(default_from_email)s"
+EMAIL_HOST = "%(email_host)s"
+SERVER_EMAIL = "%(server_email)s"
 
 DATABASES = {
     "default": {
