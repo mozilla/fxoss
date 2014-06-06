@@ -3,6 +3,10 @@ from __future__ import unicode_literals
 SECRET_KEY = "%(secret_key)s"
 NEVERCACHE_KEY = "%(nevercache_key)s"
 
+DEFAULT_FROM_EMAIL = "%(default_from_email)"
+EMAIL_HOST = "%(email_host)"
+SERVER_EMAIL = "%(server_email)"
+
 DATABASES = {
     "default": {
         # Ends with "postgresql_psycopg2", "mysql", "sqlite3" or "oracle".

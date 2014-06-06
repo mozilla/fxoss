@@ -56,6 +56,11 @@ env.locale = conf.get("LOCALE", "en_US.UTF-8")
 env.secret_key = conf.get("SECRET_KEY", "")
 env.nevercache_key = conf.get("NEVERCACHE_KEY", "")
 
+env.default_from_email = conf.get("DEFAULT_FROM_EMAIL", "")
+env.email_host = conf.get("EMAIL_HOST", "")
+env.server_email = conf.get("SERVER_EMAIL", "")
+
+
 ##################
 # Template setup #
 ##################

@@ -53,5 +53,8 @@ DATABASES = {
 #     "ADMIN_PASS": "", # Live admin user password
 #     "SECRET_KEY": SECRET_KEY,
 #     "NEVERCACHE_KEY": NEVERCACHE_KEY,
+#     "DEFAULT_FROM_EMAIL": "", 
+#     "EMAIL_HOST": "",
+#     "SERVER_EMAIL": ""
 # }
 
