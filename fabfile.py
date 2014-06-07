@@ -59,6 +59,7 @@ env.nevercache_key = conf.get("NEVERCACHE_KEY", "")
 env.default_from_email = conf.get("DEFAULT_FROM_EMAIL", "")
 env.email_host = conf.get("EMAIL_HOST", "")
 env.server_email = conf.get("SERVER_EMAIL", "")
+env.basic_auth = conf.get("BASIC_AUTH", "")
 
 
 ##################
@@ -74,6 +75,11 @@ templates = {
         "local_path": "deploy/nginx.conf",
         "remote_path": "/etc/nginx/sites-enabled/%(proj_name)s.conf",
         "reload_command": "rm -f /etc/nginx/sites-enabled/default; service nginx restart",
+        "jinja": "true"
+    },
+    "basic_auth": {
+        "local_path": "deploy/auth.conf",
+        "remote_path": "/etc/nginx/auth.conf",
     },
     "supervisor": {
         "local_path": "deploy/supervisor.conf",
@@ -230,17 +236,23 @@ def upload_template_and_reload(name, force=False):
     if exists(remote_path):
         with hide("stdout"):
             remote_data = sudo("cat %s" % remote_path, show=False)
-    with open(local_path, "r") as f:
-        local_data = f.read()
-        # Escape all non-string-formatting-placeholder occurrences of '%':
-        local_data = re.sub(r"%(?!\(\w+\)s)", "%%", local_data)
-        if "%(db_pass)s" in local_data:
-            env.db_pass = db_pass()
-        local_data %= env
+    if template.get('jinja'):
+        from jinja2 import Environment, FileSystemLoader
+        jenv = Environment(loader=FileSystemLoader('.'))
+        local_data = jenv.get_template(local_path).render(**env).encode('utf-8')
+    else:
+        with open(local_path, "r") as f:
+            local_data = f.read()
+            # Escape all non-string-formatting-placeholder occurrences of '%':
+            local_data = re.sub(r"%(?!\(\w+\)s)", "%%", local_data)
+            if "%(db_pass)s" in local_data:
+                env.db_pass = db_pass()
+            local_data %= env
     clean = lambda s: s.replace("\n", "").replace("\r", "").strip()
     if clean(remote_data) == clean(local_data) and not force:
         return
-    upload_template(local_path, remote_path, env, use_sudo=True, backup=False)
+    upload_template(local_path, remote_path, env, use_sudo=True, backup=False,
+                    use_jinja=template.get('jinja'))
     if owner:
         sudo("chown %s %s" % (owner, remote_path))
     if mode:
