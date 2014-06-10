@@ -2,10 +2,6 @@
 {% load i18n staticfiles %}
 
 
-{% block extra_js %}
-    <script src="{% static "js/libs/printThis.js" %}"></script>
-{% endblock %}
-
 {% block main %}
 <div id='download-agreement'>
     <iframe src="{% static "pdfjs/web/viewer.html" %}?file={{ agreement.url }}"></iframe>
@@ -17,18 +13,6 @@
         <a class="secondary button insensitive" href="{{ agreement.url }}">
             <i class="fa fa-download"></i> {% trans "Download" %}
         </a>
-        <a id="print" class="secondary button insensitive" rel="print">
-            <i class="fa fa-print"></i> {% trans "Print" %}
-        </a>
     </div>
 </form>
-<script type="text/javascript">
-$("#print" ).click(function(e) {
-    e.preventDefault();
-    $("#download-agreement").printThis({
-        pageTitle: "Download Agreement"
-    });
-});
-</script>
-
 {% endblock %}
