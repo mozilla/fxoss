@@ -22,7 +22,7 @@ class LinkAdmin(BaseLinkAdmin):
 
 
 class AgreementAdmin(admin.ModelAdmin):
-    list_display = ('version', 'agreement_pdf', 'created')
+    list_display = ('name', 'version', 'created')
 
 
 admin.site.unregister(Link)
