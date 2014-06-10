@@ -8,8 +8,8 @@
 {% block main %}
   {{ block.super }}
 
-  <h2>{% trans "Signed Agreements" %}</h2>
   {% if user.signedagreement_set.all %}
+    <h2>{% trans "Signed Agreements" %}</h2>
     <table class="table">
       <thead>
         <tr>
