@@ -1,16 +1,20 @@
 from __future__ import unicode_literals
 
+import csv
+from datetime import datetime
 from urllib import urlencode
 
 from django.contrib.auth import get_user_model
 from django.core.urlresolvers import reverse
 from django.test import TestCase
 from django.test.utils import override_settings
+from django.utils import timezone
 from django.utils.translation import activate
 
-from mezzanine.conf import settings
+from mock import patch
 
 from .models import Agreement, SignedAgreement
+from .views import export_csv
 
 
 User = get_user_model()
@@ -143,3 +147,40 @@ class SignAgreementTestCase(AgreementMixin, TestCase):
             self.assertEqual(response.status_code, 404)
 
 
+def aware_datetime(*args, **kwargs):
+    dt = datetime(*args, **kwargs)
+    return timezone.make_aware(dt, timezone.utc)
+
+
+class TestExportCSV(TestCase):
+    def test_export_csv(self):
+        User.objects.create_user('lloyd', 'lloyd@example.com')
+        User.objects.create_user('kratos', 'kratos@example.com')
+        def generate_row(user):
+            return (user.username, user.email)
+
+        with patch('protected_assets.admin.timezone') as mock_timezone:
+            mock_timezone.now.return_value = aware_datetime(2014, 4, 1, 6, 5, 4)
+            response = export_csv(User.objects.order_by('id'), ('username', 'email'), generate_row)
+
+        # We're kind've testing strftime below, but the bug required the
+        # CSV to match what the admin interface shows, so we want to
+        # make sure it matches pretty closely, including the formatting
+        # of dates.
+        self.assertEqual(response['Content-Type'], 'text/csv')
+        self.assertEqual(response['Content-Disposition'],
+                         'attachment; filename=user_2014_04_01_06:05:04.csv')
+        self.assertEqual(response['Cache-Control'], 'no-cache')
+
+        reader = csv.reader(response)
+        rows = list(reader)
+
+        # Initial empty row shows up in the tests, but when I read the
+        # CSV with LibreOffice or a text editor it doesn't exist, so
+        # whatever.
+        self.assertEqual(rows, [
+            [],
+            ['username', 'email'],
+            ['lloyd', 'lloyd@example.com'],
+            ['kratos', 'kratos@example.com'],
+        ])

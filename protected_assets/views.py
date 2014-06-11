@@ -1,5 +1,6 @@
 from __future__ import unicode_literals
 
+import csv
 import os
 import urllib
 
@@ -7,6 +8,7 @@ from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
+from django.utils import timezone
 from django.utils.http import is_safe_url
 from django.views.static import serve
 
@@ -79,3 +81,38 @@ def sign_agreement(request):
         'form': form,
         'agreement': agreement,
     })
+
+
+def export_csv(queryset, column_names, generate_row):
+    """
+    Create an HTTPResponse containing a CSV of items from a queryset.
+
+    :param queryset:
+        Queryset to pull rows from.
+    :param column_names:
+        Tuple of column names for the rows that generate_row outputs.
+    :param generate_row:
+        Callable that takes a model object and returns a tuple of column
+        values for the row representing that object.
+    """
+    filename = timezone.now().strftime(
+        '{0}_%Y_%m_%d_%H:%M:%S.csv'.format(queryset.model._meta.model_name))
+
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename={0}'.format(filename)
+    response['Cache-Control'] = 'no-cache'
+
+    writer = csv.writer(response)
+    writer.writerow(column_names)
+    for sa in queryset:
+        writer.writerow(generate_row(sa))
+
+    return response
+
+
+def export_signedagreement_csv(request):
+    def generate_row(sa):
+        return (sa.user, sa.timestamp.strftime('%B %d, %Y %I:%M %p'), sa.agreement, sa.ip)
+
+    return export_csv(SignedAgreement.objects.all(), ('username', 'timestamp', 'agreement', 'ip'),
+                      generate_row)

@@ -5,7 +5,6 @@ from django.contrib import admin
 from mezzanine.pages.admin import LinkAdmin as BaseLinkAdmin
 from mezzanine.pages.models import Link
 
-
 from protected_assets.models import Agreement, SignedAgreement
 
 
@@ -13,6 +12,7 @@ class SignedAgreementAdmin(admin.ModelAdmin):
     list_display = ('user', 'timestamp', 'agreement', 'ip', )
     list_filter = ('timestamp', 'agreement', )
     date_hierarchy = 'timestamp'
+    change_list_template = 'protected_assets/admin/signedagreement_change_list.html'
 
 
 class LinkAdmin(BaseLinkAdmin):

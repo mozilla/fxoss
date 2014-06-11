@@ -19,7 +19,7 @@ class Agreement(models.Model):
         return self.agreement_pdf.url
 
     def __unicode__(self):
-        return self.version
+        return self.name + ' ' + self.version
 
 
 class SignedAgreement(models.Model):
