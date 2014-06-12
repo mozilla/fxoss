@@ -1,0 +1,3 @@
+#!/bin/bash
+cd {{pg_backup_dir}}
+rm -f {{proj_name}}-`date +%F -d '4 days ago'`*.sql.gz
