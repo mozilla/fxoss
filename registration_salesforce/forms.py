@@ -5,6 +5,7 @@ from django import forms
 from django.forms import widgets
 from django.contrib.auth import authenticate
 from django.contrib.auth.tokens import default_token_generator
+from django.utils import timezone
 from django.utils.http import int_to_base36
 from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext as _
@@ -21,6 +22,7 @@ User = get_user_model()
 
 
 def create_or_update_profile(user, data):
+    data['modified'] = timezone.now()
     profile_kwargs = {field.name: data[field.name]
                       for field in Profile._meta.fields
                       if data.get(field.name)}
