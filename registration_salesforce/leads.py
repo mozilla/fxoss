@@ -1,26 +1,11 @@
 from django.conf import settings
 from django.contrib.auth.models import User
-from django.core.mail import mail_admins
-from django.db.models import F, Q
+from django.db.models import F
 from django.utils import timezone
 from simple_salesforce import Salesforce
 from simple_salesforce.api import SalesforceMalformedRequest
 
 from .models import Profile
-
-
-LEAD_FIELDS = [
-    'Id', 'IsDeleted', 'MasterRecordId', 'LastName', 'FirstName',
-    'Salutation', 'Name', 'Title', 'Company', 'Street', 'City', 'State',
-    'PostalCode', 'Country', 'Latitude', 'Longitude', 'Phone', 'Email',
-    'Website', 'Description', 'LeadSource', 'Status', 'Industry', 'Rating',
-    'AnnualRevenue', 'NumberOfEmployees', 'OwnerId', 'IsConverted',
-    'ConvertedDate', 'ConvertedAccountId', 'ConvertedContactId',
-    'ConvertedOpportunityId', 'IsUnreadByOwner', 'CreatedDate',
-    'CreatedById', 'LastModifiedDate', 'LastModifiedById', 'SystemModstamp',
-    'LastActivityDate', 'LastViewedDate', 'LastReferencedDate', 'JigsawContactId',
-    'EmailBouncedReason', 'EmailBouncedDate', 'Interest__c', 'Type_of_Device__c',
-    'MobileProductInterest__c']
 
 
 LEAD_USER = {
@@ -32,15 +17,21 @@ LEAD_USER = {
 
 LEAD_PROFILE = {
     'Title': 'title',
+    'Legal_Entity__c': 'legal_entity',
     'Company': 'company',
-    'Phone': 'phone',
-    #TODO: create 'Mobile' column in salesforce lead
+    'Company_Zip_Code__c': 'company_zip_code',
+    'Website': 'website',
+    'Street__c': 'street',
     'City': 'city',
     'State': 'state',
+    'Zip_Code__c': 'zip_code',
     'Country': 'country',
+    'Phone': 'phone',
+    'Mobile__c': 'mobile',
     'Industry': 'industry',
     'Type_of_Device__c': 'type_of_device',
     'MobileProductInterest__c': 'mobile_product_interest',
+    'Language_Preference__c': 'language_preference',
     'Description': 'description',
     'Id': 'salesforce_id',
 }
@@ -51,7 +42,6 @@ def salesforce():
 
 
 def lead_field_names(sf=None):
-    """Should return a list matching LEAD_FIELDS"""
     sf = sf or salesforce()
     return [f['name'] for f in sf.Lead.describe()['fields']]
 
@@ -72,7 +62,7 @@ def create_profile_from_lead(user, lead):
         user=user,
         **{profile_field: lead[sf_field]
            for sf_field, profile_field in LEAD_PROFILE.items()
-           if lead.get(lead_field)})
+           if lead.get(sf_field)})
     update(profile, last_salesforce_sync=timezone.now())
 
 
@@ -83,7 +73,7 @@ def get_leads(sf=None):
         select {} from Lead
         where LeadSource = 'mobilepartners.mozilla.org' and Email != ''
         """.format(', '.join(LEAD_PROFILE.keys() + ['Email'])))
-    return response['records'] # TODO: error handling
+    return response['records']
 
 
 def create_profiles_from_leads(leads=None, sf=None):
@@ -101,7 +91,7 @@ def lead_data(profile):
         if value and sf_field != 'Id':
             data[sf_field] = value
     for sf_field, user_field in LEAD_USER.items():
-        value = getattr(profile.user, user_field , None)
+        value = getattr(profile.user, user_field, None)
         if value:
             data[sf_field] = value
     return data
@@ -113,7 +103,8 @@ def create_leads(profiles, sf=None):
         try:
             result = sf.Lead.create(lead_data(profile))
         except SalesforceMalformedRequest as e:
-            if 'INVALID_EMAIL' in e.message:
+            if 'INVALID_EMAIL' in e.message or (
+                    'CUSTOM_VALIDATION_EXCEPTION' in e.message):
                 update(profile, salesforce_sync=False)
                 continue
             else:

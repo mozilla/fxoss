@@ -1,7 +1,5 @@
 from __future__ import unicode_literals
 
-import requests
-
 from django.contrib.auth import login as auth_login
 from django.contrib.messages import info
 from django.core.exceptions import PermissionDenied
@@ -49,4 +47,3 @@ def signup(request, template="accounts/account_signup.html"):
             return login_redirect(request)
     context = {"form": form, "title": _("Sign up")}
     return render(request, template, context)
-

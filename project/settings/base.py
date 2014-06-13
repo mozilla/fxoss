@@ -352,10 +352,12 @@ USE_X_FORWARDED_HOST = True
 ACCOUNTS_VERIFICATION_REQUIRED = True
 # Email as username
 ACCOUNTS_NO_USERNAME = True
-# set to True to include additional form fields for debugging Salesforce
-# Integration
-DEBUG_SALESFORCE = False
 
+ACCOUNTS_PROFILE_FORM_CLASS = (
+    'registration_salesforce.forms.UserRegistrationLeadForm')
+ACCOUNTS_PROFILE_FORM_EXCLUDE_FIELDS = (
+    'salesforce_id', 'salesforce_sync', 'last_salesforce_sync')
+AUTH_PROFILE_MODULE = 'registration_salesforce.Profile'
 ###############################
 # django-concurrency settings #
 ###############################
@@ -414,6 +416,7 @@ NOSE_ARGS = ['--logging-filter=-concurrency,-south']
 
 LOGGING = {
     'version': 1,
+    'disable_existing_loggers': False,
     'filters': {
         'require_debug_false': {
             '()': 'django.utils.log.RequireDebugFalse'

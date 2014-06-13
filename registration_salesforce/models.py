@@ -1,73 +1,85 @@
 from django.contrib.auth.models import User
 from django.db import models
+from django.utils.translation import ugettext_lazy as _
 from django_extensions.db.fields import (
     CreationDateTimeField, ModificationDateTimeField)
 
 
 class Profile(models.Model):
     INDUSTRY_CHOICES = (
-        ('', '--None--'),
-        ('Agriculture', 'Agriculture'),
-        ('Apparel', 'Apparel'),
-        ('Banking', 'Banking'),
-        ('Biotechnology', 'Biotechnology'),
-        ('Chemicals', 'Chemicals'),
-        ('Communications', 'Communications'),
-        ('Construction', 'Construction'),
-        ('Consulting', 'Consulting'),
-        ('Education', 'Education'),
-        ('Electronics', 'Electronics'),
-        ('Energy', 'Energy'),
-        ('Engineering', 'Engineering'),
-        ('Entertainment', 'Entertainment'),
-        ('Environmental', 'Environmental'),
-        ('Finance', 'Finance'),
-        ('Food &amp; Beverage', 'Food &amp; Beverage'),
-        ('Government', 'Government'),
-        ('Healthcare', 'Healthcare'),
-        ('Hospitality', 'Hospitality'),
-        ('Insurance', 'Insurance'),
-        ('Machinery', 'Machinery'),
-        ('Manufacturing', 'Manufacturing'),
-        ('Media', 'Media'),
-        ('Not For Profit', 'Not For Profit'),
-        ('Other', 'Other'),
-        ('Recreation', 'Recreation'),
-        ('Retail', 'Retail'),
-        ('Shipping', 'Shipping'),
-        ('Technology', 'Technology'),
-        ('Telecommunications', 'Telecommunications'),
-        ('Transportation', 'Transportation'),
-        ('Utilities', 'Utilities'),
+        ('', _('--None--')),
+        ('Agriculture', _('Agriculture')),
+        ('Apparel', _('Apparel')),
+        ('Banking', _('Banking')),
+        ('Biotechnology', _('Biotechnology')),
+        ('Chemicals', _('Chemicals')),
+        ('Communications', _('Communications')),
+        ('Construction', _('Construction')),
+        ('Consulting', _('Consulting')),
+        ('Education', _('Education')),
+        ('Electronics', _('Electronics')),
+        ('Energy', _('Energy')),
+        ('Engineering', _('Engineering')),
+        ('Entertainment', _('Entertainment')),
+        ('Environmental', _('Environmental')),
+        ('Finance', _('Finance')),
+        ('Food &amp; Beverage', _('Food &amp; Beverage')),
+        ('Government', _('Government')),
+        ('Healthcare', _('Healthcare')),
+        ('Hospitality', _('Hospitality')),
+        ('Insurance', _('Insurance')),
+        ('Machinery', _('Machinery')),
+        ('Manufacturing', _('Manufacturing')),
+        ('Media', _('Media')),
+        ('Not For Profit', _('Not For Profit')),
+        ('Other', _('Other')),
+        ('Recreation', _('Recreation')),
+        ('Retail', _('Retail')),
+        ('Shipping', _('Shipping')),
+        ('Technology', _('Technology')),
+        ('Telecommunications', _('Telecommunications')),
+        ('Transportation', _('Transportation')),
+        ('Utilities', _('Utilities')),
     )
 
     DEVICE_CHOICES = (
-        ('Tablet', 'Tablet'),
-        ('Wearable', 'Wearable'),
-        ('Other', 'Other'),
+        ('Tablet', _('Tablet')),
+        ('Wearable', _('Wearable')),
+        ('Other', _('Other')),
     )
 
     INTEREST_CHOICES = (
-        ('Firefox OS', 'Firefox OS'),
-        ('Firefox Marketplace', 'Firefox Marketplace'),
-        ('Other', 'Other'),
+        ('Firefox OS', _('Firefox OS')),
+        ('Firefox Marketplace', _('Firefox Marketplace')),
+        ('Other', _('Other')),
     )
 
     user = models.OneToOneField(User)
-    title = models.CharField(max_length=40, blank=True)
-    company = models.CharField(max_length=40, blank=True)
-    phone = models.CharField(max_length=40, blank=True)
-    mobile = models.CharField(max_length=40, blank=True)
-    city = models.CharField(blank=True, max_length=40)
-    state = models.CharField(blank=True, max_length=40)
-    country = models.CharField(blank=True, max_length=40)
+    title = models.CharField(_('title'), blank=True, max_length=40)
+    legal_entity = models.CharField(
+        _('legal entity name'), blank=True, max_length=80)
+    company = models.CharField(_('company name'), max_length=40)
+    company_zip_code = models.CharField(
+        _('company zip / postal code'), blank=True, max_length=40)
+    website = models.CharField(
+        _('company website '), blank=True, max_length=80)
+    street = models.CharField(_('street'), blank=True, max_length=80)
+    city = models.CharField(_('city'), blank=True, max_length=40)
+    state = models.CharField(_('state'), blank=True, max_length=40)
+    zip_code = models.CharField(
+        _('zip / postal code'), blank=True, max_length=10)
+    country = models.CharField(_('country'), blank=True, max_length=40)
+    phone = models.CharField(_('phone'), blank=True, max_length=40)
+    mobile = models.CharField(_('mobile'), blank=True, max_length=40)
     industry = models.CharField(
         blank=True, choices=INDUSTRY_CHOICES, max_length=80)
     type_of_device = models.CharField(
         blank=True, choices=DEVICE_CHOICES, max_length=80)
     mobile_product_interest = models.CharField(
         blank=True, choices=INTEREST_CHOICES, max_length=80)
-    description = models.TextField(blank=True)
+    language_preference = models.CharField(
+        _('language preference'), blank=True, max_length=40)
+    description = models.TextField(_('description'), blank=True)
     salesforce_id = models.CharField(blank=True, max_length=80)
     salesforce_sync = models.BooleanField(default=True)
     last_salesforce_sync = models.DateTimeField(
