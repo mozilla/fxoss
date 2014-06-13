@@ -1,26 +1,152 @@
 {% extends "base.html" %}
-{% load i18n %}
+{% load i18n staticfiles compress %}
 
 {% block meta_title %}{% trans "Home" %}{% endblock %}
 {% block title %}{% trans "Home" %}{% endblock %}
 
 {% block extra-body-class %}index{% endblock %}
 
+{% block extra_css %}
+  <link rel="stylesheet" type="text/css" media="all" href="{% static "css/home.css" %}" />
+{% endblock %}
+
+{% block js %}
+  {{ block.super }}
+  {% compress js %}
+    <script src="{% static "js/home.js" %}"></script>
+  {% endcompress %}
+{% endblock %}
+
 {% block masthead-content %}
-  <article class="home-column">
+  <section class="home-intro">
     <h1>{% blocktrans %}Building the future<br>starts here{% endblocktrans %}</h1>
-    <div class="intro-column">
-      {% blocktrans %}Welcome to the world of Firefox OS. On this site, you’ll find everything you need to customize or build your own version of our groundbreaking mobile operating system. You'll also learn how to use the Firefox OS brand on a phone or tablet. Get started below.{% endblocktrans %}
+    <p class="intro-column">
+      {% blocktrans %}
+        Welcome to the world of Firefox OS. On this site, you’ll find everything you need to build, customize, and bring to market your own version of our groundbreaking mobile operating system. You’ll also learn how to use the Firefox OS brand on a phone, tablet or other device. <em>Get started below.</em>
+      {% endblocktrans %}
+    </p>
+    <div class="roles">
+      <label for="role-manufacturer" class="role-button">
+        <input type="radio" name="role" id="role-manufacturer" value="manufacturer">
+        {% trans "I'm a Manufacturer" %}
+      </label>
+      <label for="role-operator" class="role-button">
+        <input type="radio" name="role" id="role-operator" value="operator">
+        {% trans "I'm an Operator" %}
+      </label>
     </div>
-   </article>
+   </section>
  {% endblock %}
 
 {% block sidebar %}{# exclude the sidebar #}{% endblock %}
 
 {% block index %}
-    <article class="cta-column"><i class="fa fa-lightbulb-o fa-4x pull-left icon"></i><h2>Learn</h2>Explore Firefox OS and the Firefox Marketplace. Get localization support, roadmaps and a complete, detailed list of every feature.<br><a href="/learn">Get started »</a></article>
-    <article class="cta-column"><i class="fa fa-code-fork fa-4x pull-left icon"></i><h2>Build</h2>Create and customize your own version of Firefox OS. Learn more about hardware requirements, supported chipsets and how to contribute back to the community.<br><a href="/build">Build today »</a></article>
-    <article class="cta-column"><i class="fa fa-magic fa-4x pull-left icon"></i><h2>Market</h2>Take your product to market. Get access and support to the essential licenses and Firefox OS brand assets you’ll need, quickly and easily.<br><a href="/market">Begin the process »</a></article>
+  <a class="guide-close">
+    {% trans "Close" %}
+    <i class="fa fa-times"></i>
+  </a>
+
+  <div id="manufacturer-guide" class="home-guide">
+    <section class="home-guide-intro">
+      <h2>{% trans "Say hello to Firefox OS" %}</h2>
+      <p>
+        {% blocktrans %}
+          You already make great hardware — now it’s time to build and customize an amazing OS for it. Learn about the technology behind Firefox OS and how to bring a brand new Firefox OS phone to life.
+        {% endblocktrans %}
+      </p>
+    </section>
+
+    <section id="home-guide-learn" class="home-guide-section">
+      <h3>{% trans "Learn" %}</h3>
+      <p>
+        {% blocktrans %}
+          Explore Firefox OS and the Firefox Marketplace. Get localization support, roadmaps and a complete, detailed list of every feature.
+        {% endblocktrans %}
+      </p>
+      <p><a href="/learn" class="cta">{% trans "Get started" %}</a></p>
+    </section>
+
+    <section id="home-guide-build" class="home-guide-section">
+      <h3>{% trans "Build" %}</h3>
+      <p>
+        {% blocktrans %}
+          Create and customize your own version of Firefox OS. Learn more about hardware requirements, supported chipsets, and how to contribute back to the community.
+        {% endblocktrans %}
+      </p>
+      <p><a href="/build" class="cta">{% trans "Build today" %}</a></p>
+    </section>
+
+    <section id="home-guide-market" class="home-guide-section">
+      <h3>{% trans "Market" %}</h3>
+      <p>
+        {% blocktrans %}
+          Take your product to market. Get access and support to the essential licenses and Firefox OS brand assets you’ll need, quickly and easily.
+        {% endblocktrans %}
+      </p>
+      <p><a href="/market" class="cta">{% trans "Begin the process" %}</a></p>
+    </section>
+
+    <section id="home-guide-maintain" class="home-guide-section">
+      <h3>{% trans "Maintain" %}</h3>
+      <p>
+        {% blocktrans %}
+          After you’ve launched your Firefox OS device, you’ll be able to get the information needed to deliver updates to customers, access our help desk and get reports.
+        {% endblocktrans %}
+      </p>
+      <p><a href="/maintain" class="cta">{% trans "Begin the process" %}</a></p>
+    </section>
+  </div>
+
+  <div id="operator-guide" class="home-guide">
+    <section class="home-guide-intro">
+      <h2>{% trans "Meet Firefox OS" %}</h2>
+      <p>
+        {% blocktrans %}
+          Looking to bring something truly new to your customers? Discover why they’ll be just as excited about Firefox OS as we are. Here, you’ll get the ins and outs of the operating system, the phones and the brand.
+        {% endblocktrans %}
+      </p>
+    </section>
+
+    <section id="home-guide-learn" class="home-guide-section">
+      <h3>{% trans "Learn" %}</h3>
+      <p>
+        {% blocktrans %}
+          Explore Firefox OS and the Firefox Marketplace. Get localization support, roadmaps and a complete, detailed list of every feature.
+        {% endblocktrans %}
+      </p>
+      <p><a href="/learn" class="cta">{% trans "Get started" %}</a></p>
+    </section>
+
+    <section id="home-guide-build" class="home-guide-section">
+      <h3>{% trans "Build" %}</h3>
+      <p>
+        {% blocktrans %}
+          Customize your own version of Firefox OS. Learn more about hardware requirements, connect with manufactures making Firefox OS devices, and discover how you can to contribute back to the Firefox OS community.
+        {% endblocktrans %}
+      </p>
+      <p><a href="/build" class="cta">{% trans "Build today" %}</a></p>
+    </section>
+
+    <section id="home-guide-market" class="home-guide-section">
+      <h3>{% trans "Market" %}</h3>
+      <p>
+        {% blocktrans %}
+          Take your product to market. Get access and support to the essential licenses and Firefox OS brand assets you’ll need, quickly and easily.
+        {% endblocktrans %}
+      </p>
+      <p><a href="/market" class="cta">{% trans "Begin the process" %}</a></p>
+    </section>
+
+    <section id="home-guide-maintain" class="home-guide-section">
+      <h3>{% trans "Maintain" %}</h3>
+      <p>
+        {% blocktrans %}
+          After you’ve launched your Firefox OS device, you’ll be able to get the information needed to deliver updates to customers, access our help desk and get reports.
+        {% endblocktrans %}
+      </p>
+      <p><a href="/maintain" class="cta">{% trans "Begin the process" %}</a></p>
+    </section>
+  </div>
 {% endblock %}
 
 {% block main %}{%endblock %}

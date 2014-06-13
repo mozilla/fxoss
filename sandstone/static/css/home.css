@@ -1,0 +1,5 @@
+/* Hide main content when JS is enabled for operator/manufacturer buttons. */
+.js #main-content {
+    display: none;
+    min-height: 0;
+}

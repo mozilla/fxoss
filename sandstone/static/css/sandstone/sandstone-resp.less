@@ -2,6 +2,8 @@
 @import "reset.less";
 @import "fonts.less";
 @import "buttons.less";
+@import "../../fonts/font-awesome/less/font-awesome.less";
+@fa-font-path: "../../fonts/font-awesome/fonts";
 
 /* {{{ Basic Colors, Text, Links */
 
@@ -405,9 +407,9 @@ input.focus {
 
 
 
-.home-column {
-    .span(12);
-    padding-bottom:92px;
+.home-intro {
+    padding-bottom:42px;
+
     h1 {
         font-size: 80px;
         line-height: 72px;
@@ -415,14 +417,53 @@ input.focus {
         color: #fff;
         text-shadow:none;
     }
+
+    .roles {
+        clear: both;
+        margin: 0;
+        padding: 0;
+
+        input {
+            left: -50px;
+            position: absolute;
+        }
+    }
+}
+
+.role-button {
+    background: linear-gradient(to bottom, #40a7de 0%, #237bbc 99%);
+    border-radius: 7px;
+    box-shadow: 0 1px 1px rgba(0,0,0,0.2), inset 0 -1px 1px -1px rgba(0,0,0,0.9), inset 0 0 1px rgba(255,255,255,0.8);
+    color: #FFF;
+    cursor: pointer;
+    display: inline-block;
+    font-family: "Open Sans", sans-serif;
+    font-size: 16px;
+    margin-right: 20px;
+    overflow: hidden;
+    padding: 14px 30px;
+    position: relative;
+    text-shadow: 0px 1px 0px rgba(0,0,0,0.75);
+
+    &.selected {
+        background: rgba(33,103,165, 0.50);
+        border: 1px solid #125d8e;
+        box-shadow: none;
+    }
 }
 
 .intro-column {
     .span(7);
     font-size: 16px;
+    font-family: "Open Sans Light", sans-serif;
     line-height:28px;
     color: #fff;
     text-shadow:none;
+
+    em {
+        font-weight: bold;
+        font-style: italic;
+    }
 }
 
 .hero-column {
@@ -446,21 +487,88 @@ input.focus {
     }
 }
 
-.cta-column {
-    .span(4);
+a.guide-close {
+    color: rgba(78, 79, 83, 0.6);
+    cursor: pointer;
+    font-style: italic;
+    position: absolute;
+    right: 30px;
+    top: 10px;
+
+    &:hover {
+        color: rgba(78, 79, 83, 0.9);
+        text-decoration: none;
+    }
+}
+
+.home-guide-intro {
+    .span(7);
+    margin-bottom: 20px;
+
+    h2 {
+        font-size: 40px;
+    }
+
+    p {
+        font-size: 16px;
+        font-family: "Open Sans Light", sans-serif;
+        margin-left: 0;
+    }
+}
+
+.home-guide-section {
+    .span(6);
     color: #484848;
     padding-top: 30px;
     text-shadow:none;
     line-height:24px;
+
+    h3 {
+        font-size:36px;
+        color: #454f58;
+        text-shadow:none;
+    }
+
+    p {
+        margin-bottom: 0;
+    }
+
+    .cta:after {
+        content: " \00BB";
+    }
 }
 
-.cta-column h2 {
-    font-size:36px;
+.icon {
+    .fa;
+    .fa-4x;
+
     color: #454f58;
-    text-shadow:none;
+    float: left;
+    margin-right: 0.3em;
 }
 
-.icon {color: #454f58;
+#home-guide-learn:before {
+    .icon;
+
+    content: @fa-var-lightbulb-o;
+}
+
+#home-guide-build:before {
+    .icon;
+
+    content: @fa-var-code-fork;
+}
+
+#home-guide-market:before {
+    .icon;
+
+    content: @fa-var-magic;
+}
+
+#home-guide-maintain:before {
+    .icon;
+
+    content: @fa-var-check-square-o;
 }
 
 .main-column {
@@ -572,9 +680,9 @@ input.focus {
 
 /* {{{ Header Nav */
 #masthead {
-    padding-bottom: 25px;
+    padding-bottom: 0;
 
-    div, h2 {
+    div#logo, h2 {
         padding: (@baseLine * 1.5) 0 @baseLine;
         margin: 0 (@gridGutterWidth / 2);
 
@@ -1088,7 +1196,7 @@ nav.menu-bar {
 @media only screen and (min-width: @breakTablet) and (max-width: @breakDesktop) {
 
     #wrapper, #content-wrapper{
-      width: @widthTablet;
+      width: @widthTablet - (@gridGutterWidth * 2);
     }
 
     #masthead,
@@ -1099,8 +1207,7 @@ nav.menu-bar {
         width: auto;
     }
 
-    .home-column {
-        .span(12);
+    .home-intro {
         h1 {
             font-size: 48px;
             line-height: 40px;
@@ -1181,6 +1288,9 @@ nav.menu-bar {
         }
     }
 
+    .home-guide-section {
+        .span(4);
+    }
 }
 
 
@@ -1197,7 +1307,7 @@ nav.menu-bar {
     #colophon,
     .billboard,
     .container,
-    .main-column, .home-column
+    .main-column, .home-intro
     {
         width: 100%;
         padding-left: 0;
@@ -1214,7 +1324,7 @@ nav.menu-bar {
     }
 
     #masthead {
-        .home-column, .hero-column {
+        .home-intro, .hero-column {
             .span(4);
 
             h1 {
@@ -1499,6 +1609,14 @@ nav.menu-bar {
             }
         }
     }
+
+    .home-guide-intro {
+        .span-all();
+    }
+
+    .home-guide-section {
+        .span-all();
+    }
 }
 
 
@@ -1515,18 +1633,18 @@ nav.menu-bar {
     #main-content,
     .billboard,
     .container,
-    .main-column, .home-column, .hero-column
+    .main-column, .home-intro, .hero-column
     {
         width: 100%;
     }
 
-    .main-column, .home-column, .hero-column
+    .main-column, .home-intro, .hero-column
     {
         padding-left: 0;
         padding-right: 0;
     }
 
-        .home-column {
+        .home-intro {
             .span(12);
             h1 {
                 font-size: 32px;
@@ -1739,13 +1857,13 @@ form {
 
 // Responsive issues for the homepage
 @media only screen and (min-width: @breakDesktop) and (max-width: 1350px) {
-    .home-column .intro-column {
+    .home-intro .intro-column {
         max-width: @widthDesktop - 550px;
     }
 }
 
 @media only screen and (min-width: @breakDesktop) and (max-width: 1265px) {
-    .home-column {
+    .home-intro {
         h1 {
             font-size: 62px;
             line-height: 60px;
@@ -1760,5 +1878,12 @@ form {
     #swoop-wrapper {
         max-width: 1500px;
         margin: 0 auto;
+    }
+}
+
+@media only screen and (max-width: @breakTablet) {
+    .role-button {
+        display: block;
+        margin-bottom: 10px;
     }
 }
