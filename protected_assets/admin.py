@@ -9,14 +9,22 @@ from protected_assets.models import Agreement, SignedAgreement
 
 
 class SignedAgreementAdmin(admin.ModelAdmin):
-    list_display = ('user', 'timestamp', 'agreement', 'ip', )
+    list_display = ('user', 'legal_entity', 'agreement',
+                    'timestamp', 'ip', )
     list_filter = ('timestamp', 'agreement', )
     date_hierarchy = 'timestamp'
-    change_list_template = 'protected_assets/admin/signedagreement_change_list.html'
+    change_list_template = (
+        'protected_assets/admin/signedagreement_change_list.html')
+
+    def legal_entity(self, signed_agreement):
+        return signed_agreement.user.profile.legal_entity
 
 
 class LinkAdmin(BaseLinkAdmin):
-    """Customization of LinkAdmin to allow making links only display to authenticated users."""
+    """
+    Customization of LinkAdmin to allow making links only display to
+    authenticated users.
+    """
     fieldsets = deepcopy(BaseLinkAdmin.fieldsets)
     fieldsets[0][1]["fields"] += ("login_required", )
 
