@@ -24,7 +24,8 @@ def protected_download(request, path):
     """Check for a signed download agreement before delivering the asset."""
     settings.use_editable()
     agreement = SignedAgreement.objects.filter(
-        user=request.user, agreement__version=settings.DOWNLOAD_AGREEMENT_VERSION)
+        user=request.user,
+        agreement__version=settings.DOWNLOAD_AGREEMENT_VERSION)
     if not agreement.exists():
         params = {'next': request.path}
         previous = request.META.get('HTTP_REFERER', None) or None
@@ -36,15 +37,18 @@ def protected_download(request, path):
             urllib.urlencode(params))
         return redirect(agreement_url)
     if settings.DEBUG:
-        response = serve(request, path, document_root=os.path.join(settings.MEDIA_ROOT, FILEBROWSER_DIRECTORY, 'protected'))
+        response = serve(
+            request, path, document_root=os.path.join(
+                settings.MEDIA_ROOT, FILEBROWSER_DIRECTORY, 'protected'))
     else:
         response = HttpResponse()
         response['X-Accel-Redirect'] = '/__protected__/%s' % path
-    response['Content-Disposition'] = 'attachment; filename=%s' % os.path.basename(path)
+    response['Content-Disposition'] = 'attachment; filename={}'.format(
+        os.path.basename(path))
     if request.path == request.session.get('waiting_download'):
-         del request.session['waiting_download']
+        del request.session['waiting_download']
     if request.path == request.session.get('ready_download'):
-         del request.session['ready_download']
+        del request.session['ready_download']
     return response
 
 
@@ -54,7 +58,8 @@ def sign_agreement(request):
     settings.use_editable()
 
     form = AgreementForm()
-    agreement = get_object_or_404(Agreement, version=settings.DOWNLOAD_AGREEMENT_VERSION)
+    agreement = get_object_or_404(
+        Agreement, version=settings.DOWNLOAD_AGREEMENT_VERSION)
 
     if request.method == "POST":
         form = AgreementForm(request.POST)
@@ -68,12 +73,14 @@ def sign_agreement(request):
             )
             redirect_field_name = 'next'
             default_next = '/'
-            next_page = request.POST.get(redirect_field_name, request.GET.get(redirect_field_name))
+            next_page = request.POST.get(
+                redirect_field_name, request.GET.get(redirect_field_name))
             next_page = next_page or default_next
             if not is_safe_url(url=next_page, host=request.get_host()):
                 next_page = default_next
             if 'waiting_download' in request.session:
-                request.session['ready_download'] = request.session['waiting_download']
+                request.session['ready_download'] = request.session[
+                    'waiting_download']
                 del request.session['waiting_download']
             return redirect(next_page)
 
@@ -99,7 +106,8 @@ def export_csv(queryset, column_names, generate_row):
         '{0}_%Y_%m_%d_%H:%M:%S.csv'.format(queryset.model._meta.model_name))
 
     response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename={0}'.format(filename)
+    response['Content-Disposition'] = 'attachment; filename={0}'.format(
+        filename)
     response['Cache-Control'] = 'no-cache'
 
     writer = csv.writer(response)
@@ -112,7 +120,11 @@ def export_csv(queryset, column_names, generate_row):
 
 def export_signedagreement_csv(request):
     def generate_row(sa):
-        return (sa.user, sa.timestamp.strftime('%B %d, %Y %I:%M %p'), sa.agreement, sa.ip)
+        return (sa.user, sa.user.profile.legal_entity,
+                sa.timestamp.strftime('%B %d, %Y %I:%M %p'), sa.agreement,
+                sa.ip)
 
-    return export_csv(SignedAgreement.objects.all(), ('username', 'timestamp', 'agreement', 'ip'),
-                      generate_row)
+    return export_csv(
+        SignedAgreement.objects.all(),
+        ('username', 'legal entity', 'timestamp', 'agreement', 'ip'),
+        generate_row)
