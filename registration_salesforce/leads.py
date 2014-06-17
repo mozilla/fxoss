@@ -1,5 +1,6 @@
 from django.conf import settings
 from django.contrib.auth.models import User
+from django.db import IntegrityError
 from django.db.models import F
 from django.utils import timezone
 from simple_salesforce import Salesforce
@@ -58,12 +59,17 @@ def update(instance, **kwargs):
 
 
 def create_profile_from_lead(user, lead):
-    profile = Profile.objects.create(
-        user=user,
-        **{profile_field: lead[sf_field]
-           for sf_field, profile_field in LEAD_PROFILE.items()
-           if lead.get(sf_field)})
-    update(profile, last_salesforce_sync=timezone.now())
+    try:
+        profile = Profile.objects.create(
+            user=user,
+            **{profile_field: lead[sf_field]
+               for sf_field, profile_field in LEAD_PROFILE.items()
+               if lead.get(sf_field)})
+    except IntegrityError:
+        print 'Error trying to create duplicate profile for user {}'.format(
+            user)
+    else:
+        update(profile, last_salesforce_sync=timezone.now())
 
 
 def get_leads(sf=None):
