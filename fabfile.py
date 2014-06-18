@@ -65,6 +65,8 @@ env.basic_auth = conf.get("BASIC_AUTH", "")
 env.pg_backup_dir = conf.get("PG_BACKUP_DIR", "")
 env.media_backup_dir = conf.get("MEDIA_BACKUP_DIR", "")
 
+env.salesforce = conf.get("SALESFORCE", {})
+
 ##################
 # Template setup #
 ##################
@@ -106,6 +108,7 @@ templates = {
     "settings": {
         "local_path": "deploy/live_settings.py",
         "remote_path": "%(proj_path)s/project/settings/local.py",
+        "jinja": "true",
     },
 }
 
@@ -228,6 +231,36 @@ def get_templates():
     return injected
 
 
+def render_jinja(local_path):
+    from jinja2 import Environment, FileSystemLoader
+    jenv = Environment(loader=FileSystemLoader('.'))
+    return jenv.get_template(local_path).render(**env).encode('utf-8')
+
+
+@task
+def debug_jinja_template(local_path):
+    _print(render_jinja(local_path))
+
+
+def render_format(local_path):
+    with open(local_path, "r") as f:
+        local_data = f.read()
+        # Escape all non-string-formatting-placeholder occurrences of '%':
+        local_data = re.sub(r"%(?!\(\w+\)s)", "%%", local_data)
+        if "%(db_pass)s" in local_data:
+            env.db_pass = db_pass()
+        local_data %= env
+    return local_data
+
+
+def render(template, local_path=''):
+    local_path = local_path or template['local_path']
+    if template.get('jinja'):
+        return render_jinja(local_path)
+    else:
+        return render_format(local_path)
+
+
 @task
 @log_call
 def upload_template_and_reload(name, force=False):
@@ -248,18 +281,7 @@ def upload_template_and_reload(name, force=False):
     if exists(remote_path):
         with hide("stdout"):
             remote_data = sudo("cat %s" % remote_path, show=False)
-    if template.get('jinja'):
-        from jinja2 import Environment, FileSystemLoader
-        jenv = Environment(loader=FileSystemLoader('.'))
-        local_data = jenv.get_template(local_path).render(**env).encode('utf-8')
-    else:
-        with open(local_path, "r") as f:
-            local_data = f.read()
-            # Escape all non-string-formatting-placeholder occurrences of '%':
-            local_data = re.sub(r"%(?!\(\w+\)s)", "%%", local_data)
-            if "%(db_pass)s" in local_data:
-                env.db_pass = db_pass()
-            local_data %= env
+    local_data = render(template, local_path)
     clean = lambda s: s.replace("\n", "").replace("\r", "").strip()
     if clean(remote_data) == clean(local_data) and not force:
         return
@@ -571,6 +593,7 @@ def deploy():
         with update_changed_requirements():
             run("git pull origin master -f" if git else "hg pull && hg up -C")
         manage("collectstatic -v 0 --noinput")
+        manage("compress --noinput")
         with project():
             run('chmod -R o+rX static')
         manage("syncdb --noinput")

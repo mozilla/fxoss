@@ -14,5 +14,6 @@ class Command(NoArgsCommand):
         try:
             sync_leads_from_profiles() 
         except Exception as e:
-            logger.error('sync_leads Error: %s', exc_info=sys.exc_info())
+            logger.error('sync_leads Error: ' + e.message,
+                         exc_info=sys.exc_info())
             raise CommandError(e)

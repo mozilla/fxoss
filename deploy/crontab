@@ -2,8 +2,10 @@
 {% if pg_backup_dir -%}
 0 * * * * postgres {{pg_backup_dir}}/backup_db
 0 0 * * * postgres {{pg_backup_dir}}/rotate_db_backups
-{%- endif %}
+{% endif -%}
 {% if media_backup_dir -%}
 0 * * * * {{user}} rsync -av {{proj_path}}/media/ {{media_backup_dir}}
-{%- endif %}
-
+{% endif -%}
+{% if salesforce.get('cron_expression') -%}
+{{salesforce['cron_expression']}} {{user}} {{manage}} sync_leads
+{% endif %} {# crontab must end with blank line #}
