@@ -64,8 +64,8 @@ def sign_agreement(request):
     if request.method == "POST":
         form = AgreementForm(request.POST)
         if form.is_valid():
-            ip = (request.META.get('HTTP_X_FORWARDED_FOR', '').split(',')[0]
-                  or request.META.get('REMOTE_ADDR'))
+            ip = (request.META.get('HTTP_X_CLUSTER_CLIENT_IP') or
+                  request.META.get('HTTP_X_FORWARDED_FOR', '').split(',')[0])
             SignedAgreement.objects.create(
                 user=request.user,
                 ip=ip,
