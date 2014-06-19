@@ -108,7 +108,8 @@ class SignAgreementTestCase(AgreementMixin, TestCase):
     def test_agree_to_terms(self):
         """Create Agreement record when user signs the form."""
         response = self.client.post(self.agreement_url, data={'agree': 'on'})
-        self.assertRedirects(response, '/')
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response._headers['location'][1], 'http://testserver/')
         self.assertTrue(
             SignedAgreement.objects.filter(user=self.user).exists())
 
@@ -136,15 +137,18 @@ class SignAgreementTestCase(AgreementMixin, TestCase):
         session['waiting_download'] = self.asset_url
         session.save()
         response = self.client.post(self.agreement_url, data={'agree': 'on'})
-        self.assertRedirects(response, '/')
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response._headers['location'][1], 'http://testserver/')
         self.assertNotIn('waiting_download', self.client.session)
         self.assertEqual(self.client.session['ready_download'], self.asset_url)
 
-    def test_process_request_without_proxy(self):
-        """Check IP of agreement with no proxy in place."""
-        self.client.post(self.agreement_url, data={'agree': 'on'})
+    def test_process_request_with_cluster_client_ip(self):
+        """Check IP of agreement with X-Cluster_Client_IP header."""
+        self.client.post(
+            self.agreement_url, data={'agree': 'on'},
+            HTTP_X_CLUSTER_CLIENT_IP='1.1.1.1')
         agreement = SignedAgreement.objects.get(user=self.user)
-        self.assertEqual('127.0.0.1', agreement.ip)
+        self.assertEqual('1.1.1.1', agreement.ip)
 
     def test_process_request_with_proxy(self):
         """Check IP of agreement with a single proxy in place."""
@@ -182,7 +186,7 @@ class TestExportCSV(TestCase):
         def generate_row(user):
             return (user.username, user.email)
 
-        with patch('protected_assets.admin.timezone') as mock_timezone:
+        with patch('protected_assets.views.timezone') as mock_timezone:
             mock_timezone.now.return_value = aware_datetime(
                 2014, 4, 1, 6, 5, 4)
             response = export_csv(
