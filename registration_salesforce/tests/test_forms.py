@@ -1,4 +1,3 @@
-from django.contrib.auth.models import User
 from django.test import TestCase
 
 from ..forms import UserRegistrationLeadForm
@@ -6,33 +5,36 @@ from ..forms import UserRegistrationLeadForm
 
 class UserRegistrationLeadFormTestCase(TestCase):
 
-    def setUp(self):
-        self.data = dict(
-            first_name="Test",
-            last_name="User",
-            email="test@user.com",
-            password1='asdfasdf',
-            password2='asdfasdf',
-            lead_source='mobilepartners.mozilla.org'
-            )
-
     def test_valid_form(self):
-        form = UserRegistrationLeadForm(self.data)
+        data = {
+            'first_name': 'Test',
+            'last_name': 'User',
+            'email': 'test@user.com',
+            'password1': 'asdfasdf',
+            'password2': 'asdfasdf',
+            'legal_entity': 'test entity',
+            'company': 'testco',
+            'street': 'test st',
+            'city': 'testville',
+            'country': 'no for old men'}
+        form = UserRegistrationLeadForm(data)
         self.assertTrue(form.is_valid())
 
-    def test_invalid_form(self):
+    def test_empty_form(self):
+        form = UserRegistrationLeadForm({})
+        self.assertFalse(form.is_valid())
+
+    def test_required_fields(self):
         form = UserRegistrationLeadForm()
-        self.assertFalse(form.is_valid())
-
-    def test_clean_password1(self):
-        self.data['password2'] = 'foobar'
-        form = UserRegistrationLeadForm(self.data)
-        self.assertFalse(form.is_valid())
-        self.assertIn('password1', form.errors)
-
-    def test_clean_email(self):
-        User.objects.create_user("Test", email="test@user.com")
-        form = UserRegistrationLeadForm(self.data)
-        self.assertFalse(form.is_valid())
-        self.assertIn('email', form.errors)
-
+        self.assertEqual(
+            form.Meta.required_fields,
+            ('first_name', 'last_name', 'email', 'legal_entity', 'company',
+             'street', 'city', 'country'))
+        for field in form.Meta.required_fields:
+            self.assertTrue(form.fields[field].required)
+            self.assertEqual(form.fields[field].widget.attrs['class'],
+                             'required')
+            self.assertEqual(form.fields[field].widget.attrs['required'],
+                             'required')
+            self.assertEqual(form.fields[field].widget.attrs['aria-required'],
+                             'true')

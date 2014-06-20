@@ -7,14 +7,17 @@ from django.test import TestCase
 
 class RegistrationTestCase(TestCase):
     def setUp(self):
-        self.data = dict(
-            first_name="Test",
-            last_name="User",
-            email="test@user.com",
-            password1='asdfasdf',
-            password2='asdfasdf',
-            lead_source='mobilepartners.mozilla.org'
-            )
+        self.data = {
+            'first_name': 'Test',
+            'last_name': 'User',
+            'email': 'test@user.com',
+            'password1': 'asdfasdf',
+            'password2': 'asdfasdf',
+            'legal_entity': 'test entity',
+            'company': 'testco',
+            'street': 'test st',
+            'city': 'testville',
+            'country': 'no for old men'}
 
         self.url = reverse('signup')
 
@@ -49,4 +52,3 @@ class RegistrationTestCase(TestCase):
         self.assertFalse(sf_post.called)
         users = User.objects.all()
         self.assertEqual(0, users.count())
-
