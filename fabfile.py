@@ -66,6 +66,7 @@ env.pg_backup_dir = conf.get("PG_BACKUP_DIR", "")
 env.media_backup_dir = conf.get("MEDIA_BACKUP_DIR", "")
 
 env.salesforce = conf.get("SALESFORCE", {})
+env.allowed_hosts = conf.get('ALLOWED_HOSTS', [])
 
 ##################
 # Template setup #
@@ -392,6 +393,14 @@ def manage(command):
 
 @task
 @log_call
+def install_lessc():
+    apt('npm')
+    sudo('npm install -g less')
+    sudo('ln -sf /usr/bin/nodejs /usr/local/bin/node')
+
+
+@task
+@log_call
 def install():
     """
     Installs the base system and Python requirements for the entire server.
@@ -404,6 +413,7 @@ def install():
     sudo("apt-get update -y -q")
     apt("nginx libjpeg-dev python-dev python-setuptools git-core "
         "postgresql libpq-dev memcached supervisor")
+    install_lessc()
     sudo("easy_install pip")
     sudo("pip install virtualenv mercurial virtualenvwrapper")
 
@@ -593,7 +603,7 @@ def deploy():
         with update_changed_requirements():
             run("git pull origin master -f" if git else "hg pull && hg up -C")
         manage("collectstatic -v 0 --noinput")
-        manage("compress --noinput")
+        manage("compress")
         with project():
             run('chmod -R o+rX static')
         manage("syncdb --noinput")
