@@ -1,5 +1,9 @@
 from __future__ import unicode_literals
 
+{% if allowed_hosts %}
+ALLOWED_HOSTS = {{allowed_hosts}}
+{% endif %}
+
 SECRET_KEY = "{{secret_key}}"
 NEVERCACHE_KEY = "{{nevercache_key}}"
 
