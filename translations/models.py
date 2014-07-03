@@ -5,11 +5,11 @@ from django.db import models
 
 def get_site_for_language(language_code):
     """Get site for the given language code."""
-    if language == settings.LANGUAGE_CODE:
+    if language_code == settings.LANGUAGE_CODE:
         site = Site.objects.get_current()
     else:
         try:
-            site = Site.objects.get(name=language)
+            site = Site.objects.get(name=language_code)
         except Site.DoesNotExist:
             site = None
     return site
