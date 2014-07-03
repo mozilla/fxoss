@@ -15,14 +15,11 @@ class LocaleSiteMiddleware(object):
         language = getattr(request, 'LANGUAGE_CODE', None)
         if site_id is None and language is not None:
             site = get_site_for_language(language)
-            if site is not None:
-                site_id = site.pk
-                if site_id == settings.SITE_ID:
-                    # This is the default site
-                    # Clear any explicit site in the session
-                    if 'site_id' in request.session:
-                        del request.session['site_id']
-                    site_id = None
-        if site_id is not None:
-            request.session['site_id'] = site_id
-            request.site_id = site_id
+            if site is None or site.pk == settings.SITE_ID:
+                # Use the default site
+                # Clear any explicit site in the session
+                if 'site_id' in request.session:
+                    del request.session['site_id']
+            else:
+                request.session['site_id'] = site.pk
+                request.site_id = site.pk
