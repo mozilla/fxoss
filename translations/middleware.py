@@ -1,5 +1,6 @@
 from django.conf import settings
-from django.contrib.sites.models import Site
+
+from .models import get_site_for_language
 
 
 class LocaleSiteMiddleware(object):
@@ -13,15 +14,14 @@ class LocaleSiteMiddleware(object):
         site_id = getattr(request, 'site_id', None)
         language = getattr(request, 'LANGUAGE_CODE', None)
         if site_id is None and language is not None:
-            if language == settings.LANGUAGE_CODE:
-                # This is the default language
-                # Clear any explicit site in the session
-                if 'site_id' in request.session:
-                    del request.session['site_id']
-            else:
-                try:
-                    site_id = Site.objects.get(name=language).pk
-                except Site.DoesNotExist:
+            site = get_site_for_language(language)
+            if site is not None:
+                site_id = site.pk
+                if site_id == settings.SITE_ID:
+                    # This is the default site
+                    # Clear any explicit site in the session
+                    if 'site_id' in request.session:
+                        del request.session['site_id']
                     site_id = None
         if site_id is not None:
             request.session['site_id'] = site_id
