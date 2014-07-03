@@ -6,6 +6,7 @@ from django.db.models.query import QuerySet
 from concurrency.api import disable_concurrency
 
 from mezzanine.core.models import SiteRelated
+from mezzanine.forms.models import Form, Field
 
 
 def get_site_for_language(language_code):
@@ -42,17 +43,17 @@ def _get_site_models():
     return filter(lambda m: issubclass(m, SiteRelated), models.get_models())
 
 
-def build_site_content(site, base_site=None, models_to_copy=None):
+def build_site_content(site, base_site=None):
     """Build new site content by copying content from one site to another."""
-    if models_to_copy is None:
-        # Get all site related models
-        models_to_copy = _get_site_models()
+    # Get all site related models
+    models_to_copy = _get_site_models()
     base_site = base_site or Site.objects.get_current()
     for model_cls in models_to_copy:
         copies = []
         # Use a QuerySet rather than the default manager because the
         # CurrentSiteManager forces the site equal to the current SITE_ID
         for instance in QuerySet(model_cls).filter(site=base_site):
+            instance._original_id = instance.id
             instance.id = None
             instance.site = site
             copies.append(instance)
@@ -73,6 +74,15 @@ def build_site_content(site, base_site=None, models_to_copy=None):
                     else:
                         c.save(force_insert=True)
                     new_ids.append(c.id)
+                    # Copy form fields
+                    if model_cls == Form:
+                        # Copy fields as well
+                        fields = []
+                        for field in Field.objects.filter(form=instance._original_id):
+                            field.id = None
+                            field.form = c
+                            fields.append(field)
+                        Field.objects.bulk_create(fields)
                 # SiteRelated.save will force this to the "current" site
                 # so these need to be updated with the site we actually want
                 QuerySet(model_cls).filter(id__in=new_ids).update(site=site)

@@ -3,6 +3,8 @@ from django.contrib.sites.models import Site
 from django.db.models.query import QuerySet
 from django.test import TestCase
 
+from mezzanine.forms.models import Form, Field
+from mezzanine.forms.fields import EMAIL
 from mezzanine.pages.models import Page, RichTextPage, Link
 
 from .. import models
@@ -57,13 +59,10 @@ class BuildSiteContentTestCase(TestCase):
         # Again use the QuerySet to get around the forced site filter
         # when using the CurrentSiteManager
         copied = QuerySet(original.__class__).filter(slug=original.slug, site=site)
-        print original.site_id
-        print QuerySet(original.__class__).all()
         self.assertTrue(copied.exists())
         self.assertEqual(copied.count(), 1)
         self.assertTrue(copied.exists())
         copy = copied[0]
-        print copy.site_id
         self.assertNotEqual(copy.pk, original.pk)
 
     def test_copy_default_minimal(self):
@@ -86,3 +85,15 @@ class BuildSiteContentTestCase(TestCase):
         self.assertCopied(page, site)
         self.assertCopied(rich_page, site)
         self.assertCopied(link, site)
+
+    def test_copy_forms(self):
+        """Forms and their fields should be copied."""
+        # TODO: .create fails because somehow related to django-concurrency
+        form = Form(title='Contact Us')
+        form.save()
+        form.fields.create(label='Email', field_type=EMAIL)
+        site = Site.objects.create(name='zh-cn', domain='example.com')
+        models.build_site_content(site)
+        self.assertCopied(form, site)
+        copy = QuerySet(Form).get(slug=form.slug, site=site)
+        self.assertEqual(copy.fields.count(), 1)
