@@ -25,3 +25,7 @@ def build_site_for_language(language_code):
             domain='%s.%s' % (language_code, default.domain)
         )
         # TODO: Copy the current pages over
+    else:
+        # TODO: How to handle existing sites
+        pass
+    return site
