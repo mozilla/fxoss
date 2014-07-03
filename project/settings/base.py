@@ -271,6 +271,7 @@ INSTALLED_APPS = [
     'protected_assets',
     'south',
     'django_nose',
+    'translations',
 ]
 
 
