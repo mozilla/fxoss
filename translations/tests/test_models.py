@@ -67,22 +67,22 @@ class BuildSiteContentTestCase(TestCase):
     def test_copy_default_minimal(self):
         """Copy all CMS models from the default site (minimal example)."""
         # This will be created with the default site
-        page = Page.objects.create(title='Build')
+        # TODO: .create fails somehow related to django-concurrency
+        page = RichTextPage(title='Learn', content='<h1>Title</h1>')
+        page.save()
         site = Site.objects.create(name='zh-cn', domain='example.com')
         models.build_site_content(site)
         self.assertCopied(page, site)
 
     def test_copy_multiple_models(self):
         """CMS Pages, RichTextPage, Links should all be copied."""
-        page = Page.objects.create(title='Build')
         # TODO: .create fails somehow related to django-concurrency
-        rich_page = RichTextPage(title='Learn', content='<h1>Title</h1>')
-        rich_page.save()
+        page = RichTextPage(title='Learn', content='<h1>Title</h1>')
+        page.save()
         link = Link.objects.create(title='External Link')
         site = Site.objects.create(name='zh-cn', domain='example.com')
         models.build_site_content(site)
         self.assertCopied(page, site)
-        self.assertCopied(rich_page, site)
         self.assertCopied(link, site)
 
     def test_copy_forms(self):

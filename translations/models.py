@@ -7,6 +7,7 @@ from concurrency.api import disable_concurrency
 
 from mezzanine.core.models import SiteRelated
 from mezzanine.forms.models import Form, Field
+from mezzanine.pages.models import Page
 
 
 def get_site_for_language(language_code):
@@ -40,7 +41,7 @@ def build_site_for_language(language_code, copy_content=False):
 
 def _get_site_models():
     """Get all model classes which subclass SiteRelated."""
-    return filter(lambda m: issubclass(m, SiteRelated), models.get_models())
+    return filter(lambda m: issubclass(m, SiteRelated) and not m == Page, models.get_models())
 
 
 def build_site_content(site, base_site=None):
