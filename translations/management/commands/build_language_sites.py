@@ -21,6 +21,12 @@ class Command(LabelCommand):
             default=False,
             help='Create a site for all languages in the LANGUAGES setting.'
         ),
+        make_option('--skip-content',
+            action='store_true',
+            dest='skip_content',
+            default=False,
+            help='Don\'t copy the CMS content for the newly created sites.'
+        ),
     )
 
     def handle(self, *labels, **options):
@@ -30,5 +36,5 @@ class Command(LabelCommand):
 
     def handle_label(self, label, **options):
         """Create a new site for the language."""
-        build_site_for_language(label)
+        build_site_for_language(label, copy_content=not options.get('skip_content', False))
         return 'Created site for %s' % label

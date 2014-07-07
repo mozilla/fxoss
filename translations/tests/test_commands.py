@@ -12,12 +12,14 @@ class BuildSitesCommandTestCase(SimpleTestCase):
     def test_create_single_site(self, mock_build_site):
         """Create a new language site."""
         call_command('build_language_sites', 'zh-cn')
-        mock_build_site.assert_called_with('zh-cn')
+        mock_build_site.assert_called_with('zh-cn', copy_content=True)
 
     def test_create_multiple_sites(self, mock_build_site):
         """Create multiple sites at once."""
         call_command('build_language_sites', 'zh-cn', 'fr')
-        mock_build_site.assert_has_calls([call('zh-cn'), call('fr')])
+        mock_build_site.assert_has_calls([
+            call('zh-cn', copy_content=True),
+            call('fr', copy_content=True)])
 
     def test_create_all_sites(self, mock_build_site):
         """Helper to create all defined language sites."""
@@ -29,4 +31,11 @@ class BuildSitesCommandTestCase(SimpleTestCase):
         default = 'en'
         with self.settings(LANGUAGES=languages, LANGUAGE_CODE=default):
             call_command('build_language_sites', all_languages=True)
-            mock_build_site.assert_has_calls([call('zh-cn'), call('fr')])
+            mock_build_site.assert_has_calls([
+                call('zh-cn', copy_content=True),
+                call('fr', copy_content=True)])
+
+    def test_skip_content(self, mock_build_site):
+        """Create a new language site but don't copy the CMS content."""
+        call_command('build_language_sites', 'zh-cn', skip_content=True)
+        mock_build_site.assert_called_with('zh-cn', copy_content=False)
