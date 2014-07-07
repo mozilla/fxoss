@@ -56,8 +56,7 @@ class BuildSiteContentTestCase(TestCase):
 
     def assertCopied(self, original, site):
         """Assert that the model was copied to the new site."""
-        # Again use the QuerySet to get around the forced site filter
-        # when using the CurrentSiteManager
+        # Use the QuerySet to get around the forced site filter when using the CurrentSiteManager
         copied = QuerySet(original.__class__).filter(slug=original.slug, site=site)
         self.assertTrue(copied.exists())
         self.assertEqual(copied.count(), 1)
@@ -76,7 +75,7 @@ class BuildSiteContentTestCase(TestCase):
     def test_copy_multiple_models(self):
         """CMS Pages, RichTextPage, Links should all be copied."""
         page = Page.objects.create(title='Build')
-        # TODO: .create fails because somehow related to django-concurrency
+        # TODO: .create fails somehow related to django-concurrency
         rich_page = RichTextPage(title='Learn', content='<h1>Title</h1>')
         rich_page.save()
         link = Link.objects.create(title='External Link')
@@ -88,7 +87,7 @@ class BuildSiteContentTestCase(TestCase):
 
     def test_copy_forms(self):
         """Forms and their fields should be copied."""
-        # TODO: .create fails because somehow related to django-concurrency
+        # TODO: .create fails somehow related to django-concurrency
         form = Form(title='Contact Us')
         form.save()
         form.fields.create(label='Email', field_type=EMAIL)
