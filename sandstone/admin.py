@@ -14,6 +14,8 @@ from mezzanine.forms.models import Form
 from mezzanine.pages.admin import PageAdmin
 from mezzanine.pages.models import RichTextPage
 
+from translations.admin import TranslatableMixin
+
 
 rt_page_fieldsets = deepcopy(PageAdmin.fieldsets)
 rt_page_fieldsets[0][1]["fields"].insert(3, "intro")
@@ -36,18 +38,20 @@ class ConcurrencyReversionAdmin(reversion.VersionAdmin,
             return super(ConcurrencyReversionAdmin, self).render_revision_form(request, obj, version, context, revert, recover)
 
 
-class SandstoneRichTextPageAdmin(ConcurrencyReversionAdmin,
+class SandstoneRichTextPageAdmin(TranslatableMixin, ConcurrencyReversionAdmin,
                                  PageAdmin):
     fieldsets = rt_page_fieldsets
     history_latest_first = True
     formfield_overrides = {forms.VersionField: {'widget': VersionWidget}}
+    tranlsated_fields = ['title', 'intro', 'cta_title', 'cta_body', 'content']
 
 
-class SandstoneFormAdmin(ConcurrencyReversionAdmin,
+class SandstoneFormAdmin(TranslatableMixin, ConcurrencyReversionAdmin,
                          FormAdmin):
     fieldsets = form_page_fieldsets
     history_latest_first = True
     formfield_overrides = {forms.VersionField: {'widget': VersionWidget}}
+    tranlsated_fields = ['title', 'intro', 'cta_title', 'cta_body', 'content']
 
 
 admin.site.unregister(Form)
