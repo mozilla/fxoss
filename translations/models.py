@@ -58,35 +58,32 @@ def build_site_content(site, base_site=None):
             instance.id = None
             instance.site = site
             copies.append(instance)
-        if copies:
-            if not model_cls._meta.parents:
-                QuerySet(model_cls).bulk_create(copies)
+        # Multi-table inheritance classes can't be bulk created
+        parents = {}
+        for c in copies:
+            for _, field in model_cls._meta.parents.items():
+                parent = getattr(c, field.name)
+                parent.id = None
+                setattr(c, field.name, parent)
+            if hasattr(c, '_concurrencymeta'):
+                with disable_concurrency(c):
+                    c.save(force_insert=True)
             else:
-                # Multi-table inheritance classes can't be bulk created
-                parents = {}
-                for c in copies:
-                    for _, field in model_cls._meta.parents.items():
-                        parent = getattr(c, field.name)
-                        parent.id = None
-                        setattr(c, field.name, parent)
-                    if hasattr(c, '_concurrencymeta'):
-                        with disable_concurrency(c):
-                            c.save(force_insert=True)
-                    else:
-                        c.save(force_insert=True)
-                    parents[c._original_id] = c.id
-                    # Copy form fields
-                    if model_cls == Form:
-                        # Copy fields as well
-                        fields = []
-                        for field in Field.objects.filter(form=c._original_id):
-                            field.id = None
-                            field.form = c
-                            fields.append(field)
-                        Field.objects.bulk_create(fields)
-                # SiteRelated.save will force this to the "current" site
-                # so these need to be updated with the site we actually want
-                QuerySet(model_cls).filter(id__in=parents.values()).update(site=site)
-                # Update the page structure
-                for original, new_id in parents.items():
-                    QuerySet(model_cls).filter(parent=original).update(parent=new_id)
+                c.save(force_insert=True)
+            parents[c._original_id] = c.id
+            # Copy form fields
+            if model_cls == Form:
+                # Copy fields as well
+                fields = []
+                for field in Field.objects.filter(form=c._original_id):
+                    field.id = None
+                    field.form = c
+                    fields.append(field)
+                Field.objects.bulk_create(fields)
+        if parents:
+            # SiteRelated.save will force this to the "current" site
+            # so these need to be updated with the site we actually want
+            QuerySet(model_cls).filter(id__in=parents.values()).update(site=site)
+            # Update the page structure
+            for original, new_id in parents.items():
+                QuerySet(model_cls).filter(parent=original).update(parent=new_id)
