@@ -11,8 +11,8 @@ from django.contrib import admin
 
 from mezzanine.forms.admin import FormAdmin
 from mezzanine.forms.models import Form
-from mezzanine.pages.admin import PageAdmin
-from mezzanine.pages.models import RichTextPage
+from mezzanine.pages.admin import PageAdmin, LinkAdmin
+from mezzanine.pages.models import RichTextPage, Link
 
 from translations.admin import TranslatableMixin
 
@@ -54,8 +54,20 @@ class SandstoneFormAdmin(TranslatableMixin, ConcurrencyReversionAdmin,
     tranlsated_fields = ['title', 'intro', 'cta_title', 'cta_body', 'content']
 
 
+class SandstoneLinkAdmin(TranslatableMixin, LinkAdmin):
+    """
+    Customization of LinkAdmin to allow making links only display to
+    authenticated users.
+    """
+    fieldsets = deepcopy(LinkAdmin.fieldsets)
+    fieldsets[0][1]["fields"] += ("login_required", )
+    tranlsated_fields = ['title', ]
+
+
 admin.site.unregister(Form)
 admin.site.unregister(RichTextPage)
+admin.site.unregister(Link)
 
 admin.site.register(RichTextPage, SandstoneRichTextPageAdmin)
 admin.site.register(Form, SandstoneFormAdmin)
+admin.site.register(Link, SandstoneLinkAdmin)
