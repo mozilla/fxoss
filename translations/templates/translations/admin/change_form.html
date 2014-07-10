@@ -8,7 +8,10 @@
         <script type="text/javascript">
             var englishVersion = {
                 link: '{% filter escapejs %}{{ default_language_url }}{% endfilter %}',
-                label: '{% trans "View English Version" %}'
+                label: '{% trans "View English Version" %}',
+                fields: [{% for name in tranlsated_fields %}
+                    '{% filter escapejs %}{{ name }}{% endfilter %}'{% if not forloop.last %},{% endif %}
+                {% endfor %}]
             };
         </script>
         <script src="{% static 'js/translation-admin.js' %}"></script>

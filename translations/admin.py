@@ -11,6 +11,8 @@ from mezzanine.conf import settings
 class TranslatableMixin(object):
     """Fetches the base English version of the current content when making an edit."""
 
+    tranlsated_fields = []
+
     def render_change_form(self, request, context, add=False, change=False, form_url='', obj=None):
         if change and obj.site_id != settings.SITE_ID:
             # Grab the default language version of the object
@@ -21,6 +23,7 @@ class TranslatableMixin(object):
             with override(settings.LANGUAGE_CODE):
                 meta = default.__class__._meta
                 context['default_language_url'] = reverse(admin_urlname(meta, 'change'), args=(default.id, ))
+                context['tranlsated_fields'] = self.tranlsated_fields
         response = super(TranslatableMixin, self).render_change_form(request, context,
             add=add, change=change, form_url=form_url, obj=obj)
         if change and obj.site_id != settings.SITE_ID:
