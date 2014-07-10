@@ -49,6 +49,7 @@ def build_site_content(site, base_site=None):
     # Get all site related models
     models_to_copy = _get_site_models()
     base_site = base_site or Site.objects.get_current()
+    parents = {}
     for model_cls in models_to_copy:
         copies = []
         # Use a QuerySet rather than the default manager because the
@@ -59,7 +60,6 @@ def build_site_content(site, base_site=None):
             instance.site = site
             copies.append(instance)
         # Multi-table inheritance classes can't be bulk created
-        parents = {}
         for c in copies:
             for _, field in model_cls._meta.parents.items():
                 parent = getattr(c, field.name)
@@ -70,7 +70,8 @@ def build_site_content(site, base_site=None):
                     c.save(force_insert=True)
             else:
                 c.save(force_insert=True)
-            parents[c._original_id] = c.id
+            if issubclass(model_cls, Page):
+                parents[c._original_id] = c.id
             # Copy form fields
             if model_cls == Form:
                 # Copy fields as well
@@ -80,10 +81,10 @@ def build_site_content(site, base_site=None):
                     field.form = c
                     fields.append(field)
                 Field.objects.bulk_create(fields)
-        if parents:
-            # SiteRelated.save will force this to the "current" site
-            # so these need to be updated with the site we actually want
-            QuerySet(model_cls).filter(id__in=parents.values()).update(site=site)
-            # Update the page structure
-            for original, new_id in parents.items():
-                QuerySet(model_cls).filter(parent=original).update(parent=new_id)
+        # SiteRelated.save will force this to the "current" site
+        # so these need to be updated with the site we actually want
+        QuerySet(model_cls).filter(id__in=[c.id for c in copies]).update(site=site)
+    if parents:
+        # Update the page structure
+        for original, new_id in parents.items():
+            QuerySet(Page).filter(parent=original, site=site).update(parent=new_id)

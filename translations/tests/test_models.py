@@ -111,3 +111,23 @@ class BuildSiteContentTestCase(TestCase):
         copy = QuerySet(RichTextPage).get(slug=page.slug, site=site)
         subcopy = QuerySet(RichTextPage).get(slug=subpage.slug, site=site)
         self.assertEqual(subcopy.parent_id, copy.pk)
+
+    def test_nested_forms_links(self):
+        """Page hierarchy for forms and links should be preserved on copy."""
+        # TODO: .create fails somehow related to django-concurrency
+        page = RichTextPage(title='Learn', content='<h1>Title</h1>')
+        page.save()
+        form = Form(title='Contact Us', parent=page)
+        form.save()
+        link = Link(title='Foo', parent=page)
+        link.save()
+        site = Site.objects.create(name='zh-cn', domain='example.com')
+        models.build_site_content(site)
+        self.assertCopied(page, site)
+        self.assertCopied(form, site)
+        self.assertCopied(link, site)
+        copy = QuerySet(RichTextPage).get(slug=page.slug, site=site)
+        formcopy = QuerySet(Form).get(slug=form.slug, site=site)
+        linkcopy = QuerySet(Link).get(slug=link.slug, site=site)
+        self.assertEqual(formcopy.parent_id, copy.pk)
+        self.assertEqual(linkcopy.parent_id, copy.pk)
