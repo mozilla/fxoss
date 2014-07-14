@@ -21,6 +21,13 @@ urlpatterns = i18n_patterns("",
     (r"^admin/", include(admin.site.urls)),
 )
 
+# Make rosetta avaiable
+if 'rosetta' in settings.INSTALLED_APPS:
+    urlpatterns += patterns('',
+        url(r'^rosetta/', include('rosetta.urls')),
+    )
+
+
 # Protected downloads
 urlpatterns += patterns("protected_assets.views",
     url(r"^%s%sprotected/(?P<path>.*)$" % (settings.MEDIA_URL.lstrip('/'), FILEBROWSER_DIRECTORY), "protected_download"),

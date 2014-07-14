@@ -131,6 +131,7 @@ _ = lambda s: s
 
 LANGUAGES = (
     ('en', _('English')),
+    ('zh-cn', 'Simplified Chinese'),
 )
 
 # A boolean that turns on/off debug mode. When set to ``True``, stack traces
@@ -271,6 +272,7 @@ INSTALLED_APPS = [
     'protected_assets',
     'south',
     'django_nose',
+    'rosetta',
 ]
 
 
