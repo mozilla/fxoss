@@ -271,6 +271,7 @@ INSTALLED_APPS = [
     'protected_assets',
     'south',
     'django_nose',
+    'translations',
 ]
 
 
@@ -300,6 +301,7 @@ MIDDLEWARE_CLASSES = [
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
+    "translations.middleware.LocaleSiteMiddleware",
     "mezzanine.core.request.CurrentRequestMiddleware",
     "mezzanine.core.middleware.RedirectFallbackMiddleware",
     "mezzanine.core.middleware.TemplateForDeviceMiddleware",
