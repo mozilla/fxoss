@@ -7,7 +7,7 @@ from mezzanine.forms.models import Form, Field
 from mezzanine.forms.fields import EMAIL
 from mezzanine.pages.models import Page, RichTextPage, Link
 
-from .. import models
+from .. import utils
 
 
 class GetSiteForLanguageTestCase(TestCase):
@@ -15,19 +15,19 @@ class GetSiteForLanguageTestCase(TestCase):
 
     def test_default_language(self):
         """Default language code should return the default site."""
-        result = models.get_site_for_language(settings.LANGUAGE_CODE)
+        result = utils.get_site_for_language(settings.LANGUAGE_CODE)
         expected = Site.objects.get_current()
         self.assertEqual(result, expected)
 
     def test_non_default_language(self):
         """Other languages are found by the site name."""
         expected = Site.objects.create(name='zh-cn', domain='example.com')
-        result = models.get_site_for_language('zh-cn')
+        result = utils.get_site_for_language('zh-cn')
         self.assertEqual(result, expected)
 
     def test_not_found(self):
         """Handle languages without matching sites."""
-        result = models.get_site_for_language('zh-cn')
+        result = utils.get_site_for_language('zh-cn')
         self.assertIsNone(result)
 
 
@@ -36,7 +36,7 @@ class BuildSiteForLanguageTestCase(TestCase):
 
     def test_create_site(self):
         """Create a new site for the language code."""
-        result = models.build_site_for_language('zh-cn')
+        result = utils.build_site_for_language('zh-cn')
         self.assertEqual(result.name, 'zh-cn')
         default = Site.objects.get_current()
         # New sites need to have different domains or this breaks
@@ -45,7 +45,7 @@ class BuildSiteForLanguageTestCase(TestCase):
 
     def test_existing_site(self):
         """Site should not be created if it already exists."""
-        result = models.build_site_for_language(settings.LANGUAGE_CODE)
+        result = utils.build_site_for_language(settings.LANGUAGE_CODE)
         default = Site.objects.get_current()
         self.assertEqual(result, default)
         self.assertEqual(Site.objects.all().count(), 1)
@@ -71,7 +71,7 @@ class BuildSiteContentTestCase(TestCase):
         page = RichTextPage(title='Learn', content='<h1>Title</h1>')
         page.save()
         site = Site.objects.create(name='zh-cn', domain='example.com')
-        models.build_site_content(site)
+        utils.build_site_content(site)
         self.assertCopied(page, site)
 
     def test_copy_multiple_models(self):
@@ -81,7 +81,7 @@ class BuildSiteContentTestCase(TestCase):
         page.save()
         link = Link.objects.create(title='External Link')
         site = Site.objects.create(name='zh-cn', domain='example.com')
-        models.build_site_content(site)
+        utils.build_site_content(site)
         self.assertCopied(page, site)
         self.assertCopied(link, site)
 
@@ -92,7 +92,7 @@ class BuildSiteContentTestCase(TestCase):
         form.save()
         form.fields.create(label='Email', field_type=EMAIL)
         site = Site.objects.create(name='zh-cn', domain='example.com')
-        models.build_site_content(site)
+        utils.build_site_content(site)
         self.assertCopied(form, site)
         copy = QuerySet(Form).get(slug=form.slug, site=site)
         self.assertEqual(copy.fields.count(), 1)
@@ -105,7 +105,7 @@ class BuildSiteContentTestCase(TestCase):
         subpage = RichTextPage(title='Sub Learn', content='<h1>Title</h1>', parent=page)
         subpage.save()
         site = Site.objects.create(name='zh-cn', domain='example.com')
-        models.build_site_content(site)
+        utils.build_site_content(site)
         self.assertCopied(page, site)
         self.assertCopied(subpage, site)
         copy = QuerySet(RichTextPage).get(slug=page.slug, site=site)
@@ -122,7 +122,7 @@ class BuildSiteContentTestCase(TestCase):
         link = Link(title='Foo', parent=page)
         link.save()
         site = Site.objects.create(name='zh-cn', domain='example.com')
-        models.build_site_content(site)
+        utils.build_site_content(site)
         self.assertCopied(page, site)
         self.assertCopied(form, site)
         self.assertCopied(link, site)

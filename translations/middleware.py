@@ -1,6 +1,6 @@
 from django.conf import settings
 
-from .models import get_site_for_language
+from .utils import get_site_for_language
 
 
 class LocaleSiteMiddleware(object):
