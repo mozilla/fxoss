@@ -13,6 +13,7 @@ from mezzanine.forms.admin import FormAdmin
 from mezzanine.forms.models import Form
 from mezzanine.pages.admin import PageAdmin
 from mezzanine.pages.models import RichTextPage
+from django.utils.translation import ugettext_lazy as _
 
 
 rt_page_fieldsets = deepcopy(PageAdmin.fieldsets)
@@ -22,6 +23,10 @@ rt_page_fieldsets[0][1]["fields"].insert(5, "cta_title")
 rt_page_fieldsets[0][1]["fields"].insert(6, "cta_body")
 rt_page_fieldsets[0][1]["fields"].insert(7, "content")
 rt_page_fieldsets[0][1]["fields"].insert(-1, "version")
+# Add Notes field with its own collapsable section
+rt_page_fieldsets += ((_("Notes"), {
+    "fields": ("notes",),
+    "classes": ("collapse-closed",)},),)
 
 form_page_fieldsets = deepcopy(FormAdmin.fieldsets)
 form_page_fieldsets[0][1]["fields"].insert(-1, "version")
