@@ -3,10 +3,11 @@ from django.contrib import admin
 from django.contrib.admin.templatetags.admin_urls import admin_urlname
 from django.db.models.query import QuerySet
 from django.template.loader import select_template
+from django.utils import timezone
 from django.utils.encoding import force_text
 from django.utils.safestring import mark_safe
 from django.utils.translation import override
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import ungettext, ugettext_lazy as _
 
 from mezzanine.conf import settings
 from mezzanine.pages.models import Page
@@ -101,6 +102,7 @@ class TODOAdmin(admin.ModelAdmin):
     
     list_display = ('title_display', 'description', 'created', 'editor', )
     list_filter = ('created', 'action', )
+    actions = ('mark_resolved', )
 
     def get_queryset(self, request):
         return self.model.site_objects.filter(resolved_by__isnull=True)
@@ -132,5 +134,20 @@ class TODOAdmin(admin.ModelAdmin):
     title_display.admin_order_field = 'title'
     title_display.short_description = _('Title')
 
+    def get_actions(self, request):
+        actions = super(TODOAdmin, self).get_actions(request)
+        # Disable the delete selected action
+        del actions['delete_selected']
+        return actions
+
+    def mark_resolved(self, request, queryset):
+        updated = queryset.update(resolved=timezone.now(), resolved_by=request.user)
+        message = ungettext(
+            '%(count)s TODO item marked as resolved.',
+            '%(count)s TODO items marked as resolved.',
+            updated
+        ) % {'count': updated}
+        self.message_user(request, message)
+    mark_resolved.short_description = _('Mark selected items as resolved.')
 
 admin.site.register(TODOItem, TODOAdmin)
