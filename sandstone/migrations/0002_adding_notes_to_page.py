@@ -8,15 +8,15 @@ from django.db import models
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        # Adding field 'Page.notes'
-        db.add_column(u'pages_page', u'notes',
+        # Adding field 'Page.page_notes'
+        db.add_column(u'pages_page', u'page_notes',
                       self.gf('django.db.models.fields.TextField')(default=u'', blank=True),
                       keep_default=False)
 
 
     def backwards(self, orm):
-        # Deleting field 'Page.notes'
-        db.delete_column(u'pages_page', u'notes')
+        # Deleting field 'Page.page_notes'
+        db.delete_column(u'pages_page', u'page_notes')
 
 
     models = {
@@ -42,7 +42,7 @@ class Migration(SchemaMigration):
             u'intro': ('django.db.models.fields.TextField', [], {'default': "u''", 'blank': 'True'}),
             u'keywords_string': ('django.db.models.fields.CharField', [], {'max_length': '500', 'blank': 'True'}),
             'login_required': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
-            u'notes': ('django.db.models.fields.TextField', [], {'default': "u''", 'blank': 'True'}),
+            u'page_notes': ('django.db.models.fields.TextField', [], {'default': "u''", 'blank': 'True'}),
             'parent': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "u'children'", 'null': 'True', 'to': u"orm['pages.Page']"}),
             'publish_date': ('django.db.models.fields.DateTimeField', [], {'null': 'True', 'blank': 'True'}),
             'short_url': ('django.db.models.fields.URLField', [], {'max_length': '200', 'null': 'True', 'blank': 'True'}),

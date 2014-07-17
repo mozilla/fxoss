@@ -79,7 +79,7 @@ EXTRA_MODEL_FIELDS = (
         {"default": '', "blank": True},
     ),
     (
-        "mezzanine.pages.models.Page.notes",
+        "mezzanine.pages.models.Page.page_notes",
         "TextField",  # 'django.db.models.' is implied if path is omitted.
         ("Description",),
         {"default": '', "blank": True},

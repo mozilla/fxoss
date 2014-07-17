@@ -25,7 +25,7 @@ rt_page_fieldsets[0][1]["fields"].insert(7, "content")
 rt_page_fieldsets[0][1]["fields"].insert(-1, "version")
 # Add Notes field with its own collapsable section
 rt_page_fieldsets += ((ugettext_lazy("Notes"), {
-    "fields": ("notes",),
+    "fields": ("page_notes",),
     "classes": ("collapse-closed",)},),)
 
 form_page_fieldsets = deepcopy(FormAdmin.fieldsets)
