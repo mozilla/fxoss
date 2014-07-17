@@ -4,9 +4,12 @@ from django.contrib.admin.templatetags.admin_urls import admin_urlname
 from django.db.models.query import QuerySet
 from django.template.loader import select_template
 from django.utils.encoding import force_text
+from django.utils.safestring import mark_safe
 from django.utils.translation import override
+from django.utils.translation import ugettext_lazy as _
 
 from mezzanine.conf import settings
+from mezzanine.pages.models import Page
 
 from .models import TODOItem
 from .utils import get_site_for_language
@@ -60,7 +63,7 @@ class TranslatableMixin(object):
                     TODOItem.objects.create(
                         title=force_text(title), slug=obj.slug, page=current,
                         action=TODOItem.ACTION_DELETE,
-                        description='Delete %s' % obj.__class__._meta.vebose_name,
+                        description='Delete %s' % obj.__class__.__name__,
                         editor=user, site=site)
             elif changes is not None:
                 if changes and current is not None:
@@ -74,8 +77,8 @@ class TranslatableMixin(object):
                 # Need to create translated version
                 TODOItem.objects.create(
                     title=force_text(obj), slug=obj.slug, page=None,
-                    action=TODOItem.ACTION_ADD,
-                    description='Create %s' % obj.__class__._meta.vebose_name,
+                    action=TODOItem.ACTION_CREATE,
+                    description='Create %s' % obj.__class__.__name__,
                     editor=user, site=site)
 
     def save_model(self, request, obj, form, change):
@@ -93,3 +96,41 @@ class TranslatableMixin(object):
         if obj.site_id == settings.SITE_ID:
             self._build_todo_items(obj, request.user, changes=None, delete=True)
 
+
+class TODOAdmin(admin.ModelAdmin):
+    
+    list_display = ('title_display', 'description', 'created', 'editor', )
+    list_filter = ('created', 'action', )
+
+    def get_queryset(self, request):
+        return self.model.site_objects.filter(resolved_by__isnull=True)
+
+    def get_list_display_links(self, request, list_display):
+        """Don't link to the admin change page."""
+        return ()
+
+    def has_add_permission(self, request):
+        """These can't be created in the admin, only by the TranslatableMixin."""
+        return False
+
+    def has_delete_permission(self, request, obj=None):
+        """These can't be deleted in the admin, only marked as resolved."""
+        return False
+
+    def has_change_permission(self, request, obj=None):
+        """These can't be changed in the admin, but the changelist is viewable."""
+        return obj is None
+
+    def title_display(self, obj):
+        title = obj.title
+        meta = Page._meta
+        url =  reverse(admin_urlname(meta, 'add'))
+        if obj.page:
+            url = reverse(admin_urlname(meta, 'change'), args=(obj.page.id, ))
+        return mark_safe('<a href="%s">%s</a>' % (url, title))
+    title_display.allow_tags = True
+    title_display.admin_order_field = 'title'
+    title_display.short_description = _('Title')
+
+
+admin.site.register(TODOItem, TODOAdmin)
