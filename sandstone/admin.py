@@ -30,6 +30,10 @@ rt_page_fieldsets += ((ugettext_lazy("Notes"), {
 
 form_page_fieldsets = deepcopy(FormAdmin.fieldsets)
 form_page_fieldsets[0][1]["fields"].insert(-1, "version")
+# Add Notes field with its own collapsable section
+form_page_fieldsets += ((ugettext_lazy("Notes"), {
+    "fields": ("form_notes",),
+    "classes": ("collapse-closed",)},),)
 
 
 # Allows django-reversion and django-concurrency to work together

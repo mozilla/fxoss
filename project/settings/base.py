@@ -84,6 +84,12 @@ EXTRA_MODEL_FIELDS = (
         ("Description",),
         {"default": '', "blank": True},
     ),
+    (
+        "mezzanine.forms.models.Form.form_notes",
+        "TextField",  # 'django.db.models.' is implied if path is omitted.
+        ("Description",),
+        {"default": '', "blank": True},
+    ),
 )
 
 # Setting to turn on featured images for blog posts. Defaults to False.
