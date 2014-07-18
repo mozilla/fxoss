@@ -313,6 +313,7 @@ MIDDLEWARE_CLASSES = [
     "mezzanine.pages.middleware.PageMiddleware",
     "mezzanine.core.middleware.FetchFromCacheMiddleware",
     "concurrency.middleware.ConcurrencyMiddleware",
+    "sandstone.middleware.SetJustLoggedInCookieMiddleware",
 ]
 
 # Store these package names here as they may change in the future since
