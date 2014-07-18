@@ -90,6 +90,12 @@ EXTRA_MODEL_FIELDS = (
         ("Notes",),
         {"default": '', "blank": True},
     ),
+    (
+        "mezzanine.generic.models.ThreadedComment.comment_notes",
+        "TextField",  # 'django.db.models.' is implied if path is omitted.
+        ("Notes",),
+        {"default": '', "blank": True},
+    ),
 )
 
 # Setting to turn on featured images for blog posts. Defaults to False.

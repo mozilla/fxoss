@@ -13,6 +13,8 @@ from mezzanine.forms.admin import FormAdmin
 from mezzanine.forms.models import Form
 from mezzanine.pages.admin import PageAdmin
 from mezzanine.pages.models import RichTextPage
+from mezzanine.generic.admin import ThreadedCommentAdmin
+from mezzanine.generic.models import ThreadedComment
 from django.utils.translation import ugettext_lazy
 
 
@@ -35,6 +37,10 @@ form_page_fieldsets += ((ugettext_lazy("Notes"), {
     "fields": ("form_notes",),
     "classes": ("collapse-closed",)},),)
 
+threaded_comment_fieldsets = deepcopy(ThreadedCommentAdmin.fieldsets)
+threaded_comment_fieldsets += ((ugettext_lazy("Notes"), {
+    "fields": ("comment_notes",),
+    "classes": ("collapse-closed",)},),)
 
 # Allows django-reversion and django-concurrency to work together
 class ConcurrencyReversionAdmin(reversion.VersionAdmin,
@@ -59,8 +65,13 @@ class SandstoneFormAdmin(ConcurrencyReversionAdmin,
     formfield_overrides = {forms.VersionField: {'widget': VersionWidget}}
 
 
+class SandstoneThreadedCommentAdmin(ThreadedCommentAdmin):
+    fieldsets = threaded_comment_fieldsets
+
 admin.site.unregister(Form)
 admin.site.unregister(RichTextPage)
+admin.site.unregister(ThreadedComment)
 
 admin.site.register(RichTextPage, SandstoneRichTextPageAdmin)
 admin.site.register(Form, SandstoneFormAdmin)
+admin.site.register(ThreadedComment, SandstoneThreadedCommentAdmin)
