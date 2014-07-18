@@ -4,7 +4,16 @@ from .models import TinyMCESnippet
 
 
 class TinyMCESnippetAdmin(admin.ModelAdmin):
-    list_display = ('title', 'description', )
+    fieldsets = (
+        (None, {
+            'fields': ('title', 'description',)
+        }),
+        ('Notes', {
+            'classes': ('collapse-closed',),
+            'fields': ('notes', )
+        }),
+    )
+    list_display = ('title', 'description', 'notes')
 
 
 admin.site.register(TinyMCESnippet, TinyMCESnippetAdmin)

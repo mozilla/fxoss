@@ -13,6 +13,7 @@ class Agreement(models.Model):
     def _agreement_filename(instance, filename):
         return now().strftime('uploads/agreements/%Y-%m-%d_%H:%M:%S_agreement.pdf')
     agreement_pdf = models.FileField(max_length=255, upload_to=_agreement_filename)
+    notes = models.TextField(default='', blank=True)
 
     @property
     def url(self):
@@ -32,6 +33,7 @@ class SignedAgreement(models.Model):
         help_text=_('IP address of the signing request.'))
     agreement = models.ForeignKey(Agreement, null=True,
                                   help_text=_('Version of the agreement which was signed.'))
+    notes = models.TextField(default='', blank=True)
 
     class Meta:
         ordering = ['-timestamp']

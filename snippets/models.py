@@ -9,3 +9,4 @@ class TinyMCESnippet(models.Model):
     title = models.CharField(max_length=100)
     description = models.TextField(blank=True)
     content = RichTextField()
+    notes = models.TextField(default='', blank=True)
