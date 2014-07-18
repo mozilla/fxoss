@@ -4,3 +4,6 @@ django-debug-toolbar==1.0.1
 sqlparse==0.1.10
 
 mock==1.0.1
+
+# Documentation
+Sphinx==1.2.2
