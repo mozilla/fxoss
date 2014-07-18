@@ -1,0 +1,19 @@
+{% extends base_template|default:"admin/change_form.html" %}
+
+{% load i18n staticfiles %}
+
+{% block extrahead %}
+    {{ block.super }}
+    {% if default_language_url %}
+        <script type="text/javascript">
+            var englishVersion = {
+                link: '{% filter escapejs %}{{ default_language_url }}{% endfilter %}',
+                label: '{% trans "View English Version" %}',
+                fields: [{% for name in tranlsated_fields %}
+                    '{% filter escapejs %}{{ name }}{% endfilter %}'{% if not forloop.last %},{% endif %}
+                {% endfor %}]
+            };
+        </script>
+        <script src="{% static 'js/translation-admin.js' %}"></script>
+    {% endif %}
+{% endblock %}
