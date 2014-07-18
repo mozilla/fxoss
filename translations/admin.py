@@ -62,7 +62,7 @@ class TranslatableMixin(object):
                 if current is not None:
                     # Translated version should be deleted as well
                     TODOItem.objects.create(
-                        title=force_text(title), slug=obj.slug, page=current,
+                        title=force_text(obj), slug=obj.slug, page=current,
                         action=TODOItem.ACTION_DELETE,
                         description='Delete %s' % obj.__class__.__name__,
                         editor=user, site=site)
