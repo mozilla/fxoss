@@ -19,11 +19,13 @@ class TranslatableMixin(object):
             try:
                 default = QuerySet(obj.__class__).filter(slug=obj.slug, site=settings.SITE_ID)[0]
             except IndexError:
-                default = None
-            with override(settings.LANGUAGE_CODE):
-                meta = default.__class__._meta
-                context['default_language_url'] = reverse(admin_urlname(meta, 'change'), args=(default.id, ))
-                context['tranlsated_fields'] = self.tranlsated_fields
+                context['default_language_url'] = None
+            else:
+                with override(settings.LANGUAGE_CODE):
+                    meta = default.__class__._meta
+                    context['default_language_url'] = reverse(
+                        admin_urlname(meta, 'change'), args=(default.id, ))
+                    context['tranlsated_fields'] = self.tranlsated_fields
         response = super(TranslatableMixin, self).render_change_form(request, context,
             add=add, change=change, form_url=form_url, obj=obj)
         if change and obj.site_id != settings.SITE_ID:
