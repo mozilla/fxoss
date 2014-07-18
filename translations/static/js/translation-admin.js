@@ -27,20 +27,10 @@
             li = $('<li>').append(link);
         $('ul.object-tools', '#content-main').prepend(li);
     }
-
-    function buildFieldLink(name) {
-        var id = 'id_' + name; 
-            label = $('label[for="' + id + '"]'),
-            link = link = buildLink();
-        label.append('<br />').append(link);
-    }
     
     $(document).ready(function () {
         if (englishVersion.link && englishVersion.label) {
             buildToolsLink();
-            $.each(englishVersion.fields, function (i, name) {
-                buildFieldLink(name);
-            });
         }
     });
 
