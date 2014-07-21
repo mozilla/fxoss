@@ -49,9 +49,16 @@ class AdminTestMixin(object):
         self.user.save()
         # Fake the authentication middleware
         self.request.user = self.user
-        # Fake the current request middleware
-        mezzanine.core.request._thread_local.request = self.request
         self.admin = self.admin_class(self.model_class, admin.site)
+
+        # Temporarily replace mezzanine's thread local request with our fake
+        # after saving the original for restoring during tearDown
+        self.unfaked_request = mezzanine.core.request._thread_local.request
+        mezzanine.core.request._thread_local.request = self.request
+
+    def tearDown(self):
+        # we must restore the original or tests in other threads can break
+        mezzanine.core.request._thread_local.request = self.unfaked_request
 
     def create_model(self, **kwargs):
         values = self.model_defaults.copy()
