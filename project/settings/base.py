@@ -290,6 +290,7 @@ INSTALLED_APPS = [
     'south',
     'django_nose',
     'translations',
+    'site_notes',
 ]
 
 
