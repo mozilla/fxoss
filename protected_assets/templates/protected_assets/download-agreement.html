@@ -1,6 +1,7 @@
 {% extends "pages/richtextpage.html" %}
 {% load i18n staticfiles %}
 
+{% block page_slug %}data-page-slug="download-agreement"{% endblock %}
 
 {% block main %}
 <div id='download-agreement'>
@@ -9,8 +10,8 @@
 <form id='agreement-form' action='' method='post'>{% csrf_token %}
     <div class="form-actions">
         <button class="primary button" type="submit" value="agree" name="agree">{% trans "Agree" %}</button>
-        <a class="button button-negative" href="/">{% trans "Cancel" %}</a>
-        <a class="secondary button insensitive" href="{{ agreement.url }}">
+        <a class="button button-negative" id="cancel-agreement" href="/">{% trans "Cancel" %}</a>
+        <a class="secondary button insensitive" id="download-agreement-link" href="{{ agreement.url }}">
             <i class="fa fa-download"></i> {% trans "Download" %}
         </a>
     </div>
