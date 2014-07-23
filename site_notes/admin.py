@@ -1,6 +1,4 @@
 from django.contrib import admin
-from django.contrib.sites.admin import SiteAdmin
-from django.contrib.redirects.admin import RedirectAdmin
 from django.contrib.sites.models import Site
 from django.contrib.redirects.models import Redirect
 from .models import RedirectNotes, SiteNotes
