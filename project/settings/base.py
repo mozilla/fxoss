@@ -131,7 +131,7 @@ _ = lambda s: s
 
 LANGUAGES = (
     ('en', _('English')),
-    ('zh-cn', 'Simplified Chinese'),
+    ('zh-cn',_('Simplified Chinese')),
 )
 
 # A boolean that turns on/off debug mode. When set to ``True``, stack traces
