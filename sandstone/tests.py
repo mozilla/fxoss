@@ -11,9 +11,10 @@ from django.test.client import RequestFactory
 import mezzanine.core.request
 from mezzanine.forms.models import Form
 from mezzanine.pages.models import RichTextPage, Link
+from mock import Mock
 
 from .admin import SandstoneRichTextPageAdmin, SandstoneFormAdmin, SandstoneLinkAdmin
-
+from .middleware import SetJustLoggedInCookieMiddleware
 
 class RichTextPageLockTestCase(ConcurrencyTestMixin, TestCase):
     concurrency_model = RichTextPage
@@ -49,9 +50,16 @@ class AdminTestMixin(object):
         self.user.save()
         # Fake the authentication middleware
         self.request.user = self.user
-        # Fake the current request middleware
-        mezzanine.core.request._thread_local.request = self.request
         self.admin = self.admin_class(self.model_class, admin.site)
+
+        # Temporarily replace mezzanine's thread local request with our fake
+        # after saving the original for restoring during tearDown
+        self.unfaked_request = mezzanine.core.request._thread_local.request
+        mezzanine.core.request._thread_local.request = self.request
+
+    def tearDown(self):
+        # we must restore the original or tests in other threads can break
+        mezzanine.core.request._thread_local.request = self.unfaked_request
 
     def create_model(self, **kwargs):
         values = self.model_defaults.copy()
@@ -146,3 +154,25 @@ class LinkAdminTestCase(AdminTestMixin, TestCase):
         'title': 'test',
     }
     expected_base_template = 'admin/pages/link/change_form.html'
+
+
+class SetJustLoggedInMiddlewareTestCase(TestCase):
+    def setUp(self):
+        self.middleware = SetJustLoggedInCookieMiddleware()
+
+    def test_no_just_logged_in(self):
+        """
+        If the just_logged_in flag isn't set, don't set the cookie.
+        """
+        request, response = Mock(), Mock()
+        del request.just_logged_in
+        self.middleware.process_response(request, response)
+        self.assertFalse(response.set_cookie.called)
+
+    def test_just_logged_in(self):
+        """
+        If the just_logged_in flag is set, set the cookie.
+        """
+        request, response = Mock(just_logged_in=True), Mock()
+        self.middleware.process_response(request, response)
+        response.set_cookie.assert_called_with('just_logged_in', 'true', httponly=False)

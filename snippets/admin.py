@@ -13,7 +13,7 @@ class TinyMCESnippetAdmin(admin.ModelAdmin):
             'fields': ('notes', )
         }),
     )
-    list_display = ('title', 'description', 'notes')
+    list_display = ('title', 'description', )
 
 
 admin.site.register(TinyMCESnippet, TinyMCESnippetAdmin)

@@ -16,21 +16,10 @@ class Migration(SchemaMigration):
         ))
         db.send_create_signal(u'registration_salesforce', ['UserNotes'])
 
-        # Adding model 'GroupNotes'
-        db.create_table(u'registration_salesforce_groupnotes', (
-            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('page', self.gf('django.db.models.fields.related.OneToOneField')(related_name='extra_fields', unique=True, to=orm['auth.Group'])),
-            ('notes', self.gf('django.db.models.fields.TextField')(default='', blank=True)),
-        ))
-        db.send_create_signal(u'registration_salesforce', ['GroupNotes'])
-
 
     def backwards(self, orm):
         # Deleting model 'UserNotes'
         db.delete_table(u'registration_salesforce_usernotes')
-
-        # Deleting model 'GroupNotes'
-        db.delete_table(u'registration_salesforce_groupnotes')
 
 
     models = {
@@ -69,12 +58,6 @@ class Migration(SchemaMigration):
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'model': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '100'})
-        },
-        u'registration_salesforce.groupnotes': {
-            'Meta': {'object_name': 'GroupNotes'},
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'notes': ('django.db.models.fields.TextField', [], {'default': "''", 'blank': 'True'}),
-            'page': ('django.db.models.fields.related.OneToOneField', [], {'related_name': "'extra_fields'", 'unique': 'True', 'to': u"orm['auth.Group']"})
         },
         u'registration_salesforce.profile': {
             'Meta': {'object_name': 'Profile'},

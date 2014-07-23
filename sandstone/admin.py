@@ -13,12 +13,11 @@ from mezzanine.forms.admin import FormAdmin
 from mezzanine.forms.models import Form
 from mezzanine.pages.admin import PageAdmin, LinkAdmin
 from mezzanine.pages.models import RichTextPage, Link
-
-from translations.admin import TranslatableMixin
-
 from mezzanine.generic.admin import ThreadedCommentAdmin
 from mezzanine.generic.models import ThreadedComment
-from django.utils.translation import ugettext_lazy
+from translations.admin import TranslatableMixin
+
+from django.utils.translation import ugettext_lazy as _
 
 rt_page_fieldsets = deepcopy(PageAdmin.fieldsets)
 rt_page_fieldsets[0][1]["fields"].insert(3, "intro")
@@ -28,25 +27,22 @@ rt_page_fieldsets[0][1]["fields"].insert(6, "cta_body")
 rt_page_fieldsets[0][1]["fields"].insert(7, "content")
 rt_page_fieldsets[0][1]["fields"].insert(-1, "version")
 # Add Notes field with its own collapsable section
-rt_page_fieldsets += ((ugettext_lazy("Notes"), {
+rt_page_fieldsets += ((_("Notes"), {
     "fields": ("page_notes",),
     "classes": ("collapse-closed",)},),)
-
 
 form_page_fieldsets = deepcopy(FormAdmin.fieldsets)
 form_page_fieldsets[0][1]["fields"].insert(-1, "version")
 # Add Notes field with its own collapsable section
-form_page_fieldsets += ((ugettext_lazy("Notes"), {
+form_page_fieldsets += ((_("Notes"), {
     "fields": ("form_notes",),
     "classes": ("collapse-closed",)},),)
 
-
 threaded_comment_fieldsets = deepcopy(ThreadedCommentAdmin.fieldsets)
 # Add Notes field with its own collapsable section
-threaded_comment_fieldsets += ((ugettext_lazy("Notes"), {
+threaded_comment_fieldsets += ((_("Notes"), {
     "fields": ("comment_notes",),
     "classes": ("collapse-closed",)},),)
-
 
 # Allows django-reversion and django-concurrency to work together
 class ConcurrencyReversionAdmin(reversion.VersionAdmin,
@@ -81,6 +77,7 @@ class SandstoneLinkAdmin(TranslatableMixin, LinkAdmin):
     fieldsets = deepcopy(LinkAdmin.fieldsets)
     fieldsets[0][1]["fields"] += ("login_required", )
     tranlsated_fields = ['title', ]
+
 
 class SandstoneThreadedCommentAdmin(ThreadedCommentAdmin):
     fieldsets = threaded_comment_fieldsets

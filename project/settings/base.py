@@ -81,19 +81,19 @@ EXTRA_MODEL_FIELDS = (
     (
         "mezzanine.pages.models.Page.page_notes",
         "TextField",  # 'django.db.models.' is implied if path is omitted.
-        ("Notes",),
+        ("Description",),
         {"default": '', "blank": True},
     ),
     (
         "mezzanine.forms.models.Form.form_notes",
         "TextField",  # 'django.db.models.' is implied if path is omitted.
-        ("Notes",),
+        ("Description",),
         {"default": '', "blank": True},
     ),
     (
         "mezzanine.generic.models.ThreadedComment.comment_notes",
         "TextField",  # 'django.db.models.' is implied if path is omitted.
-        ("Notes",),
+        ("Description",),
         {"default": '', "blank": True},
     ),
 )
@@ -149,6 +149,7 @@ _ = lambda s: s
 
 LANGUAGES = (
     ('en', _('English')),
+    #('zh-CN', _('Simplified Chinese')),
 )
 
 # A boolean that turns on/off debug mode. When set to ``True``, stack traces

@@ -1,5 +1,4 @@
 from django.contrib.auth.models import User
-from django.contrib.auth.models import Group
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django_extensions.db.fields import (
@@ -94,9 +93,4 @@ class Profile(models.Model):
 
 class UserNotes(models.Model):
     page = models.OneToOneField(User, editable=False, related_name='extra_fields')
-    notes = models.TextField(default='', blank=True)
-
-
-class GroupNotes(models.Model):
-    page = models.OneToOneField(Group, editable=False, related_name='extra_fields')
-    notes = models.TextField(default='', blank=True)
+    notes = models.TextField(verbose_name='description', default='', blank=True)
