@@ -1,18 +1,18 @@
 from django.contrib import admin
 
-from .models import TinyMCESnippet
+from .models import TinyMCESnippet, TinyMCESnippetNotes
 
+notes_template = 'snippets/stacked.html'
+
+class TinyMCEExpandedInline(admin.StackedInline):
+    model = TinyMCESnippetNotes
+    extra = 1
+    template = notes_template
+    can_delete = False
+    verbose_name_plural = 'Notes'
 
 class TinyMCESnippetAdmin(admin.ModelAdmin):
-    fieldsets = (
-        (None, {
-            'fields': ('title', 'description',)
-        }),
-        ('Notes', {
-            'classes': ('collapse-closed',),
-            'fields': ('notes', )
-        }),
-    )
+    inlines = [TinyMCEExpandedInline, ]
     list_display = ('title', 'description', )
 
 
