@@ -8,23 +8,31 @@ from django.db import models
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        # Adding field 'SignedAgreement.notes'
-        db.add_column(u'protected_assets_signedagreement', 'notes',
-                      self.gf('django.db.models.fields.TextField')(default='', blank=True),
-                      keep_default=False)
+        # Adding model 'AgreementNotes'
+        db.create_table(u'protected_assets_agreementnotes', (
+            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('page', self.gf('django.db.models.fields.related.OneToOneField')(related_name='extra_fields', unique=True, to=orm['protected_assets.Agreement'])),
+            ('notes', self.gf('django.db.models.fields.TextField')(default='', blank=True)),
+            ('notes_zh_cn', self.gf('django.db.models.fields.TextField')(default='', blank=True)),
+        ))
+        db.send_create_signal(u'protected_assets', ['AgreementNotes'])
 
-        # Adding field 'Agreement.notes'
-        db.add_column(u'protected_assets_agreement', 'notes',
-                      self.gf('django.db.models.fields.TextField')(default='', blank=True),
-                      keep_default=False)
+        # Adding model 'SignedAgreementNotes'
+        db.create_table(u'protected_assets_signedagreementnotes', (
+            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('page', self.gf('django.db.models.fields.related.OneToOneField')(related_name='extra_fields', unique=True, to=orm['protected_assets.SignedAgreement'])),
+            ('notes', self.gf('django.db.models.fields.TextField')(default='', blank=True)),
+            ('notes_zh_cn', self.gf('django.db.models.fields.TextField')(default='', blank=True)),
+        ))
+        db.send_create_signal(u'protected_assets', ['SignedAgreementNotes'])
 
 
     def backwards(self, orm):
-        # Deleting field 'SignedAgreement.notes'
-        db.delete_column(u'protected_assets_signedagreement', 'notes')
+        # Deleting model 'AgreementNotes'
+        db.delete_table(u'protected_assets_agreementnotes')
 
-        # Deleting field 'Agreement.notes'
-        db.delete_column(u'protected_assets_agreement', 'notes')
+        # Deleting model 'SignedAgreementNotes'
+        db.delete_table(u'protected_assets_signedagreementnotes')
 
 
     models = {
@@ -70,17 +78,29 @@ class Migration(SchemaMigration):
             'created': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime.now'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'name': ('django.db.models.fields.CharField', [], {'default': "'Prototype Branding Agreement'", 'max_length': '255'}),
-            'notes': ('django.db.models.fields.TextField', [], {'default': "''", 'blank': 'True'}),
             'version': ('django.db.models.fields.CharField', [], {'unique': 'True', 'max_length': '20'})
+        },
+        u'protected_assets.agreementnotes': {
+            'Meta': {'object_name': 'AgreementNotes'},
+            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'notes': ('django.db.models.fields.TextField', [], {'default': "''", 'blank': 'True'}),
+            'notes_zh_cn': ('django.db.models.fields.TextField', [], {'default': "''", 'blank': 'True'}),
+            'page': ('django.db.models.fields.related.OneToOneField', [], {'related_name': "'extra_fields'", 'unique': 'True', 'to': u"orm['protected_assets.Agreement']"})
         },
         u'protected_assets.signedagreement': {
             'Meta': {'ordering': "['-timestamp']", 'object_name': 'SignedAgreement'},
             'agreement': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['protected_assets.Agreement']", 'null': 'True'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'ip': ('django.db.models.fields.GenericIPAddressField', [], {'max_length': '39', 'null': 'True', 'blank': 'True'}),
-            'notes': ('django.db.models.fields.TextField', [], {'default': "''", 'blank': 'True'}),
             'timestamp': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime.now'}),
             'user': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['auth.User']"})
+        },
+        u'protected_assets.signedagreementnotes': {
+            'Meta': {'object_name': 'SignedAgreementNotes'},
+            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'notes': ('django.db.models.fields.TextField', [], {'default': "''", 'blank': 'True'}),
+            'notes_zh_cn': ('django.db.models.fields.TextField', [], {'default': "''", 'blank': 'True'}),
+            'page': ('django.db.models.fields.related.OneToOneField', [], {'related_name': "'extra_fields'", 'unique': 'True', 'to': u"orm['protected_assets.SignedAgreement']"})
         }
     }
 

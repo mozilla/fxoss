@@ -13,7 +13,6 @@ class Agreement(models.Model):
     def _agreement_filename(instance, filename):
         return now().strftime('uploads/agreements/%Y-%m-%d_%H:%M:%S_agreement.pdf')
     agreement_pdf = models.FileField(max_length=255, upload_to=_agreement_filename)
-    notes = models.TextField(verbose_name='description', default='', blank=True)
 
     @property
     def url(self):
@@ -33,7 +32,16 @@ class SignedAgreement(models.Model):
         help_text=_('IP address of the signing request.'))
     agreement = models.ForeignKey(Agreement, null=True,
                                   help_text=_('Version of the agreement which was signed.'))
-    notes = models.TextField(verbose_name='description', default='', blank=True)
 
     class Meta:
         ordering = ['-timestamp']
+
+class AgreementNotes(models.Model):
+    page = models.OneToOneField(Agreement, editable=False, related_name='extra_fields')
+    notes = models.TextField(verbose_name='description', default='', blank=True)
+    notes_zh_cn = models.TextField(verbose_name='description', default='', blank=True)
+
+class SignedAgreementNotes(models.Model):   
+    page = models.OneToOneField(SignedAgreement, editable=False, related_name='extra_fields')
+    notes = models.TextField(verbose_name='description', default='', blank=True)
+    notes_zh_cn = models.TextField(verbose_name='description', default='', blank=True)

@@ -3,19 +3,19 @@ from copy import deepcopy
 from django.contrib import admin
 
 from protected_assets.models import Agreement, SignedAgreement
+from .models import AgreementNotes, SignedAgreementNotes
 
+notes_template = 'protected_assets/stacked.html'
+
+class SignedAgreementExpandedInline(admin.StackedInline):
+    model = SignedAgreementNotes
+    extra = 1
+    template = notes_template
+    can_delete = False
+    verbose_name_plural = 'Notes'
 
 class SignedAgreementAdmin(admin.ModelAdmin):
-    fieldsets = (
-        (None, {
-            'fields': ('user',  'timestamp', 
-                       'ip', 'agreement', )
-        }),
-        ('Notes', {
-            'classes': ('collapse-closed',),
-            'fields': ('notes', )
-        }),
-    )
+    inlines = [SignedAgreementExpandedInline, ]
     list_display = ('user', 'legal_entity', 'agreement',
                     'timestamp', 'ip', )
     list_filter = ('timestamp', 'agreement', )
@@ -27,16 +27,15 @@ class SignedAgreementAdmin(admin.ModelAdmin):
         return signed_agreement.user.profile.legal_entity
 
 
+class AgreementExpandedInline(admin.StackedInline):
+    model = AgreementNotes
+    extra = 1
+    template = notes_template
+    can_delete = False
+    verbose_name_plural = 'Notes'
+
 class AgreementAdmin(admin.ModelAdmin):
-    fieldsets = (
-        (None, {
-            'fields': ('name', 'version', 'agreement_pdf',)
-        }),
-        ('Notes', {
-            'classes': ('collapse-closed',),
-            'fields': ('notes', )
-        }),
-    )
+    inlines = [AgreementExpandedInline, ]
     list_display = ('name', 'version', 'created')
 
 

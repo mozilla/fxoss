@@ -94,3 +94,4 @@ class Profile(models.Model):
 class UserNotes(models.Model):
     page = models.OneToOneField(User, editable=False, related_name='extra_fields')
     notes = models.TextField(verbose_name='description', default='', blank=True)
+    notes_zh_cn = models.TextField(verbose_name='description', default='', blank=True)
