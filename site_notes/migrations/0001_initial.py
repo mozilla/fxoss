@@ -13,6 +13,7 @@ class Migration(SchemaMigration):
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
             ('page', self.gf('django.db.models.fields.related.OneToOneField')(related_name='extra_fields', unique=True, to=orm['sites.Site'])),
             ('notes', self.gf('django.db.models.fields.TextField')(default='', blank=True)),
+            ('notes_zh_cn', self.gf('django.db.models.fields.TextField')(default='', blank=True)),
         ))
         db.send_create_signal(u'site_notes', ['SiteNotes'])
 
@@ -21,6 +22,7 @@ class Migration(SchemaMigration):
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
             ('page', self.gf('django.db.models.fields.related.OneToOneField')(related_name='extra_fields', unique=True, to=orm['redirects.Redirect'])),
             ('notes', self.gf('django.db.models.fields.TextField')(default='', blank=True)),
+            ('notes_zh_cn', self.gf('django.db.models.fields.TextField')(default='', blank=True)),
         ))
         db.send_create_signal(u'site_notes', ['RedirectNotes'])
 
@@ -29,6 +31,7 @@ class Migration(SchemaMigration):
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
             ('page', self.gf('django.db.models.fields.related.OneToOneField')(related_name='extra_fields', unique=True, to=orm['auth.Group'])),
             ('notes', self.gf('django.db.models.fields.TextField')(default='', blank=True)),
+            ('notes_zh_cn', self.gf('django.db.models.fields.TextField')(default='', blank=True)),
         ))
         db.send_create_signal(u'site_notes', ['GroupNotes'])
 
@@ -76,18 +79,21 @@ class Migration(SchemaMigration):
             'Meta': {'object_name': 'GroupNotes'},
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'notes': ('django.db.models.fields.TextField', [], {'default': "''", 'blank': 'True'}),
+            'notes_zh_cn': ('django.db.models.fields.TextField', [], {'default': "''", 'blank': 'True'}),
             'page': ('django.db.models.fields.related.OneToOneField', [], {'related_name': "'extra_fields'", 'unique': 'True', 'to': u"orm['auth.Group']"})
         },
         u'site_notes.redirectnotes': {
             'Meta': {'object_name': 'RedirectNotes'},
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'notes': ('django.db.models.fields.TextField', [], {'default': "''", 'blank': 'True'}),
+            'notes_zh_cn': ('django.db.models.fields.TextField', [], {'default': "''", 'blank': 'True'}),
             'page': ('django.db.models.fields.related.OneToOneField', [], {'related_name': "'extra_fields'", 'unique': 'True', 'to': u"orm['redirects.Redirect']"})
         },
         u'site_notes.sitenotes': {
             'Meta': {'object_name': 'SiteNotes'},
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'notes': ('django.db.models.fields.TextField', [], {'default': "''", 'blank': 'True'}),
+            'notes_zh_cn': ('django.db.models.fields.TextField', [], {'default': "''", 'blank': 'True'}),
             'page': ('django.db.models.fields.related.OneToOneField', [], {'related_name': "'extra_fields'", 'unique': 'True', 'to': u"orm['sites.Site']"})
         },
         u'sites.site': {
