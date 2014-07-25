@@ -78,24 +78,6 @@ EXTRA_MODEL_FIELDS = (
         ("Call to Action Body",),
         {"default": '', "blank": True},
     ),
-    (
-        "mezzanine.pages.models.Page.page_notes",
-        "TextField",  # 'django.db.models.' is implied if path is omitted.
-        ("Description",),
-        {"default": '', "blank": True},
-    ),
-    (
-        "mezzanine.forms.models.Form.form_notes",
-        "TextField",  # 'django.db.models.' is implied if path is omitted.
-        ("Description",),
-        {"default": '', "blank": True},
-    ),
-    (
-        "mezzanine.generic.models.ThreadedComment.comment_notes",
-        "TextField",  # 'django.db.models.' is implied if path is omitted.
-        ("Description",),
-        {"default": '', "blank": True},
-    ),
 )
 
 # Setting to turn on featured images for blog posts. Defaults to False.
