@@ -5,6 +5,8 @@ from django.contrib import admin
 from protected_assets.models import Agreement, SignedAgreement
 from .models import AgreementNotes, SignedAgreementNotes
 
+from django.utils.translation import ugettext_lazy as _
+
 notes_template = 'protected_assets/stacked.html'
 
 class SignedAgreementExpandedInline(admin.StackedInline):
@@ -12,7 +14,7 @@ class SignedAgreementExpandedInline(admin.StackedInline):
     extra = 1
     template = notes_template
     can_delete = False
-    verbose_name_plural = 'Notes'
+    verbose_name_plural = _('Notes')
 
 class SignedAgreementAdmin(admin.ModelAdmin):
     inlines = [SignedAgreementExpandedInline, ]
@@ -32,7 +34,7 @@ class AgreementExpandedInline(admin.StackedInline):
     extra = 1
     template = notes_template
     can_delete = False
-    verbose_name_plural = 'Notes'
+    verbose_name_plural = _('Notes')
 
 class AgreementAdmin(admin.ModelAdmin):
     inlines = [AgreementExpandedInline, ]

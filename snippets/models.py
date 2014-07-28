@@ -2,6 +2,7 @@ from django.db import models
 
 from mezzanine.core.fields import RichTextField
 
+from django.utils.translation import ugettext_lazy as _
 
 class TinyMCESnippet(models.Model):
     """Stores small snippets for common content patterns."""
@@ -12,6 +13,6 @@ class TinyMCESnippet(models.Model):
 
 class TinyMCESnippetNotes(models.Model):
     page = models.OneToOneField(TinyMCESnippet, editable=False, related_name='extra_fields')
-    notes = models.TextField(verbose_name='description', default='', blank=True)
-    notes_zh_cn = models.TextField(verbose_name='description', default='', blank=True)
+    notes = models.TextField(verbose_name=_('description'), default='', blank=True)
+    notes_zh_cn = models.TextField(verbose_name=_('description'), default='', blank=True)
 

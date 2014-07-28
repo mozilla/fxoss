@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 
 from .models import Profile, UserNotes
 
+from django.utils.translation import ugettext_lazy as _
 
 class ProfileInline(admin.StackedInline):
     model = Profile
@@ -16,7 +17,7 @@ class UserNotesInline(admin.StackedInline):
     extra = 1
     template = 'registration_salesforce/stacked.html'
     can_delete = False
-    verbose_name_plural = 'Notes'
+    verbose_name_plural = _('Notes')
 
 
 class UserAdmin(UserAdmin):

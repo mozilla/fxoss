@@ -7,6 +7,8 @@ from .models import RedirectNotes
 from .models import SiteNotes
 from .models import GroupNotes
 
+from django.utils.translation import ugettext_lazy as _
+
 notes_template = 'site_notes/stacked.html'
 
 class SiteExpandedInline(admin.StackedInline):
@@ -14,7 +16,7 @@ class SiteExpandedInline(admin.StackedInline):
     extra = 1
     template = notes_template
     can_delete = False
-    verbose_name_plural = 'Notes'
+    verbose_name_plural = _('Notes')
 
 
 class SiteNotesAdmin(admin.ModelAdmin):
@@ -26,7 +28,7 @@ class RedirectExpandedInline(admin.StackedInline):
     extra = 1
     template = notes_template
     can_delete = False
-    verbose_name_plural = 'Notes'
+    verbose_name_plural = _('Notes')
 
 
 class RedirectNotesAdmin(admin.ModelAdmin):
@@ -38,7 +40,7 @@ class CommentExpandedInline(admin.StackedInline):
     extra = 1
     template = notes_template
     can_delete = False
-    verbose_name_plural = 'Notes'
+    verbose_name_plural = _('Notes')
 
 
 class CommentNotesAdmin(admin.ModelAdmin):
@@ -50,7 +52,7 @@ class GroupNotesInline(admin.StackedInline):
     extra = 1
     template = notes_template
     can_delete = False
-    verbose_name_plural = 'Notes'
+    verbose_name_plural = _('Notes')
 
 
 class GroupAdmin(GroupAdmin):

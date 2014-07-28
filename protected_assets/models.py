@@ -38,10 +38,10 @@ class SignedAgreement(models.Model):
 
 class AgreementNotes(models.Model):
     page = models.OneToOneField(Agreement, editable=False, related_name='extra_fields')
-    notes = models.TextField(verbose_name='description', default='', blank=True)
-    notes_zh_cn = models.TextField(verbose_name='description', default='', blank=True)
+    notes = models.TextField(verbose_name=_('description'), default='', blank=True)
+    notes_zh_cn = models.TextField(verbose_name=_('description'), default='', blank=True)
 
 class SignedAgreementNotes(models.Model):   
     page = models.OneToOneField(SignedAgreement, editable=False, related_name='extra_fields')
-    notes = models.TextField(verbose_name='description', default='', blank=True)
-    notes_zh_cn = models.TextField(verbose_name='description', default='', blank=True)
+    notes = models.TextField(verbose_name=_('description'), default='', blank=True)
+    notes_zh_cn = models.TextField(verbose_name=_('description'), default='', blank=True)

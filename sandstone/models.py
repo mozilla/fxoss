@@ -8,6 +8,8 @@ from mezzanine.generic.models import ThreadedComment
 from concurrency.api import apply_concurrency_check
 from concurrency.fields import IntegerVersionField
 
+from django.utils.translation import ugettext_lazy as _
+
 
 apply_concurrency_check(Form, 'version', IntegerVersionField)
 apply_concurrency_check(RichTextPage, 'version', IntegerVersionField)
@@ -21,15 +23,15 @@ def add_just_logged_in_cookie(**kwargs):
 
 class PageNotes(models.Model):
     page = models.OneToOneField(Page, editable=False, related_name='page_extra_fields')
-    notes = models.TextField(verbose_name='description', default='', blank=True)
-    notes_zh_cn = models.TextField(verbose_name='description', default='', blank=True)
+    notes = models.TextField(verbose_name=_('description'), default='', blank=True)
+    notes_zh_cn = models.TextField(verbose_name=_('description'), default='', blank=True)
 
 class FormNotes(models.Model):
     page = models.OneToOneField(Form, editable=False, related_name='form_extra_fields')
-    notes = models.TextField(verbose_name='description', default='', blank=True)
-    notes_zh_cn = models.TextField(verbose_name='description', default='', blank=True)
+    notes = models.TextField(verbose_name=_('description'), default='', blank=True)
+    notes_zh_cn = models.TextField(verbose_name=_('description'), default='', blank=True)
 
 class ThreadedCommentNotes(models.Model):
     page = models.OneToOneField(ThreadedComment, editable=False, related_name='threaded_comment_extra_fields')
-    notes = models.TextField(verbose_name='description', default='', blank=True)
-    notes_zh_cn = models.TextField(verbose_name='description', default='', blank=True)
+    notes = models.TextField(verbose_name=_('description'), default='', blank=True)
+    notes_zh_cn = models.TextField(verbose_name=_('description'), default='', blank=True)
