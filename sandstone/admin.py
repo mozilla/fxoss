@@ -13,9 +13,7 @@ from mezzanine.forms.admin import FormAdmin
 from mezzanine.forms.models import Form
 from mezzanine.pages.admin import PageAdmin, LinkAdmin
 from mezzanine.pages.models import RichTextPage, Link
-from .models import FormNotes, PageNotes, ThreadedCommentNotes
-from mezzanine.generic.admin import ThreadedCommentAdmin
-from mezzanine.generic.models import ThreadedComment
+from .models import FormNotes, PageNotes, LinkNotes
 from translations.admin import TranslatableMixin
 
 from django.utils.translation import ugettext_lazy as _
@@ -72,6 +70,13 @@ class SandstoneFormAdmin(TranslatableMixin, ConcurrencyReversionAdmin,
     inlines = [FormExpandedInline, ]
 
 
+class LinkExpandedInline(admin.StackedInline):
+    model = LinkNotes
+    extra = 1
+    template = 'inline/stacked.html'
+    can_delete = False
+    verbose_name_plural = _('Notes')
+
 class SandstoneLinkAdmin(TranslatableMixin, LinkAdmin):
     """
     Customization of LinkAdmin to allow making links only display to
@@ -80,25 +85,13 @@ class SandstoneLinkAdmin(TranslatableMixin, LinkAdmin):
     fieldsets = deepcopy(LinkAdmin.fieldsets)
     fieldsets[0][1]["fields"] += ("login_required", )
     tranlsated_fields = ['title', ]
-
-
-class ThreadedCommentExpandedInline(admin.StackedInline):
-    model = ThreadedCommentNotes
-    extra = 1
-    template = 'inline/stacked.html'
-    can_delete = False
-    verbose_name_plural = _('Notes')
-
-class SandstoneThreadedCommentAdmin(ThreadedCommentAdmin):
-    inlines = [ThreadedCommentExpandedInline, ]  
+    inlines = [LinkExpandedInline, ]
 
 
 admin.site.unregister(Form)
 admin.site.unregister(RichTextPage)
 admin.site.unregister(Link)
-admin.site.unregister(ThreadedComment)
 
 admin.site.register(RichTextPage, SandstoneRichTextPageAdmin)
 admin.site.register(Form, SandstoneFormAdmin)
 admin.site.register(Link, SandstoneLinkAdmin)
-admin.site.register(ThreadedComment, SandstoneThreadedCommentAdmin)

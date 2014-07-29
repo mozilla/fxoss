@@ -274,7 +274,6 @@ INSTALLED_APPS = [
     'django_nose',
     'translations',
     'rosetta',
-    'site_notes',
 ]
 
 

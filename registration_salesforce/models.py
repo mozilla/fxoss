@@ -89,9 +89,3 @@ class Profile(models.Model):
 
     def __unicode__(self):
         return unicode(self.user)
-
-
-class UserNotes(models.Model):
-    page = models.OneToOneField(User, editable=False, related_name='extra_fields')
-    notes = models.TextField(verbose_name=_('description'), default='', blank=True)
-    notes_zh_cn = models.TextField(verbose_name=_('description'), default='', blank=True)
