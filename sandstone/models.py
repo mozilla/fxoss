@@ -5,7 +5,6 @@ from mezzanine.forms.models import Form
 from mezzanine.pages.models import Page
 from mezzanine.pages.models import RichTextPage
 from mezzanine.pages.models import Link
-from mezzanine.generic.models import ThreadedComment
 from concurrency.api import apply_concurrency_check
 from concurrency.fields import IntegerVersionField
 

@@ -1,51 +1,24 @@
-FirefoxOS Scaling Website (FXOSS)
-================================
+MobilePartners
+==============
 
-Below you will find basic setup and deployment instructions for the FXOSS
-project. To begin you should have the following applications installed on your
-local development system::
-
-- Python >= 2.6 (2.7 recommended)
-- `pip >= 1.1 <http://www.pip-installer.org/>`_
-- `virtualenv >= 1.7 <http://www.virtualenv.org/>`_
-- `virtualenvwrapper >= 3.0 <http://pypi.python.org/pypi/virtualenvwrapper>`_
-- PostgreSQL >= 9.1.11
-- git >= 1.7
+*mobilepartners.mozilla.org* is the self service website for OEMs and Operators.
 
 
-Getting Started
-------------------------
+Docs
+----
 
-To setup your local environment you should create a virtualenv and install the
-necessary requirements::
+MobilePartners runs on django and [mezzanine][mezzanine-link]. Documentation can be found on
+[read the docs][rtd].
 
-    mkvirtualenv fxoss -r $PWD/requirements/dev.txt
-
-Then create a local settings file and set your ``DJANGO_SETTINGS_MODULE`` to use it::
-
-    cp $PWD/project/settings/local.py-dist $PWD/project/settings/local.py
-
-Create the PostgreSQL database and run the initial syncdb/migrate::
-
-    createdb fxoss
-    python manage.py syncdb
-    python manage.py migrate
-
-You should now be able to run the development server::
-
-    python manage.py runserver
+[mezzanine-link]: http://mezzanine.jupo.org/
+[rtd]: http://fxoss.readthedocs.org/
 
 
-Deployment
-------------------------
+License
+-------
+This software is licensed under the [MPL/GPL/LGPL tri-license][MPL]. For more
+information, read the file ``LICENSE``.
 
-TODO
+[MPL]: http://www.mozilla.org/MPL/
 
 
-Fixtures
-------------------------
-
-Load the default fixtures for the site. Currently, the only fixtures that exist
-define a *Content Authors* **Group**. To run:
-
-    python manage.py loaddata fixture_groups.json
