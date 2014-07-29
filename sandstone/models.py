@@ -32,7 +32,7 @@ def add_just_logged_in_cookie(**kwargs):
 
 # notes_<LANGUAGE-CODE> = models.TextField(verbose_name=_('description'), default='', blank=True)
 
-# You would replace **<LANGUAGE-CODE>** with the language code in question using
+# You would replace <LANGUAGE-CODE> with the language code in question using
 # underscores instead of dashes if present.
 
 # Using the Brazilian language code as an example, the line would look like the
@@ -40,7 +40,7 @@ def add_just_logged_in_cookie(**kwargs):
 
 # notes_pt_br = models.TextField(verbose_name=_('description'), default='', blank=True)
 
-# Next create a new template schema migration for each app:
+# Next create a new template schema migration for the sandstone app:
 
 # $:-> ./manage.py schemamigration sandstone --auto
 
@@ -66,3 +66,4 @@ class LinkNotes(models.Model):
     page = models.OneToOneField(Link, editable=False, related_name='link_extra_fields')
     notes = models.TextField(verbose_name=_('description'), default='', blank=True)
     notes_zh_cn = models.TextField(verbose_name=_('description'), default='', blank=True)
+
