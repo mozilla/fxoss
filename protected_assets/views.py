@@ -120,9 +120,10 @@ def export_csv(queryset, column_names, generate_row):
 
 def export_signedagreement_csv(request):
     def generate_row(sa):
-        return (sa.user, sa.user.profile.legal_entity,
-                sa.timestamp.strftime('%B %d, %Y %I:%M %p'), sa.agreement,
-                sa.ip)
+        return (
+            unicode(sa.user).encode('utf8'),
+            sa.user.profile.legal_entity.encode('utf8'),
+            sa.timestamp.strftime('%B %d, %Y %I:%M %p'), sa.agreement, sa.ip)
 
     return export_csv(
         SignedAgreement.objects.all(),
