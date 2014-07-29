@@ -1,20 +1,18 @@
-from __future__ import unicode_literals
-
 import csv
 from datetime import datetime
 from urllib import urlencode
 
 from django.contrib.auth import get_user_model
 from django.core.urlresolvers import reverse
-from django.test import TestCase
+from django.test import RequestFactory, TestCase
 from django.test.utils import override_settings
 from django.utils import timezone
 from django.utils.translation import activate
 
-from mock import patch
+from mock import Mock, patch
 
 from .models import Agreement, SignedAgreement
-from .views import export_csv
+from .views import export_csv, export_signedagreement_csv
 
 
 User = get_user_model()
@@ -213,4 +211,30 @@ class TestExportCSV(TestCase):
             ['username', 'email'],
             ['lloyd', 'lloyd@example.com'],
             ['kratos', 'kratos@example.com'],
+        ])
+
+
+class TestExportSignedAgreementCSV(TestCase):
+    @patch('protected_assets.views.SignedAgreement')
+    def test_exportsignedagreement_csv(self, mock_signed_agreement_class):
+        sa = Mock()
+        sa.user.__unicode__ = lambda self: u'b\xf6rk'
+        sa.user.profile.legal_entity = u'b\xf6rk b\xf6rk'
+        MockQS = type('MockQuerySet', (list,), {'model': Mock()})
+        mock_signed_agreement_class.objects.all.return_value = MockQS([sa])
+
+        response = export_signedagreement_csv('request')
+        self.assertEqual(response['Content-Type'], 'text/csv')
+        self.assertEqual(response['Cache-Control'], 'no-cache')
+
+        self.assertEqual(
+            # csv.reader in python 2 does not properly handle unicode, so
+            # we have to wrap it or we get encoding errors :(
+            [[unicode(cell, 'utf-8') for cell in line]
+             for line in csv.reader(response)], [
+            [],
+            [u'username', u'legal entity', u'timestamp', u'agreement', u'ip'],
+            [u'b\xf6rk', u'b\xf6rk b\xf6rk',
+             unicode(sa.timestamp.strftime.return_value),
+             unicode(sa.agreement), unicode(sa.ip)],
         ])
