@@ -100,8 +100,8 @@ class TranslatableMixin(object):
 
 class TODOAdmin(admin.ModelAdmin):
     
-    list_display = ('title_display', 'description', 'created', 'editor', )
-    list_filter = ('created', 'action', )
+    list_display = ('title_display', 'description', 'date_display', 'editor', )
+    list_filter = ('action', )
     actions = ('mark_resolved', )
 
     def get_queryset(self, request):
@@ -133,6 +133,11 @@ class TODOAdmin(admin.ModelAdmin):
     title_display.allow_tags = True
     title_display.admin_order_field = 'title'
     title_display.short_description = _('Title')
+
+    def date_display(self, obj):
+        return obj.created
+    date_display.admin_order_field = 'created'
+    date_display.short_description = _('Date')
 
     def get_actions(self, request):
         actions = super(TODOAdmin, self).get_actions(request)
