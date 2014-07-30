@@ -35,3 +35,4 @@ class SignedAgreement(models.Model):
 
     class Meta:
         ordering = ['-timestamp']
+        unique_together = ('user', 'agreement')

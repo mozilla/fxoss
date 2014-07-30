@@ -4,7 +4,7 @@ from urllib import urlencode
 
 from django.contrib.auth import get_user_model
 from django.core.urlresolvers import reverse
-from django.test import RequestFactory, TestCase
+from django.test import TestCase
 from django.test.utils import override_settings
 from django.utils import timezone
 from django.utils.translation import activate
@@ -169,6 +169,25 @@ class SignAgreementTestCase(AgreementMixin, TestCase):
         with self.settings(DOWNLOAD_AGREEMENT_VERSION='vX.X'):
             response = self.client.get(self.agreement_url)
             self.assertEqual(response.status_code, 404)
+
+    def test_existing_signed_agreement(self):
+        """
+        If a signed agreement already exists for the current user and
+        agreement, do not create a new one and redirect them.
+        """
+        signed_agreement = self.create_signed_agreement(user=self.user,
+                                                        ip='127.0.0.1')
+        response = self.client.post(self.agreement_url, data={'agree': 'on'},
+                                    HTTP_X_CLUSTER_CLIENT_IP='1.1.1.1')
+
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response._headers['location'][1], 'http://testserver/')
+
+        # Only 1 agreement, no new ones. Also don't change the IP.
+        signed_agreements = SignedAgreement.objects.filter(user=self.user,
+                                                    agreement=self.agreement)
+        self.assertEqual(list(signed_agreements), [signed_agreement])
+        self.assertEqual(signed_agreements[0].ip, '127.0.0.1')
 
 
 def aware_datetime(*args, **kwargs):

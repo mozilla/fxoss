@@ -66,11 +66,16 @@ def sign_agreement(request):
         if form.is_valid():
             ip = (request.META.get('HTTP_X_CLUSTER_CLIENT_IP') or
                   request.META.get('HTTP_X_FORWARDED_FOR', '').split(',')[0])
-            SignedAgreement.objects.create(
+
+            # Do not re-create existing agreements.
+            agreement, created = SignedAgreement.objects.get_or_create(
                 user=request.user,
-                ip=ip,
                 agreement=agreement,
             )
+            if created:
+                agreement.ip = ip
+                agreement.save(update_fields=['ip'])
+
             redirect_field_name = 'next'
             default_next = '/'
             next_page = request.POST.get(
