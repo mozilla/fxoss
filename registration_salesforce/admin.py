@@ -1,6 +1,7 @@
 from django.contrib import admin
-from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import User
+
+from mezzanine.core.admin import SitePermissionUserAdmin
 
 from .models import Profile
 
@@ -11,8 +12,8 @@ class ProfileInline(admin.StackedInline):
     verbose_name_plural = 'profile'
 
 
-class UserAdmin(UserAdmin):
-    inlines = (ProfileInline, )
+class UserAdmin(SitePermissionUserAdmin):
+    inlines = SitePermissionUserAdmin.inlines + [ProfileInline, ]
 
 
 admin.site.unregister(User)
