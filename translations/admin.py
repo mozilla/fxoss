@@ -108,8 +108,10 @@ class TODOAdmin(admin.ModelAdmin):
         return self.model.site_objects.filter(resolved_by__isnull=True)
 
     def get_list_display_links(self, request, list_display):
-        """Don't link to the admin change page."""
-        return ()
+        """Don't link to the admin change page. If this is an empty tuple it will make the
+        first cell (the checkbox) a link. If this references a field which doesn't exist
+        then no cells will link the detail page."""
+        return ('<does-not-exist>', )
 
     def has_add_permission(self, request):
         """These can't be created in the admin, only by the TranslatableMixin."""
