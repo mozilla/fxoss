@@ -96,7 +96,17 @@
             <div class="row">
 
               <div class="footer-logo">
-                  <a href="https://www.mozilla.org"><img src="{% static "img/sandstone/footer-mozilla.png" %}" alt="mozilla"></a>
+                <a href="https://www.mozilla.org"><img src="{% static "img/sandstone/footer-mozilla.png" %}" alt="mozilla"></a>
+                {% if LANGUAGES|length > 1 %}
+                    <form action="" method="post" id="language-form">
+                        <label for="id_language_selection">{% trans "Other languages" %}:</label>
+                        <select id="id_language_selection" name="language_selection">
+                        {% for code, name in LANGUAGES %}
+                          <option value="{{ code }}">{{ name }}</option>
+                        {% endfor %}
+                        </select>
+                    </form>
+                {% endif %}
               </div>
 
               <div class="footer-license">
