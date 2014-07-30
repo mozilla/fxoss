@@ -31,6 +31,8 @@ urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 urlpatterns += patterns('',
 
+    # Enable the set language view
+    url(r'^i18n/', include('django.conf.urls.i18n')),
     # We don't want to presume how your homepage works, so here are a
     # few patterns you can use to set it up.
 

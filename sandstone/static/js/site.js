@@ -62,4 +62,8 @@ $(document).ready(function() {
             $('<iframe>', {src: path}).hide().appendTo($('body'));
         }
     });
+
+    $('#language-form :input').on('change', function() {
+        $('#language-form').submit();
+    });
 });
