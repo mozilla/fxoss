@@ -19,3 +19,4 @@ Contents
 
    install
    authoring_content
+   site_translations
