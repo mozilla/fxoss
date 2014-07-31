@@ -59,6 +59,10 @@ class TranslatableMixin(object):
                 except IndexError:
                     current = None
             if delete:
+                # Mark unresolved TODO items for this slug as resolved
+                TODOItem.objects.filter(
+                    slug=obj.slug, site=site, resolved_by__isnull=True
+                ).update(resolved=timezone.now(), resolved_by=user)
                 if current is not None:
                     # Translated version should be deleted as well
                     TODOItem.objects.create(
@@ -69,11 +73,29 @@ class TranslatableMixin(object):
             elif changes is not None:
                 if changes and current is not None:
                     # Translated version should be updated as well
-                    TODOItem.objects.create(
-                        title=force_text(obj), slug=obj.slug, page=current,
-                        action=TODOItem.ACTION_EDIT,
-                        description='Update %s' % ', '.join(c for c in changes),
-                        editor=user, site=site)
+                    try:
+                        todo = TODOItem.objects.filter(
+                            slug=obj.slug, page=current,
+                            action=TODOItem.ACTION_EDIT,
+                            resolved_by__isnull=True,
+                            site=site)[0]
+                    except IndexError:
+                        # Create a new edit TODO
+                        TODOItem.objects.create(
+                            title=force_text(obj), slug=obj.slug, page=current,
+                            action=TODOItem.ACTION_EDIT,
+                            description='Update %s' % ', '.join(c for c in changes),
+                            editor=user, site=site)
+                    else:
+                        # Update the description and editor
+                        description = todo.description
+                        for c in changes:
+                            if c not in description:
+                                description = '%s, %s' % (description, c)
+                        todo.description = description
+                        todo.editor = user
+                        todo.created = timezone.now()
+                        todo.save(update_fields=('description', 'editor', 'created'))
             else:
                 # Need to create translated version
                 TODOItem.objects.create(

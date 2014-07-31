@@ -59,7 +59,7 @@ class AdminTestMixin(object):
 
         # Temporarily replace mezzanine's thread local request with our fake
         # after saving the original for restoring during tearDown
-        self.unfaked_request = mezzanine.core.request._thread_local.request
+        self.unfaked_request = getattr(mezzanine.core.request._thread_local, 'request', None)
         mezzanine.core.request._thread_local.request = self.request
 
     def tearDown(self):
@@ -169,6 +169,36 @@ class AdminTestMixin(object):
         self.assertEqual(todo.action, TODOItem.ACTION_EDIT)
         self.assertEqual(todo.editor, self.user)
 
+    def test_multiple_edits(self):
+        """Multiple edits in a row should only create one TODO."""
+        instance = self.create_model()
+        with self.settings(SITE_ID=self.other.pk):
+            translated = self.create_model(slug=instance.slug)
+        form = self.admin.get_form(self.request)(instance=instance)
+        # Fake a change to the title
+        form._changed_data = ['title', ]
+        # Handle Mezzinine slug tracking
+        instance._old_slug = instance.slug
+        self.admin.save_model(self.request, instance, form, True)
+        todos = TODOItem.objects.all()
+        self.assertEqual(len(todos), 1)
+        todo = todos[0]
+        self.assertEqual(todo.action, TODOItem.ACTION_EDIT)
+        self.assertIn('title', todo.description)
+        # Fake another edit
+        if 'content' in self.admin.tranlsated_fields:
+            form._changed_data = ['content', ]
+        else:
+            form._changed_data = ['title', ]
+        self.admin.save_model(self.request, instance, form, True)
+        todos = TODOItem.objects.all()
+        self.assertEqual(len(todos), 1)
+        todo = todos[0]
+        self.assertEqual(todo.action, TODOItem.ACTION_EDIT)
+        self.assertIn('title', todo.description)
+        if 'content' in self.admin.tranlsated_fields:
+            self.assertIn('content', todo.description)
+
     def test_edit_translated_version(self):
         """Edits to an item on a translation site does not create TODO items."""
         instance = self.create_model()
@@ -211,6 +241,54 @@ class AdminTestMixin(object):
         self.admin.delete_model(self.request, translated)
         todos = TODOItem.objects.all()
         self.assertEqual(len(todos), 0)
+
+    def test_delete_with_outstanding_create(self):
+        """Deleting a page which wasn't created for the other site should resolve
+        the create TODO."""
+        instance = self.model_class(**self.model_defaults)
+        form = self.admin.get_form(self.request)(instance=instance)
+        self.admin.save_model(self.request, instance, form, False)
+        todos = TODOItem.objects.all()
+        self.assertEqual(len(todos), 1)
+        todo = todos[0]
+        self.assertEqual(todo.action, TODOItem.ACTION_CREATE)
+        self.assertIsNone(todo.resolved_by)
+        # Delete the newly created model
+        self.admin.delete_model(self.request, instance)
+        todos = TODOItem.objects.all()
+        self.assertEqual(len(todos), 1)
+        todo = todos[0]
+        self.assertEqual(todo.action, TODOItem.ACTION_CREATE)
+        self.assertEqual(todo.resolved_by, self.user)
+
+    def test_delete_with_outstanding_edits(self):
+        """Deleting a page with existing edit TODOs should resolve the TODOS."""
+        instance = self.create_model()
+        with self.settings(SITE_ID=self.other.pk):
+            translated = self.create_model(slug=instance.slug)
+        form = self.admin.get_form(self.request)(instance=instance)
+        # Fake a change to the title
+        form._changed_data = ['title', ]
+        # Fake the locale site middleware
+        self.request.site_id = self.other.pk
+        # Handle Mezzinine slug tracking
+        instance._old_slug = instance.slug
+        self.admin.save_model(self.request, instance, form, True)
+        todos = TODOItem.objects.all()
+        self.assertEqual(len(todos), 1)
+        todo = todos[0]
+        self.assertEqual(todo.action, TODOItem.ACTION_EDIT)
+        self.assertIsNone(todo.resolved_by)
+        # Delete the page
+        self.admin.delete_model(self.request, instance)
+        todos = TODOItem.objects.all().order_by('created')
+        self.assertEqual(len(todos), 2)
+        edit_todo = todos[0]
+        self.assertEqual(edit_todo.action, TODOItem.ACTION_EDIT)
+        self.assertEqual(edit_todo.resolved_by, self.user)
+        delete_todo = todos[1]
+        self.assertEqual(delete_todo.action, TODOItem.ACTION_DELETE)
+        self.assertIsNone(delete_todo.resolved_by)
 
 
 TEST_LANGUAGES = (
