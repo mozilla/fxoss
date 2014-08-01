@@ -14,7 +14,7 @@ from __future__ import absolute_import, unicode_literals
 # Controls the ordering and grouping of the admin menu.
 #
 ADMIN_MENU_ORDER = (
-    ("Rosetta", (("PO File Translation", "rosetta-home"), )),
+    ("Rosetta", (("PO File Translation", "rosetta-pick-file"), )),
 )
 
 # A three item sequence, each containing a sequence of template tags

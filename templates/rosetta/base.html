@@ -1,0 +1,38 @@
+{% extends "admin/base_site.html" %}
+
+<!-- LOADING -->
+{% load i18n staticfiles %}
+{% load url from future %}{% load admin_static %}
+
+{% block pagetitle %}Rosetta{% endblock %}
+
+<!-- STYLES & SCRIPTS -->
+{% block stylesheets %}
+    {{ block.super }}
+    <link rel="stylesheet" type="text/css" media="all" href="{% static "css/rosetta/rosetta.css" %}" />
+{% endblock %}
+{% block javascripts %}
+    {{ block.super }}
+    <script src="//www.google.com/jsapi" type="text/javascript"></script>
+    <script type="text/javascript">
+    //<!--
+        google.load("jquery", "1.3");
+        {% if rosetta_settings.ENABLE_TRANSLATION_SUGGESTIONS %}google.load("language", "1");{% endif %}
+        {% include 'rosetta/js/rosetta.js' %}
+    //-->
+    </script>
+{% endblock %}
+
+<!-- COLTYPE/BODYCLASS -->
+{% block coltype %}colMS{% endblock %}
+{% block bodyclass %}dashboard{% endblock %}
+
+<!-- BREADCRUMBS -->
+{% block breadcrumbs %}<div class="breadcrumbs">{% trans "Home" %}</div>{% endblock %}
+
+<!-- CONTENT -->
+{% block content %}
+        <div id="content" class="flex">
+            {% block main %}{% endblock %}
+        </div>
+{% endblock %}
