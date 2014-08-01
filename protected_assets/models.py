@@ -22,6 +22,22 @@ class Agreement(models.Model):
         return self.name + ' ' + self.version
 
 
+class TranslatedAgreement(models.Model):
+    """Translated version of the marketing agreement."""
+    agreement = models.ForeignKey(Agreement)
+    language = models.CharField(max_length=10,
+        choices=[l for l in settings.LANGUAGES if l[0] != settings.LANGUAGE_CODE])
+
+    def _agreement_filename(instance, filename):
+        directory = 'uploads/agreements/%s/' % instance.language
+        return directory + now().strftime('%Y-%m-%d_%H:%M:%S_agreement.pdf')
+    
+    agreement_pdf = models.FileField(max_length=255, upload_to=_agreement_filename)
+
+    def __unicode__(self):
+        return '%s (%s)' % (self.agreement, self.get_language_display())
+
+
 class SignedAgreement(models.Model):
     """Record of user signing the user agreement."""
     user = models.ForeignKey(settings.AUTH_USER_MODEL,
