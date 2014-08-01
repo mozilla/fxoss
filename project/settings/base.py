@@ -78,6 +78,12 @@ EXTRA_MODEL_FIELDS = (
         ("Call to Action Body",),
         {"default": '', "blank": True},
     ),
+    (
+        "mezzanine.pages.models.Page.notes",
+        "TextField",  # 'django.db.models.' is implied if path is omitted.
+        ("Administrative Notes",),
+        {"default": '', "blank": True},
+    ),
 )
 
 # Setting to turn on featured images for blog posts. Defaults to False.
@@ -131,6 +137,7 @@ _ = lambda s: s
 
 LANGUAGES = (
     ('en', _('English')),
+    ('zh-cn', _('Simplified Chinese')),
 )
 
 # A boolean that turns on/off debug mode. When set to ``True``, stack traces

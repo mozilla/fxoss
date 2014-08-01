@@ -8,6 +8,7 @@ from concurrency.forms import VersionWidget
 from copy import deepcopy
 
 from django.contrib import admin
+from django.utils.translation import ugettext_lazy as _
 
 from mezzanine.forms.admin import FormAdmin
 from mezzanine.forms.models import Form
@@ -24,9 +25,20 @@ rt_page_fieldsets[0][1]["fields"].insert(5, "cta_title")
 rt_page_fieldsets[0][1]["fields"].insert(6, "cta_body")
 rt_page_fieldsets[0][1]["fields"].insert(7, "content")
 rt_page_fieldsets[0][1]["fields"].insert(-1, "version")
+# Add Notes field with its own collapsable section
+rt_page_fieldsets += ((_("Notes"), {
+    "fields": ("notes",),
+    "classes": ("collapse-closed",)},),)
 
 form_page_fieldsets = deepcopy(FormAdmin.fieldsets)
 form_page_fieldsets[0][1]["fields"].insert(-1, "version")
+# Add Notes field with its own collapsable section
+form_page_fieldsets += ((_("Notes"), {
+    "fields": ("notes",),
+    "classes": ("collapse-closed",)},),)
+
+link_page_fieldsets = deepcopy(LinkAdmin.fieldsets)
+link_page_fieldsets[0][1]["fields"].insert(-1, "version")
 
 
 # Allows django-reversion and django-concurrency to work together
@@ -61,6 +73,10 @@ class SandstoneLinkAdmin(TranslatableMixin, LinkAdmin):
     """
     fieldsets = deepcopy(LinkAdmin.fieldsets)
     fieldsets[0][1]["fields"] += ("login_required", )
+    # Add Notes field with its own collapsable section
+    fieldsets += ((_("Notes"), {
+        "fields": ("notes",),
+        "classes": ("collapse-closed",)},),)
     tranlsated_fields = ['title', ]
 
 
