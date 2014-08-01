@@ -21,10 +21,22 @@ class Agreement(models.Model):
     def __unicode__(self):
         return self.name + ' ' + self.version
 
+    def localized_pdf(self, language):
+        """Get the correct version of the PDF for the user's language choice."""
+        result = self.agreement_pdf
+        if language != settings.LANGUAGE_CODE:
+            try:
+                alternate = self.translations.get(language=language)
+            except TranslatedAgreement.DoesNotExist:
+                pass
+            else:
+                result = alternate.agreement_pdf
+        return result
+
 
 class TranslatedAgreement(models.Model):
     """Translated version of the marketing agreement."""
-    agreement = models.ForeignKey(Agreement)
+    agreement = models.ForeignKey(Agreement, related_name='translations')
     language = models.CharField(max_length=10,
         choices=[l for l in settings.LANGUAGES if l[0] != settings.LANGUAGE_CODE])
 
@@ -36,6 +48,9 @@ class TranslatedAgreement(models.Model):
 
     def __unicode__(self):
         return '%s (%s)' % (self.agreement, self.get_language_display())
+
+    class Meta:
+        unique_together = ('agreement', 'language')
 
 
 class SignedAgreement(models.Model):

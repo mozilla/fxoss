@@ -11,14 +11,20 @@ class Migration(SchemaMigration):
         # Adding model 'TranslatedAgreement'
         db.create_table(u'protected_assets_translatedagreement', (
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('agreement', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['protected_assets.Agreement'])),
+            ('agreement', self.gf('django.db.models.fields.related.ForeignKey')(related_name='translations', to=orm['protected_assets.Agreement'])),
             ('language', self.gf('django.db.models.fields.CharField')(max_length=10)),
             ('agreement_pdf', self.gf('django.db.models.fields.files.FileField')(max_length=255)),
         ))
         db.send_create_signal(u'protected_assets', ['TranslatedAgreement'])
 
+        # Adding unique constraint on 'TranslatedAgreement', fields ['agreement', 'language']
+        db.create_unique(u'protected_assets_translatedagreement', ['agreement_id', 'language'])
+
 
     def backwards(self, orm):
+        # Removing unique constraint on 'TranslatedAgreement', fields ['agreement', 'language']
+        db.delete_unique(u'protected_assets_translatedagreement', ['agreement_id', 'language'])
+
         # Deleting model 'TranslatedAgreement'
         db.delete_table(u'protected_assets_translatedagreement')
 
@@ -77,8 +83,8 @@ class Migration(SchemaMigration):
             'user': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['auth.User']"})
         },
         u'protected_assets.translatedagreement': {
-            'Meta': {'object_name': 'TranslatedAgreement'},
-            'agreement': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['protected_assets.Agreement']"}),
+            'Meta': {'unique_together': "(('agreement', 'language'),)", 'object_name': 'TranslatedAgreement'},
+            'agreement': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'translations'", 'to': u"orm['protected_assets.Agreement']"}),
             'agreement_pdf': ('django.db.models.fields.files.FileField', [], {'max_length': '255'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'language': ('django.db.models.fields.CharField', [], {'max_length': '10'})
