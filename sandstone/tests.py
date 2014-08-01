@@ -7,11 +7,15 @@ from django.contrib.auth import get_user_model
 from django.contrib.sites.models import Site
 from django.test import TestCase
 from django.test.client import RequestFactory
+from django.test.utils import override_settings
 
 import mezzanine.core.request
 from mezzanine.forms.models import Form
 from mezzanine.pages.models import RichTextPage, Link
 from mock import Mock
+
+from translations.models import TODOItem
+from translations.utils import build_site_for_language
 
 from .admin import SandstoneRichTextPageAdmin, SandstoneFormAdmin, SandstoneLinkAdmin
 from .middleware import SetJustLoggedInCookieMiddleware
@@ -51,10 +55,11 @@ class AdminTestMixin(object):
         # Fake the authentication middleware
         self.request.user = self.user
         self.admin = self.admin_class(self.model_class, admin.site)
+        self.other = build_site_for_language('zh-cn', copy_content=False)
 
         # Temporarily replace mezzanine's thread local request with our fake
         # after saving the original for restoring during tearDown
-        self.unfaked_request = mezzanine.core.request._thread_local.request
+        self.unfaked_request = getattr(mezzanine.core.request._thread_local, 'request', None)
         mezzanine.core.request._thread_local.request = self.request
 
     def tearDown(self):
@@ -94,12 +99,11 @@ class AdminTestMixin(object):
     def test_change_form_translated_site(self):
         """Rending the change form on the non-default site should link back to the original page."""
         original = self.create_model()
-        site = self.create_new_site()
         # Create an instance on a non-default site
-        with self.settings(SITE_ID=site.pk):
+        with self.settings(SITE_ID=self.other.pk):
             instance = self.create_model(slug=original.slug)
         # Fake the locale site middleware
-        self.request.site_id = site.pk
+        self.request.site_id = self.other.pk
         response = self.admin.change_view(self.request, str(instance.pk))
         self.assertEqual(response.template_name, 'translations/admin/change_form.html')
         expected_url_name = admin_urlname(self.model_class._meta, 'change')
@@ -110,18 +114,190 @@ class AdminTestMixin(object):
 
     def test_change_form_default_not_found(self):
         """Handle the non-default site when the original page isn't found."""
-        site = self.create_new_site()
         # Create an instance on a non-default site
-        with self.settings(SITE_ID=site.pk):
+        with self.settings(SITE_ID=self.other.pk):
             instance = self.create_model()
         # Fake the locale site middleware
-        self.request.site_id = site.pk
+        self.request.site_id = self.other.pk
         response = self.admin.change_view(self.request, str(instance.pk))
         self.assertEqual(response.template_name, 'translations/admin/change_form.html')
         self.assertIsNone(response.context_data['default_language_url'])
         self.assertEqual(response.context_data['base_template'], self.expected_base_template)
 
+    def test_create_default_version(self):
+        """Creating a new item on the default will create TODO items for other language sites."""
+        instance = self.model_class(**self.model_defaults)
+        form = self.admin.get_form(self.request)(instance=instance)
+        self.admin.save_model(self.request, instance, form, False)
+        todos = TODOItem.objects.all()
+        self.assertEqual(len(todos), 1)
+        todo = todos[0]
+        self.assertEqual(todo.title, instance.title)
+        self.assertEqual(todo.slug, instance.slug)
+        self.assertEqual(todo.site, self.other)
+        self.assertEqual(todo.action, TODOItem.ACTION_CREATE)
+        self.assertEqual(todo.editor, self.user)
 
+    def test_create_translated_version(self):
+        """Creating a new item on a translation site does not create TODO items."""
+        instance = self.model_class( **self.model_defaults)
+        form = self.admin.get_form(self.request)(instance=instance)
+        # Fake the locale site middleware
+        self.request.site_id = self.other.pk
+        self.admin.save_model(self.request, instance, form, False)
+        todos = TODOItem.objects.all()
+        self.assertEqual(len(todos), 0)
+
+    def test_edit_default_version(self):
+        """Edits to an item on the default will create TODO items for other language sites."""
+        instance = self.create_model()
+        with self.settings(SITE_ID=self.other.pk):
+            translated = self.create_model(slug=instance.slug)
+        form = self.admin.get_form(self.request)(instance=instance)
+        # Fake a change to the title
+        form._changed_data = ['title', ]
+        # Handle Mezzinine slug tracking
+        instance._old_slug = instance.slug
+        self.admin.save_model(self.request, instance, form, True)
+        todos = TODOItem.objects.all()
+        self.assertEqual(len(todos), 1)
+        todo = todos[0]
+        self.assertEqual(todo.title, instance.title)
+        self.assertEqual(todo.slug, instance.slug)
+        self.assertEqual(todo.page.pk, translated.page_ptr_id)
+        self.assertEqual(todo.site, self.other)
+        self.assertEqual(todo.action, TODOItem.ACTION_EDIT)
+        self.assertEqual(todo.editor, self.user)
+
+    def test_multiple_edits(self):
+        """Multiple edits in a row should only create one TODO."""
+        instance = self.create_model()
+        with self.settings(SITE_ID=self.other.pk):
+            translated = self.create_model(slug=instance.slug)
+        form = self.admin.get_form(self.request)(instance=instance)
+        # Fake a change to the title
+        form._changed_data = ['title', ]
+        # Handle Mezzinine slug tracking
+        instance._old_slug = instance.slug
+        self.admin.save_model(self.request, instance, form, True)
+        todos = TODOItem.objects.all()
+        self.assertEqual(len(todos), 1)
+        todo = todos[0]
+        self.assertEqual(todo.action, TODOItem.ACTION_EDIT)
+        self.assertIn('title', todo.description)
+        # Fake another edit
+        if 'content' in self.admin.tranlsated_fields:
+            form._changed_data = ['content', ]
+        else:
+            form._changed_data = ['title', ]
+        self.admin.save_model(self.request, instance, form, True)
+        todos = TODOItem.objects.all()
+        self.assertEqual(len(todos), 1)
+        todo = todos[0]
+        self.assertEqual(todo.action, TODOItem.ACTION_EDIT)
+        self.assertIn('title', todo.description)
+        if 'content' in self.admin.tranlsated_fields:
+            self.assertIn('content', todo.description)
+
+    def test_edit_translated_version(self):
+        """Edits to an item on a translation site does not create TODO items."""
+        instance = self.create_model()
+        with self.settings(SITE_ID=self.other.pk):
+            translated = self.create_model(slug=instance.slug)
+        form = self.admin.get_form(self.request)(instance=instance)
+        # Fake a change to the title
+        form._changed_data = ['title', ]
+        # Fake the locale site middleware
+        self.request.site_id = self.other.pk
+        # Handle Mezzinine slug tracking
+        translated._old_slug = translated.slug
+        self.admin.save_model(self.request, translated, form, True)
+        todos = TODOItem.objects.all()
+        self.assertEqual(len(todos), 0)
+
+    def test_delete_default_version(self):
+        """Deleted an item on the default will create TODO items for other language sites."""
+        instance = self.create_model()
+        with self.settings(SITE_ID=self.other.pk):
+            translated = self.create_model(slug=instance.slug)
+        self.admin.delete_model(self.request, instance)
+        todos = TODOItem.objects.all()
+        self.assertEqual(len(todos), 1)
+        todo = todos[0]
+        self.assertEqual(todo.title, instance.title)
+        self.assertEqual(todo.slug, instance.slug)
+        self.assertEqual(todo.page.pk, translated.page_ptr_id)
+        self.assertEqual(todo.site, self.other)
+        self.assertEqual(todo.action, TODOItem.ACTION_DELETE)
+        self.assertEqual(todo.editor, self.user)
+
+    def test_delete_translated_version(self):
+        """Deleted an item on a translation site does not create TODO items."""
+        instance = self.create_model()
+        with self.settings(SITE_ID=self.other.pk):
+            translated = self.create_model(slug=instance.slug)
+        # Fake the locale site middleware
+        self.request.site_id = self.other.pk
+        self.admin.delete_model(self.request, translated)
+        todos = TODOItem.objects.all()
+        self.assertEqual(len(todos), 0)
+
+    def test_delete_with_outstanding_create(self):
+        """Deleting a page which wasn't created for the other site should resolve
+        the create TODO."""
+        instance = self.model_class(**self.model_defaults)
+        form = self.admin.get_form(self.request)(instance=instance)
+        self.admin.save_model(self.request, instance, form, False)
+        todos = TODOItem.objects.all()
+        self.assertEqual(len(todos), 1)
+        todo = todos[0]
+        self.assertEqual(todo.action, TODOItem.ACTION_CREATE)
+        self.assertIsNone(todo.resolved_by)
+        # Delete the newly created model
+        self.admin.delete_model(self.request, instance)
+        todos = TODOItem.objects.all()
+        self.assertEqual(len(todos), 1)
+        todo = todos[0]
+        self.assertEqual(todo.action, TODOItem.ACTION_CREATE)
+        self.assertEqual(todo.resolved_by, self.user)
+
+    def test_delete_with_outstanding_edits(self):
+        """Deleting a page with existing edit TODOs should resolve the TODOS."""
+        instance = self.create_model()
+        with self.settings(SITE_ID=self.other.pk):
+            translated = self.create_model(slug=instance.slug)
+        form = self.admin.get_form(self.request)(instance=instance)
+        # Fake a change to the title
+        form._changed_data = ['title', ]
+        # Fake the locale site middleware
+        self.request.site_id = self.other.pk
+        # Handle Mezzinine slug tracking
+        instance._old_slug = instance.slug
+        self.admin.save_model(self.request, instance, form, True)
+        todos = TODOItem.objects.all()
+        self.assertEqual(len(todos), 1)
+        todo = todos[0]
+        self.assertEqual(todo.action, TODOItem.ACTION_EDIT)
+        self.assertIsNone(todo.resolved_by)
+        # Delete the page
+        self.admin.delete_model(self.request, instance)
+        todos = TODOItem.objects.all().order_by('created')
+        self.assertEqual(len(todos), 2)
+        edit_todo = todos[0]
+        self.assertEqual(edit_todo.action, TODOItem.ACTION_EDIT)
+        self.assertEqual(edit_todo.resolved_by, self.user)
+        delete_todo = todos[1]
+        self.assertEqual(delete_todo.action, TODOItem.ACTION_DELETE)
+        self.assertIsNone(delete_todo.resolved_by)
+
+
+TEST_LANGUAGES = (
+    ('en', 'English'),
+    ('zh-cn', 'Simplified Chinese'),
+)
+
+
+@override_settings(LANGUAGES=TEST_LANGUAGES, LANGUAGE_CODE='en')
 class RichTextPageAdminTestCase(AdminTestMixin, TestCase):
     """Customizations to editing RichTextPages in the admin."""
 
@@ -133,6 +309,7 @@ class RichTextPageAdminTestCase(AdminTestMixin, TestCase):
     }
 
 
+@override_settings(LANGUAGES=TEST_LANGUAGES, LANGUAGE_CODE='en')
 class FormAdminTestCase(AdminTestMixin, TestCase):
     """Customizations to editing Forms in the admin."""
 
@@ -145,6 +322,7 @@ class FormAdminTestCase(AdminTestMixin, TestCase):
     expected_base_template = 'admin/forms/change_form.html'
 
 
+@override_settings(LANGUAGES=TEST_LANGUAGES, LANGUAGE_CODE='en')
 class LinkAdminTestCase(AdminTestMixin, TestCase):
     """Customizations to editing Links in the admin."""
 

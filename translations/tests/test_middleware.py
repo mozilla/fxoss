@@ -2,7 +2,7 @@ from django.conf import settings
 from django.test import TestCase
 from django.test.client import RequestFactory
 
-from ..models import build_site_for_language
+from ..utils import build_site_for_language
 from ..middleware import LocaleSiteMiddleware
 
 

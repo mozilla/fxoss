@@ -5,7 +5,7 @@ from optparse import make_option
 from django.conf import settings
 from django.core.management.base import LabelCommand
 
-from translations.models import build_site_for_language
+from translations.utils import build_site_for_language
 
 
 class Command(LabelCommand):
