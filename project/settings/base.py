@@ -128,7 +128,7 @@ _ = lambda s: s
 
 LANGUAGES = (
     ('en', _('English')),
-    ('zh-cn',_('Simplified Chinese')),
+    ('zh-cn', _('Simplified Chinese')),
 )
 
 # A boolean that turns on/off debug mode. When set to ``True``, stack traces
@@ -238,6 +238,9 @@ ROOT_URLCONF = "%s.urls" % PROJECT_DIRNAME
 # Always use forward slashes, even on Windows.
 # Don't forget to use absolute paths, not relative paths.
 TEMPLATE_DIRS = (os.path.join(PROJECT_ROOT, "templates"),)
+
+# Project level PO/MO files
+LOCALE_PATHS = (os.path.join(PROJECT_ROOT, "locale"),)
 
 ################
 # APPLICATIONS #

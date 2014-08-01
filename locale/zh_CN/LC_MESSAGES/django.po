@@ -8,17 +8,23 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-07-14 16:52-0400\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2014-08-01 09:28-0400\n"
+"PO-Revision-Date: 2014-08-01 09:34-0500\n"
+"Last-Translator:   <dray@caktusgroup.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: \n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Translated-Using: django-rosetta 0.7.4\n"
 
-#: project/settings/base.py:133
+#: project/settings/base.py:130
 msgid "English"
+msgstr ""
+
+#: project/settings/base.py:131
+msgid "Simplified Chinese"
 msgstr ""
 
 #: protected_assets/forms.py:9
@@ -41,15 +47,15 @@ msgstr ""
 msgid "Version of the agreement which was signed."
 msgstr ""
 
-#: protected_assets/templates/protected_assets/download-agreement.html:11
+#: protected_assets/templates/protected_assets/download-agreement.html:12
 msgid "Agree"
 msgstr ""
 
-#: protected_assets/templates/protected_assets/download-agreement.html:12
+#: protected_assets/templates/protected_assets/download-agreement.html:13
 msgid "Cancel"
 msgstr ""
 
-#: protected_assets/templates/protected_assets/download-agreement.html:14
+#: protected_assets/templates/protected_assets/download-agreement.html:15
 msgid "Download"
 msgstr ""
 
@@ -295,8 +301,8 @@ msgstr ""
 
 #: sandstone/templates/409.html:15
 msgid ""
-"Another author has saved changes to this object while you were editing. This "
-"view provides the differences between versions. You will need to copy the "
+"Another author has saved changes to this object while you were editing. This"
+" view provides the differences between versions. You will need to copy the "
 "changes you would like to keep and re-edit the object."
 msgstr ""
 
@@ -325,133 +331,117 @@ msgid "Edit"
 msgstr ""
 
 #: sandstone/templates/index.html:4 sandstone/templates/index.html.py:5
-#: sandstone/templates/pages/menus/tree.html:9
+#: sandstone/templates/pages/menus/tree.html:9 templates/rosetta/base.html:31
+#: templates/rosetta/pofile.html:22
 msgid "Home"
 msgstr ""
 
-#: sandstone/templates/index.html:22
+#: sandstone/templates/index.html:23
 msgid "Building the future<br>starts here"
 msgstr ""
 
-#: sandstone/templates/index.html:24
+#: sandstone/templates/index.html:25
 msgid ""
 "\n"
-"        Welcome to the world of Firefox OS. On this site, you’ll find "
-"everything you need to build, customize, and bring to market your own "
-"version of our groundbreaking mobile operating system. You’ll also learn how "
-"to use the Firefox OS brand on a phone, tablet or other device. <em>Get "
-"started below.</em>\n"
+"        Welcome to the world of Firefox OS. On this site, you’ll find everything you need to build, customize, and bring to market your own version of our groundbreaking mobile operating system. You’ll also learn how to use the Firefox OS brand on a phone, tablet or other device. <em>Get started below.</em>\n"
 "      "
 msgstr ""
 
-#: sandstone/templates/index.html:31
+#: sandstone/templates/index.html:32
 msgid "I'm a Manufacturer"
 msgstr ""
 
-#: sandstone/templates/index.html:35
+#: sandstone/templates/index.html:36
 msgid "I'm an Operator"
 msgstr ""
 
-#: sandstone/templates/index.html:45
+#: sandstone/templates/index.html:46
 msgid "Close"
 msgstr ""
 
-#: sandstone/templates/index.html:51
+#: sandstone/templates/index.html:52
 msgid "Say hello to Firefox OS"
 msgstr ""
 
-#: sandstone/templates/index.html:53
+#: sandstone/templates/index.html:54
 msgid ""
 "\n"
-"          You already make great hardware — now it’s time to build and "
-"customize an amazing OS for it. Learn about the technology behind Firefox OS "
-"and how to bring a brand new Firefox OS phone to life.\n"
+"          You already make great hardware — now it’s time to build and customize an amazing OS for it. Learn about the technology behind Firefox OS and how to bring a brand new Firefox OS phone to life.\n"
 "        "
 msgstr ""
 
-#: sandstone/templates/index.html:60 sandstone/templates/index.html.py:111
+#: sandstone/templates/index.html:61 sandstone/templates/index.html.py:112
 msgid "Learn"
 msgstr ""
 
-#: sandstone/templates/index.html:62 sandstone/templates/index.html.py:113
+#: sandstone/templates/index.html:63 sandstone/templates/index.html.py:114
 msgid ""
 "\n"
-"          Explore Firefox OS and the Firefox Marketplace. Get localization "
-"support, roadmaps and a complete, detailed list of every feature.\n"
+"          Explore Firefox OS and the Firefox Marketplace. Get localization support, roadmaps and a complete, detailed list of every feature.\n"
 "        "
 msgstr ""
 
-#: sandstone/templates/index.html:66 sandstone/templates/index.html.py:117
+#: sandstone/templates/index.html:67 sandstone/templates/index.html.py:118
 msgid "Get started"
 msgstr ""
 
-#: sandstone/templates/index.html:70 sandstone/templates/index.html.py:121
+#: sandstone/templates/index.html:71 sandstone/templates/index.html.py:122
 msgid "Build"
 msgstr ""
 
-#: sandstone/templates/index.html:72
+#: sandstone/templates/index.html:73
 msgid ""
 "\n"
-"          Create and customize your own version of Firefox OS. Learn more "
-"about hardware requirements, supported chipsets, and how to contribute back "
-"to the community.\n"
+"          Create and customize your own version of Firefox OS. Learn more about hardware requirements, supported chipsets, and how to contribute back to the community.\n"
 "        "
 msgstr ""
 
-#: sandstone/templates/index.html:76 sandstone/templates/index.html.py:127
+#: sandstone/templates/index.html:77 sandstone/templates/index.html.py:128
 msgid "Build today"
 msgstr ""
 
-#: sandstone/templates/index.html:80 sandstone/templates/index.html.py:131
+#: sandstone/templates/index.html:81 sandstone/templates/index.html.py:132
 msgid "Market"
 msgstr ""
 
-#: sandstone/templates/index.html:82 sandstone/templates/index.html.py:133
+#: sandstone/templates/index.html:83 sandstone/templates/index.html.py:134
 msgid ""
 "\n"
-"          Take your product to market. Get access and support to the "
-"essential licenses and Firefox OS brand assets you’ll need, quickly and "
-"easily.\n"
+"          Take your product to market. Get access and support to the essential licenses and Firefox OS brand assets you’ll need, quickly and easily.\n"
 "        "
 msgstr ""
 
-#: sandstone/templates/index.html:86 sandstone/templates/index.html.py:96
-#: sandstone/templates/index.html:137 sandstone/templates/index.html.py:147
+#: sandstone/templates/index.html:87 sandstone/templates/index.html.py:97
+#: sandstone/templates/index.html:138 sandstone/templates/index.html.py:148
 msgid "Begin the process"
 msgstr ""
 
-#: sandstone/templates/index.html:90 sandstone/templates/index.html.py:141
+#: sandstone/templates/index.html:91 sandstone/templates/index.html.py:142
 msgid "Maintain"
 msgstr ""
 
-#: sandstone/templates/index.html:92 sandstone/templates/index.html.py:143
+#: sandstone/templates/index.html:93 sandstone/templates/index.html.py:144
 msgid ""
 "\n"
-"          After you’ve launched your Firefox OS device, you’ll be able to "
-"get the information needed to deliver updates to customers, access our help "
-"desk and get reports.\n"
+"          After you’ve launched your Firefox OS device, you’ll be able to get the information needed to deliver updates to customers, access our help desk and get reports.\n"
 "        "
 msgstr ""
 
-#: sandstone/templates/index.html:102
+#: sandstone/templates/index.html:103
 msgid "Meet Firefox OS"
 msgstr ""
 
-#: sandstone/templates/index.html:104
+#: sandstone/templates/index.html:105
 msgid ""
 "\n"
-"          Looking to bring something truly new to your customers? Discover "
-"why they’ll be just as excited about Firefox OS as we are. Here, you’ll get "
-"the ins and outs of the operating system, the phones and the brand.\n"
+"          Looking to bring something truly new to your customers? Discover why they’ll be just as excited about Firefox OS as we are. Here, you’ll get the ins and outs of the operating system, the phones and the brand.\n"
 "        "
 msgstr ""
 
-#: sandstone/templates/index.html:123
+#: sandstone/templates/index.html:124
 msgid ""
 "\n"
-"          Customize your own version of Firefox OS. Learn more about "
-"hardware requirements, connect with manufactures making Firefox OS devices, "
-"and discover how you can to contribute back to the Firefox OS community.\n"
+"          Customize your own version of Firefox OS. Learn more about hardware requirements, connect with manufactures making Firefox OS devices, and discover how you can to contribute back to the Firefox OS community.\n"
 "        "
 msgstr ""
 
@@ -464,15 +454,16 @@ msgstr ""
 #: sandstone/templates/accounts/account_login.html:11
 #, python-format
 msgid ""
-"If you don't have an account you can <a href=\"%(signup_url)s?next=%(next)s"
-"\">sign up</a> for one now."
+"If you don't have an account you can <a "
+"href=\"%(signup_url)s?next=%(next)s\">sign up</a> for one now."
 msgstr ""
 
 #: sandstone/templates/accounts/account_login.html:14
 #, python-format
 msgid ""
-"<p>You can also <a href=\"%(password_reset_url)s?next=%(profile_update_url)s"
-"\">reset your password</a> if you've forgotten it.</p>"
+"<p>You can also <a "
+"href=\"%(password_reset_url)s?next=%(profile_update_url)s\">reset your "
+"password</a> if you've forgotten it.</p>"
 msgstr ""
 
 #: sandstone/templates/accounts/account_login.html:20
@@ -482,8 +473,8 @@ msgstr ""
 
 #: sandstone/templates/accounts/account_password_reset.html:6
 msgid ""
-"Enter your email address and you'll receive an email with a link you need to "
-"click, in order to log in and change your password."
+"Enter your email address and you'll receive an email with a link you need to"
+" click, in order to log in and change your password."
 msgstr ""
 
 #: sandstone/templates/accounts/account_password_reset.html:10
@@ -510,37 +501,37 @@ msgstr ""
 msgid "Date"
 msgstr ""
 
-#: sandstone/templates/accounts/account_signup.html:16
+#: sandstone/templates/accounts/account_signup.html:17
 msgid ""
-"You're already logged in. If you'd like to create a new account, you'll need "
-"to log out first."
-msgstr ""
-
-#: sandstone/templates/accounts/account_signup.html:23
-msgid ""
-"By creating an account, you'll get access and support to the essential "
-"certifications and Firefox OS brand assets needed to build a Firefox OS "
-"phone. Your contact information will be shared with our Business Development "
-"team and will be used to notify you regarding material changes to the "
-"agreements, tools and/or assets provided on this website."
+"You're already logged in. If you'd like to create a new account, you'll need"
+" to log out first."
 msgstr ""
 
 #: sandstone/templates/accounts/account_signup.html:24
+msgid ""
+"By creating an account, you'll get access and support to the essential "
+"certifications and Firefox OS brand assets needed to build a Firefox OS "
+"phone. Your contact information will be shared with our Business Development"
+" team and will be used to notify you regarding material changes to the "
+"agreements, tools and/or assets provided on this website."
+msgstr ""
+
+#: sandstone/templates/accounts/account_signup.html:25
 msgid " = Required Field"
 msgstr ""
 
-#: sandstone/templates/accounts/account_signup.html:27
+#: sandstone/templates/accounts/account_signup.html:28
 msgid ""
 "After you submit your information, we will send you a verification email to "
-"activate your account. We will also use your information to communicate with "
-"you about Firefox OS and Mozilla initiatives."
+"activate your account. We will also use your information to communicate with"
+" you about Firefox OS and Mozilla initiatives."
 msgstr ""
 
-#: sandstone/templates/accounts/account_signup.html:29
+#: sandstone/templates/accounts/account_signup.html:30
 msgid ""
-"By proceeding, I agree to the <a href='https://www.mozilla.org/en-US/about/"
-"legal.html'>Legal Notice</a> and  <a href='https://www.mozilla.org/en-US/"
-"privacy/policies/websites/'>Privacy Notice</a> for Mozilla websites."
+"By proceeding, I agree to the <a href='https://www.mozilla.org/en-"
+"US/about/legal.html'>Legal Notice</a> and  <a href='https://www.mozilla.org"
+"/en-US/privacy/policies/websites/'>Privacy Notice</a> for Mozilla websites."
 msgstr ""
 
 #: sandstone/templates/accounts/includes/user_panel.html:5
@@ -610,6 +601,10 @@ msgstr ""
 msgid "Everything"
 msgstr ""
 
+#: templates/admin/includes/dropdown_menu.html:4
+msgid "Dashboard"
+msgstr ""
+
 #: templates/pages/market.html:14
 msgid "Partner With Us"
 msgstr ""
@@ -617,8 +612,8 @@ msgstr ""
 #: templates/pages/market.html:16
 msgid ""
 "With Firefox, we changed browsing forever by putting users first and "
-"offering a new level of choice, innovation and trust online. Now we're doing "
-"it all over again with Firefox OS."
+"offering a new level of choice, innovation and trust online. Now we're doing"
+" it all over again with Firefox OS."
 msgstr ""
 
 #: templates/pages/market.html:19
@@ -629,4 +624,103 @@ msgstr ""
 
 #: templates/pages/market.html:21
 msgid "Register"
+msgstr ""
+
+#: templates/rosetta/pofile.html:9
+msgid "Pick another file"
+msgstr ""
+
+#: templates/rosetta/pofile.html:10
+msgid "Download this catalog"
+msgstr ""
+
+#: templates/rosetta/pofile.html:25
+#, python-format
+msgid "Progress: %(percent_translated)s%%"
+msgstr ""
+
+#: templates/rosetta/pofile.html:27
+msgid "File is read-only: download the file when done editing!"
+msgstr ""
+
+#: templates/rosetta/pofile.html:28
+msgid ""
+"Some items in your last translation block couldn't be saved: this usually "
+"happens when the catalog file changes on disk after you last loaded it."
+msgstr ""
+
+#: templates/rosetta/pofile.html:32
+#, python-format
+msgid "Translate into %(rosetta_i18n_lang_name)s"
+msgstr ""
+
+#: templates/rosetta/pofile.html:35
+msgid "Display:"
+msgstr ""
+
+#: templates/rosetta/pofile.html:36
+msgid "Untranslated only"
+msgstr ""
+
+#: templates/rosetta/pofile.html:37
+msgid "Translated only"
+msgstr ""
+
+#: templates/rosetta/pofile.html:38
+msgid "Fuzzy only"
+msgstr ""
+
+#: templates/rosetta/pofile.html:39
+msgid "All"
+msgstr ""
+
+#: templates/rosetta/pofile.html:57
+msgid "Original"
+msgstr ""
+
+#: templates/rosetta/pofile.html:60
+msgid "Fuzzy"
+msgstr ""
+
+#: templates/rosetta/pofile.html:61
+msgid "Occurrences(s)"
+msgstr ""
+
+#: templates/rosetta/pofile.html:75 templates/rosetta/pofile.html.py:78
+#: templates/rosetta/pofile.html:93 templates/rosetta/pofile.html.py:96
+msgid "Context hint"
+msgstr ""
+
+#: templates/rosetta/pofile.html:103
+msgid "suggest"
+msgstr ""
+
+#: templates/rosetta/pofile.html:114
+#, python-format
+msgid "%(more_count)s more"
+msgid_plural "%(more_count)s more"
+msgstr[0] ""
+msgstr[1] ""
+
+#: templates/rosetta/pofile.html:126
+msgid "Save and translate next block"
+msgstr ""
+
+#: templates/rosetta/pofile.html:130
+msgid "Skip to page:"
+msgstr ""
+
+#: templates/rosetta/pofile.html:143
+msgid "Displaying:"
+msgstr ""
+
+#: templates/rosetta/pofile.html:147
+#, python-format
+msgid "%(hits)s/%(message_number)s message"
+msgid_plural "%(hits)s/%(message_number)s messages"
+msgstr[0] ""
+msgstr[1] ""
+
+#: translations/templates/translations/admin/change_form.html:11
+msgid "View English Version"
 msgstr ""
