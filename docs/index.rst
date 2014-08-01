@@ -20,3 +20,4 @@ Contents
    install
    authoring_content
    site_translations
+   rosetta_translations
