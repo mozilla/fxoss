@@ -1,8 +1,9 @@
 from copy import deepcopy
 
+from django.conf import settings
 from django.contrib import admin
 
-from protected_assets.models import Agreement, SignedAgreement
+from protected_assets.models import Agreement, SignedAgreement, TranslatedAgreement
 
 
 class SignedAgreementAdmin(admin.ModelAdmin):
@@ -17,8 +18,15 @@ class SignedAgreementAdmin(admin.ModelAdmin):
         return signed_agreement.user.profile.legal_entity
 
 
+class TranslatedInline(admin.TabularInline):
+    model = TranslatedAgreement
+    max_num = len(settings.LANGUAGES) - 1
+    extra = 1
+
+
 class AgreementAdmin(admin.ModelAdmin):
     list_display = ('name', 'version', 'created')
+    inlines = (TranslatedInline, )
 
 
 admin.site.register(SignedAgreement, SignedAgreementAdmin)
