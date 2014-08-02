@@ -1,0 +1,726 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-08-01 09:28-0400\n"
+"PO-Revision-Date: 2014-08-01 09:34-0500\n"
+"Last-Translator:   <dray@caktusgroup.com>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: \n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Translated-Using: django-rosetta 0.7.4\n"
+
+#: project/settings/base.py:130
+msgid "English"
+msgstr ""
+
+#: project/settings/base.py:131
+msgid "Simplified Chinese"
+msgstr ""
+
+#: protected_assets/forms.py:9
+msgid "I agree to the licensing terms."
+msgstr ""
+
+#: protected_assets/models.py:28
+msgid "User which signed the agreement."
+msgstr ""
+
+#: protected_assets/models.py:30
+msgid "Date and time the agreement was signed."
+msgstr ""
+
+#: protected_assets/models.py:32
+msgid "IP address of the signing request."
+msgstr ""
+
+#: protected_assets/models.py:34
+msgid "Version of the agreement which was signed."
+msgstr ""
+
+#: protected_assets/templates/protected_assets/download-agreement.html:12
+msgid "Agree"
+msgstr ""
+
+#: protected_assets/templates/protected_assets/download-agreement.html:13
+msgid "Cancel"
+msgstr ""
+
+#: protected_assets/templates/protected_assets/download-agreement.html:15
+msgid "Download"
+msgstr ""
+
+#: protected_assets/templates/protected_assets/admin/signedagreement_change_list.html:7
+msgid "Export CSV"
+msgstr ""
+
+#: registration_salesforce/forms.py:24
+msgid "Check this box if you are not human."
+msgstr ""
+
+#: registration_salesforce/models.py:10
+msgid "--None--"
+msgstr ""
+
+#: registration_salesforce/models.py:11
+msgid "Agriculture"
+msgstr ""
+
+#: registration_salesforce/models.py:12
+msgid "Apparel"
+msgstr ""
+
+#: registration_salesforce/models.py:13
+msgid "Banking"
+msgstr ""
+
+#: registration_salesforce/models.py:14
+msgid "Biotechnology"
+msgstr ""
+
+#: registration_salesforce/models.py:15
+msgid "Chemicals"
+msgstr ""
+
+#: registration_salesforce/models.py:16
+msgid "Communications"
+msgstr ""
+
+#: registration_salesforce/models.py:17
+msgid "Construction"
+msgstr ""
+
+#: registration_salesforce/models.py:18
+msgid "Consulting"
+msgstr ""
+
+#: registration_salesforce/models.py:19
+msgid "Education"
+msgstr ""
+
+#: registration_salesforce/models.py:20
+msgid "Electronics"
+msgstr ""
+
+#: registration_salesforce/models.py:21
+msgid "Energy"
+msgstr ""
+
+#: registration_salesforce/models.py:22
+msgid "Engineering"
+msgstr ""
+
+#: registration_salesforce/models.py:23
+msgid "Entertainment"
+msgstr ""
+
+#: registration_salesforce/models.py:24
+msgid "Environmental"
+msgstr ""
+
+#: registration_salesforce/models.py:25
+msgid "Finance"
+msgstr ""
+
+#: registration_salesforce/models.py:26
+msgid "Food &amp; Beverage"
+msgstr ""
+
+#: registration_salesforce/models.py:27
+msgid "Government"
+msgstr ""
+
+#: registration_salesforce/models.py:28
+msgid "Healthcare"
+msgstr ""
+
+#: registration_salesforce/models.py:29
+msgid "Hospitality"
+msgstr ""
+
+#: registration_salesforce/models.py:30
+msgid "Insurance"
+msgstr ""
+
+#: registration_salesforce/models.py:31
+msgid "Machinery"
+msgstr ""
+
+#: registration_salesforce/models.py:32
+msgid "Manufacturing"
+msgstr ""
+
+#: registration_salesforce/models.py:33
+msgid "Media"
+msgstr ""
+
+#: registration_salesforce/models.py:34
+msgid "Not For Profit"
+msgstr ""
+
+#: registration_salesforce/models.py:35 registration_salesforce/models.py:48
+#: registration_salesforce/models.py:54
+msgid "Other"
+msgstr ""
+
+#: registration_salesforce/models.py:36
+msgid "Recreation"
+msgstr ""
+
+#: registration_salesforce/models.py:37
+msgid "Retail"
+msgstr ""
+
+#: registration_salesforce/models.py:38
+msgid "Shipping"
+msgstr ""
+
+#: registration_salesforce/models.py:39
+msgid "Technology"
+msgstr ""
+
+#: registration_salesforce/models.py:40
+msgid "Telecommunications"
+msgstr ""
+
+#: registration_salesforce/models.py:41
+msgid "Transportation"
+msgstr ""
+
+#: registration_salesforce/models.py:42
+msgid "Utilities"
+msgstr ""
+
+#: registration_salesforce/models.py:46
+msgid "Tablet"
+msgstr ""
+
+#: registration_salesforce/models.py:47
+msgid "Wearable"
+msgstr ""
+
+#: registration_salesforce/models.py:52
+msgid "Firefox OS"
+msgstr ""
+
+#: registration_salesforce/models.py:53
+msgid "Firefox Marketplace"
+msgstr ""
+
+#: registration_salesforce/models.py:58
+msgid "title"
+msgstr ""
+
+#: registration_salesforce/models.py:60
+msgid "legal entity name"
+msgstr ""
+
+#: registration_salesforce/models.py:61
+msgid "company name"
+msgstr ""
+
+#: registration_salesforce/models.py:63
+msgid "company zip / postal code"
+msgstr ""
+
+#: registration_salesforce/models.py:65
+msgid "company website "
+msgstr ""
+
+#: registration_salesforce/models.py:66
+msgid "street"
+msgstr ""
+
+#: registration_salesforce/models.py:67
+msgid "city"
+msgstr ""
+
+#: registration_salesforce/models.py:68
+msgid "state"
+msgstr ""
+
+#: registration_salesforce/models.py:70
+msgid "zip / postal code"
+msgstr ""
+
+#: registration_salesforce/models.py:71
+msgid "country"
+msgstr ""
+
+#: registration_salesforce/models.py:72
+msgid "phone"
+msgstr ""
+
+#: registration_salesforce/models.py:73
+msgid "mobile"
+msgstr ""
+
+#: registration_salesforce/models.py:81
+msgid "language preference"
+msgstr ""
+
+#: registration_salesforce/models.py:82
+msgid "description"
+msgstr ""
+
+#: registration_salesforce/views.py:37
+msgid ""
+"Thanks for signing up! You'll receive an email when your account is "
+"activated."
+msgstr ""
+
+#: registration_salesforce/views.py:41
+msgid ""
+"A verification email has been sent with a link for activating your account."
+msgstr ""
+
+#: registration_salesforce/views.py:45
+msgid "Successfully signed up"
+msgstr ""
+
+#: registration_salesforce/views.py:48
+msgid "Sign up"
+msgstr ""
+
+#: sandstone/templates/409.html:5 sandstone/templates/409.html.py:7
+msgid "Editing Conflict Occurred"
+msgstr ""
+
+#: sandstone/templates/409.html:14
+msgid "Unable to save revision!!"
+msgstr ""
+
+#: sandstone/templates/409.html:15
+msgid ""
+"Another author has saved changes to this object while you were editing. This"
+" view provides the differences between versions. You will need to copy the "
+"changes you would like to keep and re-edit the object."
+msgstr ""
+
+#: sandstone/templates/409.html:16
+msgid "Fields with differences are presented for your review."
+msgstr ""
+
+#: sandstone/templates/409.html:21
+msgid "Field"
+msgstr ""
+
+#: sandstone/templates/409.html:22
+msgid "Current"
+msgstr ""
+
+#: sandstone/templates/409.html:23
+msgid "Stored"
+msgstr ""
+
+#: sandstone/templates/409.html:24
+msgid "Diff"
+msgstr ""
+
+#: sandstone/templates/409.html:42
+msgid "Edit"
+msgstr ""
+
+#: sandstone/templates/index.html:4 sandstone/templates/index.html.py:5
+#: sandstone/templates/pages/menus/tree.html:9 templates/rosetta/base.html:31
+#: templates/rosetta/pofile.html:22
+msgid "Home"
+msgstr ""
+
+#: sandstone/templates/index.html:23
+msgid "Building the future<br>starts here"
+msgstr ""
+
+#: sandstone/templates/index.html:25
+msgid ""
+"\n"
+"        Welcome to the world of Firefox OS. On this site, you’ll find everything you need to build, customize, and bring to market your own version of our groundbreaking mobile operating system. You’ll also learn how to use the Firefox OS brand on a phone, tablet or other device. <em>Get started below.</em>\n"
+"      "
+msgstr ""
+
+#: sandstone/templates/index.html:32
+msgid "I'm a Manufacturer"
+msgstr ""
+
+#: sandstone/templates/index.html:36
+msgid "I'm an Operator"
+msgstr ""
+
+#: sandstone/templates/index.html:46
+msgid "Close"
+msgstr ""
+
+#: sandstone/templates/index.html:52
+msgid "Say hello to Firefox OS"
+msgstr ""
+
+#: sandstone/templates/index.html:54
+msgid ""
+"\n"
+"          You already make great hardware — now it’s time to build and customize an amazing OS for it. Learn about the technology behind Firefox OS and how to bring a brand new Firefox OS phone to life.\n"
+"        "
+msgstr ""
+
+#: sandstone/templates/index.html:61 sandstone/templates/index.html.py:112
+msgid "Learn"
+msgstr ""
+
+#: sandstone/templates/index.html:63 sandstone/templates/index.html.py:114
+msgid ""
+"\n"
+"          Explore Firefox OS and the Firefox Marketplace. Get localization support, roadmaps and a complete, detailed list of every feature.\n"
+"        "
+msgstr ""
+
+#: sandstone/templates/index.html:67 sandstone/templates/index.html.py:118
+msgid "Get started"
+msgstr ""
+
+#: sandstone/templates/index.html:71 sandstone/templates/index.html.py:122
+msgid "Build"
+msgstr ""
+
+#: sandstone/templates/index.html:73
+msgid ""
+"\n"
+"          Create and customize your own version of Firefox OS. Learn more about hardware requirements, supported chipsets, and how to contribute back to the community.\n"
+"        "
+msgstr ""
+
+#: sandstone/templates/index.html:77 sandstone/templates/index.html.py:128
+msgid "Build today"
+msgstr ""
+
+#: sandstone/templates/index.html:81 sandstone/templates/index.html.py:132
+msgid "Market"
+msgstr ""
+
+#: sandstone/templates/index.html:83 sandstone/templates/index.html.py:134
+msgid ""
+"\n"
+"          Take your product to market. Get access and support to the essential licenses and Firefox OS brand assets you’ll need, quickly and easily.\n"
+"        "
+msgstr ""
+
+#: sandstone/templates/index.html:87 sandstone/templates/index.html.py:97
+#: sandstone/templates/index.html:138 sandstone/templates/index.html.py:148
+msgid "Begin the process"
+msgstr ""
+
+#: sandstone/templates/index.html:91 sandstone/templates/index.html.py:142
+msgid "Maintain"
+msgstr ""
+
+#: sandstone/templates/index.html:93 sandstone/templates/index.html.py:144
+msgid ""
+"\n"
+"          After you’ve launched your Firefox OS device, you’ll be able to get the information needed to deliver updates to customers, access our help desk and get reports.\n"
+"        "
+msgstr ""
+
+#: sandstone/templates/index.html:103
+msgid "Meet Firefox OS"
+msgstr ""
+
+#: sandstone/templates/index.html:105
+msgid ""
+"\n"
+"          Looking to bring something truly new to your customers? Discover why they’ll be just as excited about Firefox OS as we are. Here, you’ll get the ins and outs of the operating system, the phones and the brand.\n"
+"        "
+msgstr ""
+
+#: sandstone/templates/index.html:124
+msgid ""
+"\n"
+"          Customize your own version of Firefox OS. Learn more about hardware requirements, connect with manufactures making Firefox OS devices, and discover how you can to contribute back to the Firefox OS community.\n"
+"        "
+msgstr ""
+
+#: sandstone/templates/accounts/account_login.html:7
+msgid ""
+"You're already logged in. If you'd like to log in as a different user, "
+"you'll need to log out first."
+msgstr ""
+
+#: sandstone/templates/accounts/account_login.html:11
+#, python-format
+msgid ""
+"If you don't have an account you can <a "
+"href=\"%(signup_url)s?next=%(next)s\">sign up</a> for one now."
+msgstr ""
+
+#: sandstone/templates/accounts/account_login.html:14
+#, python-format
+msgid ""
+"<p>You can also <a "
+"href=\"%(password_reset_url)s?next=%(profile_update_url)s\">reset your "
+"password</a> if you've forgotten it.</p>"
+msgstr ""
+
+#: sandstone/templates/accounts/account_login.html:20
+#: templates/pages/market.html:21
+msgid "Sign In"
+msgstr ""
+
+#: sandstone/templates/accounts/account_password_reset.html:6
+msgid ""
+"Enter your email address and you'll receive an email with a link you need to"
+" click, in order to log in and change your password."
+msgstr ""
+
+#: sandstone/templates/accounts/account_password_reset.html:10
+msgid "Password Reset"
+msgstr ""
+
+#: sandstone/templates/accounts/account_profile_update.html:5
+msgid "Update Profile"
+msgstr ""
+
+#: sandstone/templates/accounts/account_profile_update.html:12
+msgid "Signed Agreements"
+msgstr ""
+
+#: sandstone/templates/accounts/account_profile_update.html:16
+msgid "Name"
+msgstr ""
+
+#: sandstone/templates/accounts/account_profile_update.html:17
+msgid "Version"
+msgstr ""
+
+#: sandstone/templates/accounts/account_profile_update.html:18
+msgid "Date"
+msgstr ""
+
+#: sandstone/templates/accounts/account_signup.html:17
+msgid ""
+"You're already logged in. If you'd like to create a new account, you'll need"
+" to log out first."
+msgstr ""
+
+#: sandstone/templates/accounts/account_signup.html:24
+msgid ""
+"By creating an account, you'll get access and support to the essential "
+"certifications and Firefox OS brand assets needed to build a Firefox OS "
+"phone. Your contact information will be shared with our Business Development"
+" team and will be used to notify you regarding material changes to the "
+"agreements, tools and/or assets provided on this website."
+msgstr ""
+
+#: sandstone/templates/accounts/account_signup.html:25
+msgid " = Required Field"
+msgstr ""
+
+#: sandstone/templates/accounts/account_signup.html:28
+msgid ""
+"After you submit your information, we will send you a verification email to "
+"activate your account. We will also use your information to communicate with"
+" you about Firefox OS and Mozilla initiatives."
+msgstr ""
+
+#: sandstone/templates/accounts/account_signup.html:30
+msgid ""
+"By proceeding, I agree to the <a href='https://www.mozilla.org/en-"
+"US/about/legal.html'>Legal Notice</a> and  <a href='https://www.mozilla.org"
+"/en-US/privacy/policies/websites/'>Privacy Notice</a> for Mozilla websites."
+msgstr ""
+
+#: sandstone/templates/accounts/includes/user_panel.html:5
+msgid "Sign out"
+msgstr ""
+
+#: sandstone/templates/accounts/includes/user_panel.html:7
+msgid "Sign in"
+msgstr ""
+
+#: sandstone/templates/email/password_reset_verify.html:3
+#: sandstone/templates/email/password_reset_verify.txt:3
+#: sandstone/templates/email/signup_verify.html:3
+#: sandstone/templates/email/signup_verify.txt:3
+msgid "Hi there,"
+msgstr ""
+
+#: sandstone/templates/email/password_reset_verify.html:4
+#: sandstone/templates/email/password_reset_verify.txt:5
+msgid "Forget your password?"
+msgstr ""
+
+#: sandstone/templates/email/password_reset_verify.html:5
+#: sandstone/templates/email/password_reset_verify.txt:7
+msgid ""
+"Our password reset form was used for your account. Please click the link "
+"below to log in and update your password."
+msgstr ""
+
+#: sandstone/templates/email/password_reset_verify.html:7
+#: sandstone/templates/email/password_reset_verify.txt:11
+msgid ""
+"If you didn’t make this request, or feel this email is reaching you in "
+"error, please ignore this message."
+msgstr ""
+
+#: sandstone/templates/email/password_reset_verify.html:8
+#: sandstone/templates/email/password_reset_verify.txt:13
+#: sandstone/templates/email/signup_verify.html:7
+#: sandstone/templates/email/signup_verify.txt:11
+msgid "Thanks, the Firefox OS team"
+msgstr ""
+
+#: sandstone/templates/email/signup_verify.html:4
+#: sandstone/templates/email/signup_verify.txt:5
+msgid ""
+"Thanks for creating a Firefox OS partner account. We’re looking forward to "
+"working with you and to bringing your exciting new Firefox OS device to "
+"market."
+msgstr ""
+
+#: sandstone/templates/email/signup_verify.html:5
+#: sandstone/templates/email/signup_verify.txt:7
+msgid "To get started, please use the link below to activate your account."
+msgstr ""
+
+#: sandstone/templates/includes/form_fields.html:22
+msgid "required"
+msgstr ""
+
+#: sandstone/templates/includes/search_form.html:4
+#: sandstone/templates/includes/search_form.html:22
+msgid "Search"
+msgstr ""
+
+#: sandstone/templates/includes/search_form.html:11
+msgid "Everything"
+msgstr ""
+
+#: templates/admin/includes/dropdown_menu.html:4
+msgid "Dashboard"
+msgstr ""
+
+#: templates/pages/market.html:14
+msgid "Partner With Us"
+msgstr ""
+
+#: templates/pages/market.html:16
+msgid ""
+"With Firefox, we changed browsing forever by putting users first and "
+"offering a new level of choice, innovation and trust online. Now we're doing"
+" it all over again with Firefox OS."
+msgstr ""
+
+#: templates/pages/market.html:19
+msgid ""
+"By partnering with us, you'll be helping to shape the future of the Web and "
+"offering the best mobile browsing experience for people everywhere."
+msgstr ""
+
+#: templates/pages/market.html:21
+msgid "Register"
+msgstr ""
+
+#: templates/rosetta/pofile.html:9
+msgid "Pick another file"
+msgstr ""
+
+#: templates/rosetta/pofile.html:10
+msgid "Download this catalog"
+msgstr ""
+
+#: templates/rosetta/pofile.html:25
+#, python-format
+msgid "Progress: %(percent_translated)s%%"
+msgstr ""
+
+#: templates/rosetta/pofile.html:27
+msgid "File is read-only: download the file when done editing!"
+msgstr ""
+
+#: templates/rosetta/pofile.html:28
+msgid ""
+"Some items in your last translation block couldn't be saved: this usually "
+"happens when the catalog file changes on disk after you last loaded it."
+msgstr ""
+
+#: templates/rosetta/pofile.html:32
+#, python-format
+msgid "Translate into %(rosetta_i18n_lang_name)s"
+msgstr ""
+
+#: templates/rosetta/pofile.html:35
+msgid "Display:"
+msgstr ""
+
+#: templates/rosetta/pofile.html:36
+msgid "Untranslated only"
+msgstr ""
+
+#: templates/rosetta/pofile.html:37
+msgid "Translated only"
+msgstr ""
+
+#: templates/rosetta/pofile.html:38
+msgid "Fuzzy only"
+msgstr ""
+
+#: templates/rosetta/pofile.html:39
+msgid "All"
+msgstr ""
+
+#: templates/rosetta/pofile.html:57
+msgid "Original"
+msgstr ""
+
+#: templates/rosetta/pofile.html:60
+msgid "Fuzzy"
+msgstr ""
+
+#: templates/rosetta/pofile.html:61
+msgid "Occurrences(s)"
+msgstr ""
+
+#: templates/rosetta/pofile.html:75 templates/rosetta/pofile.html.py:78
+#: templates/rosetta/pofile.html:93 templates/rosetta/pofile.html.py:96
+msgid "Context hint"
+msgstr ""
+
+#: templates/rosetta/pofile.html:103
+msgid "suggest"
+msgstr ""
+
+#: templates/rosetta/pofile.html:114
+#, python-format
+msgid "%(more_count)s more"
+msgid_plural "%(more_count)s more"
+msgstr[0] ""
+msgstr[1] ""
+
+#: templates/rosetta/pofile.html:126
+msgid "Save and translate next block"
+msgstr ""
+
+#: templates/rosetta/pofile.html:130
+msgid "Skip to page:"
+msgstr ""
+
+#: templates/rosetta/pofile.html:143
+msgid "Displaying:"
+msgstr ""
+
+#: templates/rosetta/pofile.html:147
+#, python-format
+msgid "%(hits)s/%(message_number)s message"
+msgid_plural "%(hits)s/%(message_number)s messages"
+msgstr[0] ""
+msgstr[1] ""
+
+#: translations/templates/translations/admin/change_form.html:11
+msgid "View English Version"
+msgstr ""

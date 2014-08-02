@@ -13,12 +13,9 @@ from __future__ import absolute_import, unicode_literals
 
 # Controls the ordering and grouping of the admin menu.
 #
-# ADMIN_MENU_ORDER = (
-#     ("Content", ("pages.Page", "blog.BlogPost",
-#        "generic.ThreadedComment", ("Media Library", "fb_browse"),)),
-#     ("Site", ("sites.Site", "redirects.Redirect", "conf.Setting")),
-#     ("Users", ("auth.User", "auth.Group",)),
-# )
+ADMIN_MENU_ORDER = (
+    ("Rosetta", (("PO File Translation", "rosetta-pick-file"), )),
+)
 
 # A three item sequence, each containing a sequence of template tags
 # used to render the admin dashboard.
@@ -248,6 +245,9 @@ ROOT_URLCONF = "%s.urls" % PROJECT_DIRNAME
 # Don't forget to use absolute paths, not relative paths.
 TEMPLATE_DIRS = (os.path.join(PROJECT_ROOT, "templates"),)
 
+# Project level PO/MO files
+LOCALE_PATHS = (os.path.join(PROJECT_ROOT, "locale"),)
+
 ################
 # APPLICATIONS #
 ################
@@ -279,6 +279,7 @@ INSTALLED_APPS = [
     'south',
     'django_nose',
     'translations',
+    'rosetta',
 ]
 
 
