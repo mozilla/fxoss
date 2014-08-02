@@ -38,9 +38,7 @@ site, click **Add+** in the Pages Row.  This will open a form that allows you to
 create a Rich Text Page:
 
   * **Title**: The title that will appear in the navigation node(s) for the
-    Rich Text Page. To note: future versions of the software will allow for
-    additional language support. The GUI will provide a meaningful way to
-    switch between supported languages
+    Rich Text Page.
   * **Status**: Select Draft to hide the page from all but admin users. Publishing
     the page will allow all users to view the page.
   * If publication dates are required, set the optional **Published from** and **Expires
@@ -114,17 +112,6 @@ It is possible to generate a Form from within the Admin. This is beyond the
 normal use case for this site. In short, similar to creating a Page, an author
 can generate a form to collect data from end users.
 
-Front End Content Editing
-------------------------------
-
-If inline editing is enabled, admin users will be able to Edit the **content**
-of an existing Page via the front end.
-
-  1. Authenticate via **/admin** and select **Site** as the interface
-  2. Navigate to a Page
-  3. Click **Edit**
-  4. The WYSIWYG editor will render as a modal; make edits and press **Save**
-
 Download Agreement
 -------------------------
 The download agreement is located in the **Protected_Assets** section, under
@@ -148,6 +135,16 @@ match the version of the agreement you just added:
 
 You may also see a list of signed agreements, including which specific version
 was signed, under the **Protected_Assets > Signed Agreements** section.
+
+**Updating the version of an agreement will prompt users to re-sign**
+
+.. Important::
+    When the version number of the agreement is changed, all users who
+    previously agreed to the agreement will be prompted to resign (when
+    they try to access restricted content). If the change to the agreement
+    does not require a resign, simply edit the current download and
+    upload a new version without changing the version number.
+
 
 Protected Downloads
 -------------------------
@@ -199,10 +196,15 @@ Default Snippets
     </tbody>
     </table>
 
+.. image:: images/requirements-table.png
+
 **Offset Title Block**::
 
   <h3 class="mini-title">Title</h3>
   <p class="offset-block">Lorem Ipsum <br> <a class="follow" href="http://google.com">Read More</a></p>
+
+.. image:: images/offset-title-block.png
+
 
 
 CSS Classes and Tables
@@ -216,9 +218,17 @@ you can choose one of the following options:
 
 **Default**: Extends the full width of the content well.
 
-**Two Column**: TODO
+.. image:: images/table-default.png
 
-**Mini**: TODO
+**Two Column**: Extends the full width, first column set to 30%.
+
+.. image:: images/table-two-column.png
+
+**Mini**: Extends 70% of full width.
+
+.. image:: images/table-mini.png
 
 **Simple Bordered**: A simple outlined table. All table cells and table headers will
 have solid 1px border. No additional font related styling for td or th cells.
+
+.. image:: images/table-simple.png

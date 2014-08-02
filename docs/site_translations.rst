@@ -17,8 +17,18 @@ Architecture Overview
 
 To translated the site into multiple languages, multiple copies of the site are created
 and managed using the existing mutli-tenancy features in Mezzanine: http://mezzanine.jupo.org/docs/multi-tenancy.html
-Pages are considered to be the same on each site if they have the same slug/URL. That
-is the existing URLs (/learn/, /market/, etc) on the front end are the same across sites.
+
+**Pages are considered to be the same on each site if they have the same slug/URL.**
+
+.. Important::
+
+    Pages in locale's other than english must have the same slug. That is the existing
+    URLs (/learn/, /market/, etc) on the front end are the same across sites.
+    The slug sets up the relationship between pages on different locales. If
+    there is a page specific to a locale that does not appear in english, it does
+    not need to share the slug.
+
+
 The site/language to used is detected by the browser's ``Accept-Language`` header or the
 ``django_language`` cookie which can be set using the language selection in the site footer.
 The admin also uses localized URLs to detect the current site/language. See the Django
