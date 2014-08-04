@@ -47,8 +47,41 @@ For Translators
 
 When logging into the admin you can navigate to **Rosetta PO File Translation** and select a
 PO File in the desired language to start editing. Upon save, a new compiled .MO file will be written
-on the server.  In order for the translations to be visible, a server restart will be required.
+on the server.
+
+**In order for the translations to be visible, a server restart will be required.**
+
+.. Important::
+    If you have made any changes to the Rosetta translations a developer
+    must restart the server for the changes to appear. To request this
+    please contact a developer in irc #oss or file a bug
+    Bugzilla: Websites / mobilepartners.mozilla.org
 
 While it is possible in some circumstances to auto reload the MO file, it is ill advised in
 production environments for performance reasons. More configuration options can be read about
 `here <https://github.com/mbi/django-rosetta#configuration>`_.
+
+
+Translating Tips
+------------------------
+
+Some of the content in Rosetta will have embedded html.
+
+.. code-block:: html
+
+    <p>
+        You can also
+        <a href="%(password_reset_url)s?next=%(profile_update_url)s">reset your password</a>
+        if you've forgotten it.
+    </p>
+
+In the above example you should copy the entire block but only translate the strings, so your
+copy should look like the following where the Xs are translated:
+
+.. code-block:: html
+
+    <p>
+        XXX XXX XXX
+        <a href="%(password_reset_url)s?next=%(profile_update_url)s">XXXXX XXXX XXXXXXXX</a>
+        XX XXXXX XXXXXX XX.
+    </p>
