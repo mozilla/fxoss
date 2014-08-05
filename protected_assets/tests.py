@@ -11,7 +11,7 @@ from django.utils.translation import activate
 
 from mock import Mock, patch
 
-from .models import Agreement, SignedAgreement
+from .models import Agreement, SignedAgreement, TranslatedAgreement
 from .views import export_csv, export_signedagreement_csv
 
 
@@ -51,6 +51,16 @@ class AgreementMixin(object):
         if 'user' not in defaults:
             defaults['user'] = self.create_user()
         return SignedAgreement.objects.create(**defaults)
+
+    def create_translated_agreement(self, **kwargs):
+        """Create a test agreement translation."""
+        defaults = {
+            'agreement': self.agreement,
+            'language': 'zh-cn',
+            'agreement_pdf': 'tranlated.pdf',
+        }
+        defaults.update(kwargs)
+        return TranslatedAgreement.objects.create(**defaults)
 
 
 @override_settings(DOWNLOAD_AGREEMENT_VERSION='v1.0')
@@ -257,3 +267,25 @@ class TestExportSignedAgreementCSV(TestCase):
              unicode(sa.timestamp.strftime.return_value),
              unicode(sa.agreement), unicode(sa.ip)],
         ])
+
+
+@override_settings(DOWNLOAD_AGREEMENT_VERSION='v1.0')
+class LocalizedAgreementsTestCase(AgreementMixin, TestCase):
+    """Handle localize versions of the marketing agreement."""
+
+    def test_no_alternates(self):
+        """Use the default if no alternates are available."""
+        result = self.agreement.localized_pdf('fr')
+        self.assertEqual(result, self.agreement.agreement_pdf)
+
+    def test_get_alternate_pdf(self):
+        """Return an alternate version of the agreement for the given language."""
+        translated = self.create_translated_agreement(language='fr')
+        result = self.agreement.localized_pdf('fr')
+        self.assertEqual(result, translated.agreement_pdf)
+
+    def test_unknown_language_code(self):
+        """Use the default PDF if an alternate isn't available for the requested language."""
+        translated = self.create_translated_agreement(language='fr')
+        result = self.agreement.localized_pdf('es')
+        self.assertEqual(result, self.agreement.agreement_pdf)

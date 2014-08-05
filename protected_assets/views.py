@@ -92,6 +92,7 @@ def sign_agreement(request):
     return render(request, 'protected_assets/download-agreement.html', {
         'form': form,
         'agreement': agreement,
+        'pdf': agreement.localized_pdf(getattr(request, 'LANGUAGE_CODE', settings.LANGUAGE_CODE))
     })
 
 
