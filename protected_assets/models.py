@@ -4,7 +4,7 @@ from django.utils.timezone import now
 from django.utils.translation import ugettext_lazy as _
 
 
-def _generate_agreement_filename(instance, filename):
+def _agreement_filename(instance, filename):
     """Custom upload location generator."""
     return now().strftime('uploads/agreements/%Y-%m-%d_%H:%M:%S_agreement.pdf')
 
@@ -14,7 +14,7 @@ class Agreement(models.Model):
     name = models.CharField(max_length=255, default='Prototype Branding Agreement')
     version = models.CharField(max_length=20, unique=True)
     created = models.DateTimeField(default=now, editable=False)
-    agreement_pdf = models.FileField(max_length=255, upload_to=_generate_agreement_filename)
+    agreement_pdf = models.FileField(max_length=255, upload_to=_agreement_filename)
 
     @property
     def url(self):
@@ -36,7 +36,7 @@ class Agreement(models.Model):
         return result
 
 
-def _generate_tranlated_filename(instance, filename):
+def _translated_filename(instance, filename):
     """Custom upload location generator."""
     directory = 'uploads/agreements/%s/' % instance.language
     return directory + now().strftime('%Y-%m-%d_%H:%M:%S_agreement.pdf')
@@ -47,7 +47,7 @@ class TranslatedAgreement(models.Model):
     agreement = models.ForeignKey(Agreement, related_name='translations')
     language = models.CharField(max_length=10,
         choices=[l for l in settings.LANGUAGES if l[0] != settings.LANGUAGE_CODE])
-    agreement_pdf = models.FileField(max_length=255, upload_to=_generate_tranlated_filename)
+    agreement_pdf = models.FileField(max_length=255, upload_to=_translated_filename)
 
     def __unicode__(self):
         return '%s (%s)' % (self.agreement, self.get_language_display())
