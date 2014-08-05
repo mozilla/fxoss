@@ -247,12 +247,13 @@ class TestExportSignedAgreementCSV(TestCase):
     @patch('protected_assets.views.SignedAgreement')
     def test_exportsignedagreement_csv(self, mock_signed_agreement_class):
         sa = Mock()
+        request = Mock()
         sa.user.__unicode__ = lambda self: u'b\xf6rk'
         sa.user.profile.legal_entity = u'b\xf6rk b\xf6rk'
         MockQS = type('MockQuerySet', (list,), {'model': Mock()})
         mock_signed_agreement_class.objects.all.return_value = MockQS([sa])
 
-        response = export_signedagreement_csv('request')
+        response = export_signedagreement_csv(request)
         self.assertEqual(response['Content-Type'], 'text/csv')
         self.assertEqual(response['Cache-Control'], 'no-cache')
 

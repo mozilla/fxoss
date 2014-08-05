@@ -4,6 +4,7 @@ import csv
 import os
 import urllib
 
+from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
 from django.http import HttpResponse
@@ -124,6 +125,7 @@ def export_csv(queryset, column_names, generate_row):
     return response
 
 
+@staff_member_required
 def export_signedagreement_csv(request):
     def generate_row(sa):
         return (
