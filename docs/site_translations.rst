@@ -66,6 +66,15 @@ English version of the site they won't be able to view the original content for 
 updates. Care should be taken to ensure that content authors have sufficient site permissions
 for their translations. Site permissions can be managed in the User admin.
 
+The language switching is enabled/disabled via a django-waffle flag. This flag can be
+created on the command line via::
+
+    python manage.py flag language-switching --staff --create
+
+By default this flag will be disabled unless the flag is created. That can be configured
+with the ``WAFFLE_FLAG_DEFAULT`` setting. For more information on managing feature flags,
+see the django-waffle documentation http://waffle.readthedocs.org/en/latest/index.html
+
 
 For Translators
 ------------------------
