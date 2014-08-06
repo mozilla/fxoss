@@ -1,11 +1,13 @@
 from django.conf import settings
 from django.test import TestCase
 from django.test.client import RequestFactory
+from django.test.utils import override_settings
 
 from ..utils import build_site_for_language
 from ..middleware import LocaleSiteMiddleware
 
 
+@override_settings(WAFFLE_FLAG_DEFAULT=True)
 class LocaleSiteMiddlewareTestCase(TestCase):
     """Set the current request site based on the user's language."""
 
@@ -53,5 +55,15 @@ class LocaleSiteMiddlewareTestCase(TestCase):
         self.request.LANGUAGE_CODE = settings.LANGUAGE_CODE
         self.request.session['site_id'] = site.pk 
         result = self.middleware.process_request(self.request)
+        self.assertIsNone(result)
+        self.assertNoMatchedSite(self.request)
+
+    def test_flag_not_enabled(self):
+        """Switching is not available if the flag is not active."""
+        site = build_site_for_language('zh-cn')
+        self.request.LANGUAGE_CODE = 'zh-cn'
+        with self.settings(WAFFLE_FLAG_DEFAULT=False):
+            # Flag was not created so the default will now be not active
+            result = self.middleware.process_request(self.request)
         self.assertIsNone(result)
         self.assertNoMatchedSite(self.request)
