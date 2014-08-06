@@ -1,5 +1,7 @@
 from __future__ import absolute_import, unicode_literals
 
+_ = lambda s: s
+
 ######################
 # MEZZANINE SETTINGS #
 ######################
@@ -14,7 +16,11 @@ from __future__ import absolute_import, unicode_literals
 # Controls the ordering and grouping of the admin menu.
 #
 ADMIN_MENU_ORDER = (
-    ("Rosetta", (("PO File Translation", "rosetta-pick-file"), )),
+    (_("Rosetta"), ((_("PO File Translation"), "rosetta-pick-file"), )),
+    (_("Content"), ("pages.Page", (_("Media Library"), "fb_browse"), )),
+    (_("Site"), ("sites.Site", "redirects.Redirect", "conf.Setting"), ),
+    (_("Protected Assets"), ("protected_assets.Agreement", "protected_assets.SignedAgreement", )),
+    (_("Users"), ("auth.User", "auth.Group", )),
 )
 
 # A three item sequence, each containing a sequence of template tags
@@ -130,7 +136,6 @@ USE_TZ = True
 LANGUAGE_CODE = "en"
 
 # Supported languages
-_ = lambda s: s
 
 LANGUAGES = (
     ('en', _('English')),
