@@ -1,7 +1,9 @@
 import csv
+import os
 from datetime import datetime
 from urllib import urlencode
 
+from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.core.urlresolvers import reverse
 from django.test import TestCase
@@ -9,9 +11,11 @@ from django.test.utils import override_settings
 from django.utils import timezone
 from django.utils.translation import activate
 
+from mezzanine.utils.sites import current_site_id
 from mock import Mock, patch
 
 from .models import Agreement, SignedAgreement, TranslatedAgreement
+from .utils import override_current_site
 from .views import export_csv, export_signedagreement_csv
 
 
@@ -290,3 +294,36 @@ class LocalizedAgreementsTestCase(AgreementMixin, TestCase):
         translated = self.create_translated_agreement(language='fr')
         result = self.agreement.localized_pdf('es')
         self.assertEqual(result, self.agreement.agreement_pdf)
+
+
+class OverrideSiteTestCase(TestCase):
+    """Utility to switch the current Mezzanine site."""
+
+    def test_restore_default(self):
+        """Restore the default SITE_ID."""
+        os.environ['MEZZANINE_SITE_ID'] = '1234'
+        self.assertEqual(current_site_id(), '1234')
+        with override_current_site():
+            self.assertEqual(current_site_id(), settings.SITE_ID)
+        self.assertEqual(current_site_id(), '1234')
+
+    def test_already_default(self):
+        """No effect changing the site to the default when it is already set."""
+        self.assertEqual(current_site_id(), settings.SITE_ID)
+        with override_current_site():
+            self.assertEqual(current_site_id(), settings.SITE_ID)
+
+    def test_non_default(self):
+        """Change the current site to a non-default value."""
+        with override_current_site(1234):
+            self.assertEqual(current_site_id(), 1234)
+        self.assertEqual(current_site_id(), settings.SITE_ID)
+
+    def test_exceptions(self):
+        """Site will be restored even on an exception."""
+        def fail():
+            raise ValueError('Boom')
+        with self.assertRaises(ValueError):
+            with override_current_site(1234):
+                fail()
+        self.assertEqual(current_site_id(), settings.SITE_ID)
