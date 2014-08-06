@@ -5,6 +5,7 @@ from django.contrib import admin
 from django.contrib.admin.templatetags.admin_urls import admin_urlname
 from django.contrib.auth import get_user_model
 from django.contrib.sites.models import Site
+from django.http import Http404
 from django.test import TestCase
 from django.test.client import RequestFactory
 from django.test.utils import override_settings
@@ -289,6 +290,31 @@ class AdminTestMixin(object):
         delete_todo = todos[1]
         self.assertEqual(delete_todo.action, TODOItem.ACTION_DELETE)
         self.assertIsNone(delete_todo.resolved_by)
+
+    def test_site_switch_redirect(self):
+        """Handle switching the site when viewing the change form page. Redirect
+        to the corresponding change form for the new site."""
+        instance = self.create_model()
+        with self.settings(SITE_ID=self.other.pk):
+            translated = self.create_model(slug=instance.slug)
+        # Request translated version PK from the English site
+        response = self.admin.change_view(self.request, translated.pk)
+        expected_url_name = admin_urlname(self.model_class._meta, 'change')
+        expected_url = reverse(expected_url_name, args=(instance.id, ))
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response['Location'], expected_url)
+
+    def test_site_switch_not_found(self):
+        """Raise 404 if no corresponding record is found on the current site."""
+        with self.settings(SITE_ID=self.other.pk):
+            translated = self.create_model()
+        # Request translated version PK from the English site
+        self.assertRaises(Http404, self.admin.change_view, self.request, translated.pk)
+
+    def test_invalid_pk_404(self):
+        """Customization to handle the site switching has not broken the default 404
+        handling."""
+        self.assertRaises(Http404, self.admin.change_view, self.request, 12345)
 
 
 TEST_LANGUAGES = (

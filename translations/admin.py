@@ -1,7 +1,10 @@
 from django.core.urlresolvers import reverse
 from django.contrib import admin
 from django.contrib.admin.templatetags.admin_urls import admin_urlname
+from django.core.exceptions import ValidationError
 from django.db.models.query import QuerySet
+from django.http import Http404
+from django.shortcuts import redirect
 from django.template.loader import select_template
 from django.utils import timezone
 from django.utils.encoding import force_text
@@ -20,6 +23,28 @@ class TranslatableMixin(object):
     """Fetches the base English version of the current content when making an edit."""
 
     tranlsated_fields = []
+
+    def change_view(self, request, object_id, form_url='', extra_context=None):
+        """Premept 404s caused by changing the site on the change form page."""
+        extra_context = extra_context or {}
+        try:
+            response = super(TranslatableMixin, self).change_view(
+                request, object_id, form_url=form_url, extra_context=extra_context)
+        except Http404 as e:
+            # See if the object can be found on another site/language
+            try:
+                object_id = self.model._meta.pk.to_python(object_id)
+                found = QuerySet(self.model).get(pk=object_id)
+            except (self.model.DoesNotExist, ValidationError, ValueError):
+                raise e
+            else:
+                # Find the object with the same slug on this site.
+                try:
+                    expected = self.get_queryset(request).get(slug=found.slug)
+                except self.model.DoesNotExist:
+                    raise e
+                response = redirect(admin_urlname(self.model._meta, 'change'), expected.pk)
+        return response
 
     def render_change_form(self, request, context, add=False, change=False, form_url='', obj=None):
         if change and obj.site_id != settings.SITE_ID:
