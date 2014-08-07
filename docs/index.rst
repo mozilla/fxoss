@@ -18,6 +18,7 @@ Contents
    :maxdepth: 2
 
    install
+   groups_permissions
    authoring_content
    site_translations
    rosetta_translations
