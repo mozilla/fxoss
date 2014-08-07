@@ -301,11 +301,18 @@ class OverrideSiteTestCase(TestCase):
 
     def test_restore_default(self):
         """Restore the default SITE_ID."""
-        os.environ['MEZZANINE_SITE_ID'] = '1234'
-        self.assertEqual(current_site_id(), '1234')
-        with override_current_site():
-            self.assertEqual(current_site_id(), settings.SITE_ID)
-        self.assertEqual(current_site_id(), '1234')
+        current = os.environ.get('MEZZANINE_SITE_ID', None)
+        try:
+            os.environ['MEZZANINE_SITE_ID'] = '1234'
+            self.assertEqual(current_site_id(), '1234')
+            with override_current_site():
+                self.assertEqual(current_site_id(), settings.SITE_ID)
+            self.assertEqual(current_site_id(), '1234')
+        finally:
+            if current is None:
+                del os.environ['MEZZANINE_SITE_ID']
+            else:
+                os.environ['MEZZANINE_SITE_ID'] = current
 
     def test_already_default(self):
         """No effect changing the site to the default when it is already set."""
