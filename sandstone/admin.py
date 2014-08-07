@@ -8,6 +8,8 @@ from concurrency.forms import VersionWidget
 from copy import deepcopy
 
 from django.contrib import admin
+from django.contrib.redirects.admin import RedirectAdmin
+from django.contrib.redirects.models import Redirect
 from django.utils.translation import ugettext_lazy as _
 
 from mezzanine.forms.admin import FormAdmin
@@ -80,6 +82,10 @@ class SandstoneLinkAdmin(TranslatableMixin, LinkAdmin):
     tranlsated_fields = ['title', ]
 
 
+class ExtendedRedirectAdmin(RedirectAdmin):
+    list_display = ('old_path', 'new_path', 'site')
+
+
 admin.site.unregister(Form)
 admin.site.unregister(RichTextPage)
 admin.site.unregister(Link)
@@ -87,3 +93,6 @@ admin.site.unregister(Link)
 admin.site.register(RichTextPage, SandstoneRichTextPageAdmin)
 admin.site.register(Form, SandstoneFormAdmin)
 admin.site.register(Link, SandstoneLinkAdmin)
+
+admin.site.unregister(Redirect)
+admin.site.register(Redirect, ExtendedRedirectAdmin)
