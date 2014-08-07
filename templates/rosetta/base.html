@@ -9,7 +9,7 @@
 <!-- STYLES & SCRIPTS -->
 {% block stylesheets %}
     {{ block.super }}
-    <link rel="stylesheet" type="text/css" media="all" href="{% static "css/rosetta/rosetta.css" %}" />
+    <link rel="stylesheet" type="text/css" media="all" href="{% static "css/rosetta.css" %}" />
 {% endblock %}
 {% block javascripts %}
     {{ block.super }}
@@ -32,7 +32,7 @@
 
 <!-- CONTENT -->
 {% block content %}
-        <div id="content" class="flex">
+        <div id="content-main" class="flex">
             {% block main %}{% endblock %}
         </div>
 {% endblock %}
