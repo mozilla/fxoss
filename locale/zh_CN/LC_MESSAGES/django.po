@@ -8,22 +8,22 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-08-01 09:28-0400\n"
+"POT-Creation-Date: 2014-08-07 14:35-0400\n"
 "PO-Revision-Date: 2014-08-01 09:34-0500\n"
 "Last-Translator:   <dray@caktusgroup.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: \n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Translated-Using: django-rosetta 0.7.4\n"
 
-#: project/settings/base.py:130
+#: project/settings/base.py:136
 msgid "English"
 msgstr ""
 
-#: project/settings/base.py:131
+#: project/settings/base.py:137
 msgid "Simplified Chinese"
 msgstr ""
 
@@ -31,19 +31,19 @@ msgstr ""
 msgid "I agree to the licensing terms."
 msgstr ""
 
-#: protected_assets/models.py:28
+#: protected_assets/models.py:62
 msgid "User which signed the agreement."
 msgstr ""
 
-#: protected_assets/models.py:30
+#: protected_assets/models.py:64
 msgid "Date and time the agreement was signed."
 msgstr ""
 
-#: protected_assets/models.py:32
+#: protected_assets/models.py:66
 msgid "IP address of the signing request."
 msgstr ""
 
-#: protected_assets/models.py:34
+#: protected_assets/models.py:68
 msgid "Version of the agreement which was signed."
 msgstr ""
 
@@ -291,6 +291,10 @@ msgstr ""
 msgid "Sign up"
 msgstr ""
 
+#: sandstone/admin.py:29 sandstone/admin.py:36 sandstone/admin.py:77
+msgid "Notes"
+msgstr ""
+
 #: sandstone/templates/409.html:5 sandstone/templates/409.html.py:7
 msgid "Editing Conflict Occurred"
 msgstr ""
@@ -301,8 +305,8 @@ msgstr ""
 
 #: sandstone/templates/409.html:15
 msgid ""
-"Another author has saved changes to this object while you were editing. This"
-" view provides the differences between versions. You will need to copy the "
+"Another author has saved changes to this object while you were editing. This "
+"view provides the differences between versions. You will need to copy the "
 "changes you would like to keep and re-edit the object."
 msgstr ""
 
@@ -326,8 +330,64 @@ msgstr ""
 msgid "Diff"
 msgstr ""
 
-#: sandstone/templates/409.html:42
+#: sandstone/templates/409.html:42 translations/models.py:18
 msgid "Edit"
+msgstr ""
+
+#: sandstone/templates/base.html:105
+msgid "Other languages"
+msgstr ""
+
+#: sandstone/templates/base.html:119
+#, python-format
+msgid ""
+"Portions of this content are &copy;1998–%(current_year)s by individual\n"
+"                    mozilla.org contributors. Content available under\n"
+"                    a <a href=%(web_url)s>Creative Commons license</a>."
+msgstr ""
+
+#: sandstone/templates/base.html:122
+msgid "Contribute to this page"
+msgstr ""
+
+#: sandstone/templates/base.html:125
+msgid "Contact Us"
+msgstr ""
+
+#: sandstone/templates/base.html:126
+msgid "Partner with Us"
+msgstr ""
+
+#: sandstone/templates/base.html:127
+msgid "Privacy Policy"
+msgstr ""
+
+#: sandstone/templates/base.html:128
+msgid "Legal Notices"
+msgstr ""
+
+#: sandstone/templates/base.html:129
+msgid "Report Trademark Abuse"
+msgstr ""
+
+#: sandstone/templates/base.html:133
+msgid "Mozilla on Twitter"
+msgstr ""
+
+#: sandstone/templates/base.html:134
+msgid "Firefox on Twitter"
+msgstr ""
+
+#: sandstone/templates/base.html:135
+msgid "Mozilla on Facebook"
+msgstr ""
+
+#: sandstone/templates/base.html:136
+msgid "Firefox on Facebook"
+msgstr ""
+
+#: sandstone/templates/base.html:137
+msgid "Firefox Affiliates"
 msgstr ""
 
 #: sandstone/templates/index.html:4 sandstone/templates/index.html.py:5
@@ -343,7 +403,11 @@ msgstr ""
 #: sandstone/templates/index.html:25
 msgid ""
 "\n"
-"        Welcome to the world of Firefox OS. On this site, you’ll find everything you need to build, customize, and bring to market your own version of our groundbreaking mobile operating system. You’ll also learn how to use the Firefox OS brand on a phone, tablet or other device. <em>Get started below.</em>\n"
+"        Welcome to the world of Firefox OS. On this site, you’ll find "
+"everything you need to build, customize, and bring to market your own "
+"version of our groundbreaking mobile operating system. You’ll also learn how "
+"to use the Firefox OS brand on a phone, tablet or other device. <em>Get "
+"started below.</em>\n"
 "      "
 msgstr ""
 
@@ -366,7 +430,9 @@ msgstr ""
 #: sandstone/templates/index.html:54
 msgid ""
 "\n"
-"          You already make great hardware — now it’s time to build and customize an amazing OS for it. Learn about the technology behind Firefox OS and how to bring a brand new Firefox OS phone to life.\n"
+"          You already make great hardware — now it’s time to build and "
+"customize an amazing OS for it. Learn about the technology behind Firefox OS "
+"and how to bring a brand new Firefox OS phone to life.\n"
 "        "
 msgstr ""
 
@@ -377,7 +443,8 @@ msgstr ""
 #: sandstone/templates/index.html:63 sandstone/templates/index.html.py:114
 msgid ""
 "\n"
-"          Explore Firefox OS and the Firefox Marketplace. Get localization support, roadmaps and a complete, detailed list of every feature.\n"
+"          Explore Firefox OS and the Firefox Marketplace. Get localization "
+"support, roadmaps and a complete, detailed list of every feature.\n"
 "        "
 msgstr ""
 
@@ -392,7 +459,9 @@ msgstr ""
 #: sandstone/templates/index.html:73
 msgid ""
 "\n"
-"          Create and customize your own version of Firefox OS. Learn more about hardware requirements, supported chipsets, and how to contribute back to the community.\n"
+"          Create and customize your own version of Firefox OS. Learn more "
+"about hardware requirements, supported chipsets, and how to contribute back "
+"to the community.\n"
 "        "
 msgstr ""
 
@@ -407,7 +476,9 @@ msgstr ""
 #: sandstone/templates/index.html:83 sandstone/templates/index.html.py:134
 msgid ""
 "\n"
-"          Take your product to market. Get access and support to the essential licenses and Firefox OS brand assets you’ll need, quickly and easily.\n"
+"          Take your product to market. Get access and support to the "
+"essential licenses and Firefox OS brand assets you’ll need, quickly and "
+"easily.\n"
 "        "
 msgstr ""
 
@@ -423,7 +494,9 @@ msgstr ""
 #: sandstone/templates/index.html:93 sandstone/templates/index.html.py:144
 msgid ""
 "\n"
-"          After you’ve launched your Firefox OS device, you’ll be able to get the information needed to deliver updates to customers, access our help desk and get reports.\n"
+"          After you’ve launched your Firefox OS device, you’ll be able to "
+"get the information needed to deliver updates to customers, access our help "
+"desk and get reports.\n"
 "        "
 msgstr ""
 
@@ -434,14 +507,18 @@ msgstr ""
 #: sandstone/templates/index.html:105
 msgid ""
 "\n"
-"          Looking to bring something truly new to your customers? Discover why they’ll be just as excited about Firefox OS as we are. Here, you’ll get the ins and outs of the operating system, the phones and the brand.\n"
+"          Looking to bring something truly new to your customers? Discover "
+"why they’ll be just as excited about Firefox OS as we are. Here, you’ll get "
+"the ins and outs of the operating system, the phones and the brand.\n"
 "        "
 msgstr ""
 
 #: sandstone/templates/index.html:124
 msgid ""
 "\n"
-"          Customize your own version of Firefox OS. Learn more about hardware requirements, connect with manufactures making Firefox OS devices, and discover how you can to contribute back to the Firefox OS community.\n"
+"          Customize your own version of Firefox OS. Learn more about "
+"hardware requirements, connect with manufactures making Firefox OS devices, "
+"and discover how you can to contribute back to the Firefox OS community.\n"
 "        "
 msgstr ""
 
@@ -454,16 +531,15 @@ msgstr ""
 #: sandstone/templates/accounts/account_login.html:11
 #, python-format
 msgid ""
-"If you don't have an account you can <a "
-"href=\"%(signup_url)s?next=%(next)s\">sign up</a> for one now."
+"If you don't have an account you can <a href=\"%(signup_url)s?next=%(next)s"
+"\">sign up</a> for one now."
 msgstr ""
 
 #: sandstone/templates/accounts/account_login.html:14
 #, python-format
 msgid ""
-"<p>You can also <a "
-"href=\"%(password_reset_url)s?next=%(profile_update_url)s\">reset your "
-"password</a> if you've forgotten it.</p>"
+"<p>You can also <a href=\"%(password_reset_url)s?next=%(profile_update_url)s"
+"\">reset your password</a> if you've forgotten it.</p>"
 msgstr ""
 
 #: sandstone/templates/accounts/account_login.html:20
@@ -473,8 +549,8 @@ msgstr ""
 
 #: sandstone/templates/accounts/account_password_reset.html:6
 msgid ""
-"Enter your email address and you'll receive an email with a link you need to"
-" click, in order to log in and change your password."
+"Enter your email address and you'll receive an email with a link you need to "
+"click, in order to log in and change your password."
 msgstr ""
 
 #: sandstone/templates/accounts/account_password_reset.html:10
@@ -498,21 +574,22 @@ msgid "Version"
 msgstr ""
 
 #: sandstone/templates/accounts/account_profile_update.html:18
+#: translations/admin.py:189
 msgid "Date"
 msgstr ""
 
 #: sandstone/templates/accounts/account_signup.html:17
 msgid ""
-"You're already logged in. If you'd like to create a new account, you'll need"
-" to log out first."
+"You're already logged in. If you'd like to create a new account, you'll need "
+"to log out first."
 msgstr ""
 
 #: sandstone/templates/accounts/account_signup.html:24
 msgid ""
 "By creating an account, you'll get access and support to the essential "
 "certifications and Firefox OS brand assets needed to build a Firefox OS "
-"phone. Your contact information will be shared with our Business Development"
-" team and will be used to notify you regarding material changes to the "
+"phone. Your contact information will be shared with our Business Development "
+"team and will be used to notify you regarding material changes to the "
 "agreements, tools and/or assets provided on this website."
 msgstr ""
 
@@ -523,15 +600,15 @@ msgstr ""
 #: sandstone/templates/accounts/account_signup.html:28
 msgid ""
 "After you submit your information, we will send you a verification email to "
-"activate your account. We will also use your information to communicate with"
-" you about Firefox OS and Mozilla initiatives."
+"activate your account. We will also use your information to communicate with "
+"you about Firefox OS and Mozilla initiatives."
 msgstr ""
 
 #: sandstone/templates/accounts/account_signup.html:30
 msgid ""
-"By proceeding, I agree to the <a href='https://www.mozilla.org/en-"
-"US/about/legal.html'>Legal Notice</a> and  <a href='https://www.mozilla.org"
-"/en-US/privacy/policies/websites/'>Privacy Notice</a> for Mozilla websites."
+"By proceeding, I agree to the <a href='https://www.mozilla.org/en-US/about/"
+"legal.html'>Legal Notice</a> and  <a href='https://www.mozilla.org/en-US/"
+"privacy/policies/websites/'>Privacy Notice</a> for Mozilla websites."
 msgstr ""
 
 #: sandstone/templates/accounts/includes/user_panel.html:5
@@ -612,8 +689,8 @@ msgstr ""
 #: templates/pages/market.html:16
 msgid ""
 "With Firefox, we changed browsing forever by putting users first and "
-"offering a new level of choice, innovation and trust online. Now we're doing"
-" it all over again with Firefox OS."
+"offering a new level of choice, innovation and trust online. Now we're doing "
+"it all over again with Firefox OS."
 msgstr ""
 
 #: templates/pages/market.html:19
@@ -720,6 +797,44 @@ msgid "%(hits)s/%(message_number)s message"
 msgid_plural "%(hits)s/%(message_number)s messages"
 msgstr[0] ""
 msgstr[1] ""
+
+#: translations/admin.py:184 translations/models.py:22
+msgid "Title"
+msgstr ""
+
+#: translations/admin.py:200
+#, python-format
+msgid "%(count)s TODO item marked as resolved."
+msgid_plural "%(count)s TODO items marked as resolved."
+msgstr[0] ""
+
+#: translations/admin.py:205
+msgid "Mark selected items as resolved."
+msgstr ""
+
+#: translations/models.py:17
+msgid "Create"
+msgstr ""
+
+#: translations/models.py:19
+msgid "Delete"
+msgstr ""
+
+#: translations/models.py:23
+msgid "URL"
+msgstr ""
+
+#: translations/models.py:25
+msgid "Action"
+msgstr ""
+
+#: translations/models.py:26
+msgid "Description"
+msgstr ""
+
+#: translations/models.py:27
+msgid "Editor"
+msgstr ""
 
 #: translations/templates/translations/admin/change_form.html:11
 msgid "View English Version"
