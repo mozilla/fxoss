@@ -29,5 +29,6 @@ def shortcut(request, content_type_id, object_id):
                            {'ct_name': content_type.name})
     # We do not want the object domain as the translation middleware will
     # ensure the viewer is directed to the appropriate place, and cross domain
-    # requests (handled in the default version) are not an issue.
+    # requests (handled in the default version) are not an issue, so just redirect
+    # to the object's get_absolute_url value
     return http.HttpResponseRedirect(get_absolute_url())
