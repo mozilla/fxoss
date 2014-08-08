@@ -16,7 +16,14 @@ admin.autodiscover()
 # You can also change the ``home`` view to add your own functionality
 # to the project's homepage.
 
+# Custom admin View On Site logic
 urlpatterns = i18n_patterns("",
+    url(r'^admin/r/(?P<content_type_id>\d+)/(?P<object_id>.+)/$',
+        'translations.views.shortcut',
+        name='view_on_site'),
+)
+
+urlpatterns += i18n_patterns("",
     (r'^', include('protected_assets.urls')),
     (r"^admin/", include(admin.site.urls)),
 )
