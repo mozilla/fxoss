@@ -9,7 +9,7 @@ m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
     var $doc = $(document.documentElement);
     var gaAccountCode = $doc.data('gaCode');
     if (gaAccountCode) {
-        ga('create', gaAccountCode, 'mozilla.org');
+        ga('create', gaAccountCode, 'auto');
         ga('send', 'pageview');
     }
 
