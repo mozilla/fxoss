@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html class="windows no-js" lang="{{ LANGUAGE_CODE }}"{% if LANGUAGE_BIDI %} dir="rtl"{% endif %} data-ga-code="{{ settings.GOOGLE_ANALYTICS_ID }}" {% block page_slug %}data-page-slug="{{ page.get_slug|default:"" }}"{% endblock %}>
-{% load pages_tags mezzanine_tags i18n future staticfiles %}
+{% load pages_tags mezzanine_tags i18n future staticfiles waffle_tags %}
     <head>
         <meta http-equiv="Content-type" content="text/html; charset=utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -97,42 +97,44 @@
 
               <div class="footer-logo">
                 <a href="https://www.mozilla.org"><img src="{% static "img/sandstone/footer-mozilla.png" %}" alt="mozilla"></a>
-                {% get_language_info_list for LANGUAGES as languages %}
-                {% if languages|length > 1 %}
-                    <form action="{% url 'set_language' %}" method="post" id="language-form">{% csrf_token %}
-                        <input name="next" type="hidden" value="{{ request.path }}" />
-                        <label for="id_language">{% trans "Other languages" %}:</label>
-                        <select id="id_language" name="language">
-                        {% for language in languages %}
-                        <option value="{{ language.code }}"{% if language.code == LANGUAGE_CODE %} selected="selected"{% endif %}>
-                            {{ language.name_local }} ({{ language.code }})
-                        </option>
-                        {% endfor %}
-                        </select>
-                    </form>
-                {% endif %}
+                {% flag 'language-switching' %}
+                    {% get_language_info_list for LANGUAGES as languages %}
+                    {% if languages|length > 1 %}
+                        <form action="{% url 'set_language' %}" method="post" id="language-form">{% csrf_token %}
+                            <input name="next" type="hidden" value="{{ request.path }}" />
+                            <label for="id_language">{% trans "Other languages" %}:</label>
+                            <select id="id_language" name="language">
+                            {% for language in languages %}
+                            <option value="{{ language.code }}"{% if language.code == LANGUAGE_CODE %} selected="selected"{% endif %}>
+                                {{ language.name_local }} ({{ language.code }})
+                            </option>
+                            {% endfor %}
+                            </select>
+                        </form>
+                    {% endif %}
+                {% endflag %}
               </div>
 
               <div class="footer-license">
-                  <p>Portions of this content are &copy;1998–{% now "Y" %} by individual
+                    <p>{% blocktrans with current_year=current_date|date:"Y" web_url="https://www.mozilla.org/foundation/licensing/website-content.html" %}Portions of this content are &copy;1998–{{ current_year }} by individual
                     mozilla.org contributors. Content available under
-                    a <a href="https://www.mozilla.org/foundation/licensing/website-content.html">Creative Commons license</a>.<br><br>
-                    <a href="https://www.mozilla.org/en-US/contribute/page/">Contribute to this page</a></p>
+                    a <a href={{ web_url }}>Creative Commons license</a>.{% endblocktrans %}<br><br>
+                    <a href="https://www.mozilla.org/en-US/contribute/page/">{% trans "Contribute to this page" %}</a></p>
               </div>
               <ul class="footer-nav">
-                <li><a href="https://www.mozilla.org/en-US/contact/spaces/">Contact Us</a></li>
-                <li><a href="https://www.mozilla.org/en-US/about/partnerships/">Partner with Us</a></li>
-                <li><a href="https://www.mozilla.org/en-US/privacy/">Privacy Policy</a></li>
-                <li><a href="https://www.mozilla.org/about/legal.html">Legal Notices</a></li>
-                <li><a href="https://www.mozilla.org/legal/fraud-report/index.html">Report Trademark Abuse</a></li>
+                <li><a href="https://www.mozilla.org/en-US/contact/spaces/">{% trans "Contact Us" %}</a></li>
+                <li><a href="https://www.mozilla.org/en-US/about/partnerships/">{% trans "Partner with Us" %}</a></li>
+                <li><a href="https://www.mozilla.org/en-US/privacy/">{% trans "Privacy Policy" %}</a></li>
+                <li><a href="https://www.mozilla.org/about/legal.html">{% trans "Legal Notices" %}</a></li>
+                <li><a href="https://www.mozilla.org/legal/fraud-report/index.html">{% trans "Report Trademark Abuse" %}</a></li>
               </ul>
 
               <ul class="footer-nav">
-                <li><a href="https://twitter.com/mozilla">Mozilla on Twitter</a></li>
-                <li><a href="https://twitter.com/firefox">Firefox on Twitter</a></li>
-                <li><a href="https://facebook.com/mozilla">Mozilla on Facebook</a></li>
-                <li><a href="https://facebook.com/Firefox">Firefox on Facebook</a></li>
-                <li><a href="https://affiliates.mozilla.org/">Firefox Affiliates</a></li>
+                <li><a href="https://twitter.com/mozilla">{% trans "Mozilla on Twitter" %}</a></li>
+                <li><a href="https://twitter.com/firefox">{% trans "Firefox on Twitter" %}</a></li>
+                <li><a href="https://facebook.com/mozilla">{% trans "Mozilla on Facebook" %}</a></li>
+                <li><a href="https://facebook.com/Firefox">{% trans "Firefox on Facebook" %}</a></li>
+                <li><a href="https://affiliates.mozilla.org/">{% trans "Firefox Affiliates" %}</a></li>
               </ul>
 
                 </div>

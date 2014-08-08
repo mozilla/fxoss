@@ -285,6 +285,7 @@ INSTALLED_APPS = [
     'django_nose',
     'translations',
     'rosetta',
+    'waffle',
 ]
 
 
@@ -302,6 +303,7 @@ TEMPLATE_CONTEXT_PROCESSORS = [
     "django.core.context_processors.tz",
     "mezzanine.conf.context_processors.settings",
     "mezzanine.pages.context_processors.page",
+    "translations.context_processors.current_date"
 ]
 
 # List of middleware classes to use. Order is important; in the request phase,
