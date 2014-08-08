@@ -1,13 +1,14 @@
 from django.conf import settings
 from django.test import TestCase
 from django.test.client import RequestFactory
-from django.test.utils import override_settings
+
+from mock import patch
 
 from ..utils import build_site_for_language
-from ..middleware import LocaleSiteMiddleware
+from ..middleware import LocaleSiteMiddleware, waffle
 
 
-@override_settings(WAFFLE_FLAG_DEFAULT=True)
+@patch.object(waffle, 'flag_is_active')
 class LocaleSiteMiddlewareTestCase(TestCase):
     """Set the current request site based on the user's language."""
 
@@ -27,30 +28,34 @@ class LocaleSiteMiddlewareTestCase(TestCase):
         self.assertFalse(hasattr(self.request, 'site_id'))
         self.assertNotIn('site_id', self.request.session)
 
-    def test_default_language(self):
+    def test_default_language(self, mock_flag):
         """Don't set if using the default language."""
+        mock_flag.return_value = True
         self.request.LANGUAGE_CODE = settings.LANGUAGE_CODE
         result = self.middleware.process_request(self.request)
         self.assertIsNone(result)
         self.assertNoMatchedSite(self.request)
 
-    def test_other_language(self):
+    def test_other_language(self, mock_flag):
         """Switch to non-default language site."""
+        mock_flag.return_value = True
         site = build_site_for_language('zh-cn')
         self.request.LANGUAGE_CODE = 'zh-cn'
         result = self.middleware.process_request(self.request)
         self.assertIsNone(result)
         self.assertMatchedSite(self.request, site.pk)
 
-    def test_unknown_language(self):
+    def test_unknown_language(self, mock_flag):
         """Use the default site if the language doesn't match a site."""
+        mock_flag.return_value = True
         self.request.LANGUAGE_CODE = 'foo'
         result = self.middleware.process_request(self.request)
         self.assertIsNone(result)
         self.assertNoMatchedSite(self.request)
 
-    def test_switch_to_default(self):
+    def test_switch_to_default(self, mock_flag):
         """Handle switching back the default after the site was previously set."""
+        mock_flag.return_value = True
         site = build_site_for_language('zh-cn')
         self.request.LANGUAGE_CODE = settings.LANGUAGE_CODE
         self.request.session['site_id'] = site.pk 
@@ -58,12 +63,11 @@ class LocaleSiteMiddlewareTestCase(TestCase):
         self.assertIsNone(result)
         self.assertNoMatchedSite(self.request)
 
-    def test_flag_not_enabled(self):
+    def test_flag_not_enabled(self, mock_flag):
         """Switching is not available if the flag is not active."""
+        mock_flag.return_value = False
         site = build_site_for_language('zh-cn')
         self.request.LANGUAGE_CODE = 'zh-cn'
-        with self.settings(WAFFLE_FLAG_DEFAULT=False):
-            # Flag was not created so the default will now be not active
-            result = self.middleware.process_request(self.request)
+        result = self.middleware.process_request(self.request)
         self.assertIsNone(result)
         self.assertNoMatchedSite(self.request)

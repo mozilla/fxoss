@@ -1,5 +1,6 @@
+import waffle
+
 from django.conf import settings
-from waffle import flag_is_active
 
 from .utils import get_site_for_language
 
@@ -12,7 +13,7 @@ class LocaleSiteMiddleware(object):
 
     def process_request(self, request):
         """Site records should have name equal to the language code."""
-        if flag_is_active(request, 'language-switching'):
+        if waffle.flag_is_active(request, 'language-switching'):
             site_id = getattr(request, 'site_id', None)
             language = getattr(request, 'LANGUAGE_CODE', None)
             if site_id is None and language is not None:

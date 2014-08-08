@@ -18,15 +18,18 @@ from mezzanine.conf import settings
 
 from .forms import AgreementForm
 from .models import Agreement, SignedAgreement
+from .utils import override_current_site
 
 
 @login_required
 def protected_download(request, path):
     """Check for a signed download agreement before delivering the asset."""
-    settings.use_editable()
-    agreement = SignedAgreement.objects.filter(
-        user=request.user,
-        agreement__version=settings.DOWNLOAD_AGREEMENT_VERSION)
+    # Use the DOWNLOAD_AGREEMENT_VERSION from the default site
+    with override_current_site():
+        settings.use_editable()
+        agreement = SignedAgreement.objects.filter(
+            user=request.user,
+            agreement__version=settings.DOWNLOAD_AGREEMENT_VERSION)
     if not agreement.exists():
         params = {'next': request.path}
         previous = request.META.get('HTTP_REFERER', None) or None
@@ -56,11 +59,14 @@ def protected_download(request, path):
 @login_required
 def sign_agreement(request):
     """Display the user agreement and allow the user to sign it."""
-    settings.use_editable()
 
     form = AgreementForm()
-    agreement = get_object_or_404(
-        Agreement, version=settings.DOWNLOAD_AGREEMENT_VERSION)
+
+    # Use the DOWNLOAD_AGREEMENT_VERSION from the default site
+    with override_current_site():
+        settings.use_editable()
+        agreement = get_object_or_404(
+            Agreement, version=settings.DOWNLOAD_AGREEMENT_VERSION)
 
     if request.method == "POST":
         form = AgreementForm(request.POST)
