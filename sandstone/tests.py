@@ -11,6 +11,7 @@ from django.test.client import RequestFactory
 from django.test.utils import override_settings
 
 import mezzanine.core.request
+from mezzanine.core.models import SitePermission
 from mezzanine.forms.models import Form
 from mezzanine.pages.models import RichTextPage, Link
 from mock import Mock
@@ -19,7 +20,9 @@ from translations.models import TODOItem
 from translations.utils import build_site_for_language
 
 from .admin import SandstoneRichTextPageAdmin, SandstoneFormAdmin, SandstoneLinkAdmin
+from .admin import remove_duplicate_permissions
 from .middleware import SetJustLoggedInCookieMiddleware
+
 
 class RichTextPageLockTestCase(ConcurrencyTestMixin, TestCase):
     concurrency_model = RichTextPage
@@ -380,3 +383,51 @@ class SetJustLoggedInMiddlewareTestCase(TestCase):
         request, response = Mock(just_logged_in=True), Mock()
         self.middleware.process_response(request, response)
         response.set_cookie.assert_called_with('just_logged_in', 'true', httponly=False)
+
+
+class RemoveDuplicatePermissionsTestCase(TestCase):
+    """Utility to remove duplicate SitePermissions for a user."""
+
+    def setUp(self):
+        self.user = get_user_model()(username='test')
+        self.user.save()
+
+    def create_site_permission(self, **kwargs):
+        defaults = {
+            'user': self.user,
+        }
+        defaults.update(kwargs)
+        return SitePermission.objects.create(**defaults)
+
+    def test_unsaved_user(self):
+        """No-op for users which aren't saved."""
+        other = get_user_model()(username='other')
+        original = SitePermission.objects.count()
+        remove_duplicate_permissions(other)
+        self.assertEqual(SitePermission.objects.count(), original)
+        self.assertIsNone(other.pk)
+
+    def test_no_permissions(self):
+        """Don't change permissions if there are none."""
+        SitePermission.objects.filter(user=self.user).delete()
+        remove_duplicate_permissions(self.user)
+        self.assertEqual(SitePermission.objects.filter(user=self.user).count(), 0)
+
+    def test_single_permission(self):
+        """Don't change permissions if there is only one."""
+        self.create_site_permission()
+        self.assertEqual(SitePermission.objects.filter(user=self.user).count(), 1)
+        remove_duplicate_permissions(self.user)
+        self.assertEqual(SitePermission.objects.filter(user=self.user).count(), 1)
+
+    def test_multiple_permissions(self):
+        """Remove all but the original SitePermission record."""
+        self.create_site_permission()
+        self.create_site_permission()
+        self.assertEqual(SitePermission.objects.filter(user=self.user).count(), 2)
+        remove_duplicate_permissions(self.user)
+        self.assertEqual(SitePermission.objects.filter(user=self.user).count(), 1)
+
+
+class UserAdminTestCase(TestCase):
+    """Functional tests for the User admin customizations."""
