@@ -85,3 +85,6 @@ copy should look like the following where the Xs are translated:
         <a href="%(password_reset_url)s?next=%(profile_update_url)s">XXXXX XXXX XXXXXXXX</a>
         XX XXXXX XXXXXX XX.
     </p>
+
+If you see content with 2 text boxes, these are for handling the singular (Box 0) and plural (Box 1) forms
+of words.
