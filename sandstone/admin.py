@@ -8,8 +8,11 @@ from concurrency.forms import VersionWidget
 from copy import deepcopy
 
 from django.contrib import admin
+from django.contrib.auth.models import User
 from django.utils.translation import ugettext_lazy as _
 
+from mezzanine.accounts.admin import UserProfileAdmin
+from mezzanine.core.models import SitePermission
 from mezzanine.forms.admin import FormAdmin
 from mezzanine.forms.models import Form
 from mezzanine.pages.admin import PageAdmin, LinkAdmin
@@ -80,10 +83,28 @@ class SandstoneLinkAdmin(TranslatableMixin, LinkAdmin):
     tranlsated_fields = ['title', ]
 
 
+def _remove_duplicate_permissions(user):
+    """Delete duplicate SitePermission records, if any, for the user."""
+    if user.pk:
+        permissions = SitePermission.objects.filter(user=user)
+        if permissions.count() > 1:
+            permissions.exclude(id=permissions.order_by('pk')[0].pk).delete()
+
+
+class SandstoneUserAdmin(UserProfileAdmin):
+    """Customization of the User admin to prevent/clean up duplicate SitePermission records."""
+
+    def save_related(self, request, form, formsets, change):
+        super(SandstoneUserAdmin, self).save_related(request, form, formsets, change)
+        _remove_duplicate_permissions(form.instance)
+
+
 admin.site.unregister(Form)
 admin.site.unregister(RichTextPage)
 admin.site.unregister(Link)
+admin.site.unregister(User)
 
 admin.site.register(RichTextPage, SandstoneRichTextPageAdmin)
 admin.site.register(Form, SandstoneFormAdmin)
 admin.site.register(Link, SandstoneLinkAdmin)
+admin.site.register(User, SandstoneUserAdmin)
