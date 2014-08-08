@@ -7,7 +7,7 @@ from ..utils import build_site_for_language
 from ..middleware import LocaleSiteMiddleware
 
 
-@override_settings(WAFFLE_FLAG_DEFAULT=True)
+@override_settings(WAFFLE_FLAG_DEFAULT=True, WAFFLE_CACHE_PREFIX='XXXX')
 class LocaleSiteMiddlewareTestCase(TestCase):
     """Set the current request site based on the user's language."""
 
