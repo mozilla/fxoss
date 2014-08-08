@@ -83,7 +83,7 @@ class SandstoneLinkAdmin(TranslatableMixin, LinkAdmin):
     tranlsated_fields = ['title', ]
 
 
-def _remove_duplicate_permissions(user):
+def remove_duplicate_permissions(user):
     """Delete duplicate SitePermission records, if any, for the user."""
     if user.pk:
         permissions = SitePermission.objects.filter(user=user)
@@ -96,7 +96,7 @@ class SandstoneUserAdmin(UserProfileAdmin):
 
     def save_related(self, request, form, formsets, change):
         super(SandstoneUserAdmin, self).save_related(request, form, formsets, change)
-        _remove_duplicate_permissions(form.instance)
+        remove_duplicate_permissions(form.instance)
 
 
 admin.site.unregister(Form)
