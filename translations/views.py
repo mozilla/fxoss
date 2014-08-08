@@ -1,12 +1,14 @@
 from __future__ import unicode_literals
 
 from django import http
+from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.contenttypes.models import ContentType
 from django.core.exceptions import ObjectDoesNotExist
 from django.utils.translation import ugettext as _
 
 
 # Custom admin View On Site view
+@staff_member_required
 def shortcut(request, content_type_id, object_id):
     """
     Redirect to an object's page based on a content-type ID and an object ID.
