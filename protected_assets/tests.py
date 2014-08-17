@@ -6,6 +6,7 @@ from urllib import urlencode
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.core.urlresolvers import reverse
+from django.http import Http404
 from django.test import TestCase
 from django.test.utils import override_settings
 from django.utils import timezone
@@ -14,10 +15,8 @@ from django.utils.translation import activate
 from mezzanine.utils.sites import current_site_id
 from mock import Mock, patch
 
-from .models import Agreement, SignedAgreement, TranslatedAgreement
-from .utils import override_current_site
-from .views import export_csv, export_signedagreement_csv
-
+from .models import Agreement, SignedAgreement
+from .views import export_csv, export_signedagreement_csv, get_agreement_or_404
 
 User = get_user_model()
 
@@ -55,16 +54,6 @@ class AgreementMixin(object):
         if 'user' not in defaults:
             defaults['user'] = self.create_user()
         return SignedAgreement.objects.create(**defaults)
-
-    def create_translated_agreement(self, **kwargs):
-        """Create a test agreement translation."""
-        defaults = {
-            'agreement': self.agreement,
-            'language': 'zh-cn',
-            'agreement_pdf': 'tranlated.pdf',
-        }
-        defaults.update(kwargs)
-        return TranslatedAgreement.objects.create(**defaults)
 
 
 @override_settings(DOWNLOAD_AGREEMENT_VERSION='v1.0')
@@ -275,62 +264,29 @@ class TestExportSignedAgreementCSV(TestCase):
 
 
 @override_settings(DOWNLOAD_AGREEMENT_VERSION='v1.0')
-class LocalizedAgreementsTestCase(AgreementMixin, TestCase):
-    """Handle localize versions of the marketing agreement."""
+class TestGetAgreementOr404(TestCase):
+    @patch('protected_assets.views.Agreement')
+    def test_request_language(self, mock_agreement):
+        en_agreement = Mock(language='en-us')
+        zh_agreement = Mock(language='zh-cn')
+        mock_agreement.objects.filter.return_value = [
+            en_agreement, zh_agreement]
+        self.assertEqual(get_agreement_or_404(Mock(LANGUAGE_CODE='zh-cn')),
+                         zh_agreement)
+        mock_agreement.objects.filter.assert_called_once_with(version='v1.0')
+    
+    @patch('protected_assets.views.Agreement')
+    def test_primary_language_fallback(self, mock_agreement):
+        en_agreement = Mock(language='en-us')
+        zh_agreement = Mock(language='zh-cn')
+        mock_agreement.objects.filter.return_value = [
+            en_agreement, zh_agreement]
+        self.assertEqual(get_agreement_or_404(Mock(LANGUAGE_CODE='fr')),
+                         en_agreement)
+        mock_agreement.objects.filter.assert_called_once_with(version='v1.0')
 
-    def test_no_alternates(self):
-        """Use the default if no alternates are available."""
-        result = self.agreement.localized_pdf('fr')
-        self.assertEqual(result, self.agreement.agreement_pdf)
-
-    def test_get_alternate_pdf(self):
-        """Return an alternate version of the agreement for the given language."""
-        translated = self.create_translated_agreement(language='fr')
-        result = self.agreement.localized_pdf('fr')
-        self.assertEqual(result, translated.agreement_pdf)
-
-    def test_unknown_language_code(self):
-        """Use the default PDF if an alternate isn't available for the requested language."""
-        translated = self.create_translated_agreement(language='fr')
-        result = self.agreement.localized_pdf('es')
-        self.assertEqual(result, self.agreement.agreement_pdf)
-
-
-class OverrideSiteTestCase(TestCase):
-    """Utility to switch the current Mezzanine site."""
-
-    def test_restore_default(self):
-        """Restore the default SITE_ID."""
-        current = os.environ.get('MEZZANINE_SITE_ID', None)
-        try:
-            os.environ['MEZZANINE_SITE_ID'] = '1234'
-            self.assertEqual(current_site_id(), '1234')
-            with override_current_site():
-                self.assertEqual(current_site_id(), settings.SITE_ID)
-            self.assertEqual(current_site_id(), '1234')
-        finally:
-            if current is None:
-                del os.environ['MEZZANINE_SITE_ID']
-            else:
-                os.environ['MEZZANINE_SITE_ID'] = current
-
-    def test_already_default(self):
-        """No effect changing the site to the default when it is already set."""
-        self.assertEqual(current_site_id(), settings.SITE_ID)
-        with override_current_site():
-            self.assertEqual(current_site_id(), settings.SITE_ID)
-
-    def test_non_default(self):
-        """Change the current site to a non-default value."""
-        with override_current_site(1234):
-            self.assertEqual(current_site_id(), 1234)
-        self.assertEqual(current_site_id(), settings.SITE_ID)
-
-    def test_exceptions(self):
-        """Site will be restored even on an exception."""
-        def fail():
-            raise ValueError('Boom')
-        with self.assertRaises(ValueError):
-            with override_current_site(1234):
-                fail()
-        self.assertEqual(current_site_id(), settings.SITE_ID)
+    @patch('protected_assets.views.Agreement')
+    def test_no_existing_agreement_404(self, mock_agreement):
+        mock_agreement.objects.filter.return_value = []
+        self.assertRaises(Http404, get_agreement_or_404,
+                          Mock(LANGUAGE_CODE='fr'))

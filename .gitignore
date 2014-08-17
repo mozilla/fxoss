@@ -2,7 +2,9 @@
 *.pyo
 *.db
 .DS_Store
+.c9
 .coverage
+htmlcov
 docs/_build
 project/settings/local.py
 /static
