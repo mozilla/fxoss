@@ -135,14 +135,10 @@ match the version of the agreement you just added:
 
 .. Important::
     The **Download Agreement Version** is under **Site > Settings** which
-    means it is **not** a global setting-- different sites correspond to
-    different languages, and we can require different versions of the download
-    agreement on a per-language basis. If we choose we can require the
-    newest version on the English site, but still use an older versions of the
-    download agreement for another language while awaiting translations. If no
-    agreement is available for the version specified in the user's chosen
-    language, the site will fall back to the earliest-uploaded agreement
-    matching that version.
+    means it is **not** a global setting. Different sites correspond
+    to different languages, and if the version specified is available
+    in English but not the site language, users will be presented with
+    the English version instead.
     
 You may also see a list of signed agreements, including which specific version
 was signed, under the **Protected_Assets > Signed Agreements** section.

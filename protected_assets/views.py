@@ -8,7 +8,7 @@ from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
 from django.http import Http404, HttpResponse
-from django.shortcuts import get_object_or_404, redirect, render
+from django.shortcuts import redirect, render
 from django.utils import timezone
 from django.utils.http import is_safe_url
 from django.views.static import serve
@@ -77,16 +77,14 @@ def next_page_redirect(request):
 
 def get_agreement_or_404(request):
     request_language = getattr(request, 'LANGUAGE_CODE', settings.LANGUAGE_CODE)
-    agreements = Agreement.objects.filter(
-        version=settings.DOWNLOAD_AGREEMENT_VERSION)  # site-specific setting
-    if not agreements:
+    agreements = {
+        agreement.language: agreement for agreement in
+        Agreement.objects.filter(version=settings.DOWNLOAD_AGREEMENT_VERSION)}
+    agreement = agreements.get(request_language, agreements.get('en-us'))
+    if not agreement:
         raise Http404
-    for agreement in agreements:
-        if agreement.language == request_language:
-            return agreement
-    # First agreement uploaded with this version should be in primary language
-    return agreements[0]
-    
+    return agreement
+
 
 @login_required
 def sign_agreement(request):
