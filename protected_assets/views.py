@@ -23,6 +23,7 @@ from .models import Agreement, SignedAgreement
 @login_required
 def protected_download(request, path):
     """Check for a signed download agreement before delivering the asset."""
+    settings.use_editable()
     agreement = SignedAgreement.objects.filter(
         user=request.user,
         agreement__version=settings.DOWNLOAD_AGREEMENT_VERSION)
