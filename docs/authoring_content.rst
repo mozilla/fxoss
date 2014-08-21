@@ -133,10 +133,18 @@ match the version of the agreement you just added:
      **exactly** the version of the current agreement.
   3. Press **Save**.
 
+.. Important::
+    The **Download Agreement Version** is under **Site > Settings** which
+    means it is **not** a global setting. Different sites correspond
+    to different languages, and if the version specified is available
+    in English but not the site language, users will be presented with
+    the English version instead.
+    
 You may also see a list of signed agreements, including which specific version
 was signed, under the **Protected_Assets > Signed Agreements** section.
 
 **Updating the version of an agreement will prompt users to re-sign**
+
 
 .. Important::
     When the version number of the agreement is changed, all users who

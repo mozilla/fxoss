@@ -7,8 +7,8 @@ import urllib
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
-from django.http import HttpResponse
-from django.shortcuts import get_object_or_404, redirect, render
+from django.http import Http404, HttpResponse
+from django.shortcuts import redirect, render
 from django.utils import timezone
 from django.utils.http import is_safe_url
 from django.views.static import serve
@@ -18,18 +18,15 @@ from mezzanine.conf import settings
 
 from .forms import AgreementForm
 from .models import Agreement, SignedAgreement
-from .utils import override_current_site
 
 
 @login_required
 def protected_download(request, path):
     """Check for a signed download agreement before delivering the asset."""
-    # Use the DOWNLOAD_AGREEMENT_VERSION from the default site
-    with override_current_site():
-        settings.use_editable()
-        agreement = SignedAgreement.objects.filter(
-            user=request.user,
-            agreement__version=settings.DOWNLOAD_AGREEMENT_VERSION)
+    settings.use_editable()
+    agreement = SignedAgreement.objects.filter(
+        user=request.user,
+        agreement__version=settings.DOWNLOAD_AGREEMENT_VERSION)
     if not agreement.exists():
         params = {'next': request.path}
         previous = request.META.get('HTTP_REFERER', None) or None
@@ -56,50 +53,63 @@ def protected_download(request, path):
     return response
 
 
+def get_or_create_signed_agreement(request, agreement):
+    ip = (request.META.get('HTTP_X_CLUSTER_CLIENT_IP') or
+          request.META.get('HTTP_X_FORWARDED_FOR', '').split(',')[0])
+
+    signed_agreement, created = SignedAgreement.objects.get_or_create(
+        user=request.user, agreement=agreement)
+    if created:
+        signed_agreement.ip = ip
+        signed_agreement.save(update_fields=['ip'])
+
+
+def next_page_redirect(request):
+    redirect_field_name = 'next'
+    default_next = '/'
+    next_page = request.POST.get(
+        redirect_field_name, request.GET.get(redirect_field_name))
+    next_page = next_page or default_next
+    if not is_safe_url(url=next_page, host=request.get_host()):
+        next_page = default_next
+    return redirect(next_page)
+    
+
+def get_agreement_or_404(request):
+    request_language = getattr(request, 'LANGUAGE_CODE', settings.LANGUAGE_CODE)
+    agreements = {
+        agreement.language: agreement for agreement in
+        Agreement.objects.filter(version=settings.DOWNLOAD_AGREEMENT_VERSION)}
+    agreement = agreements.get(request_language, agreements.get('en-us'))
+    if not agreement:
+        raise Http404
+    return agreement
+
+
 @login_required
 def sign_agreement(request):
     """Display the user agreement and allow the user to sign it."""
 
-    form = AgreementForm()
-
-    # Use the DOWNLOAD_AGREEMENT_VERSION from the default site
-    with override_current_site():
-        settings.use_editable()
-        agreement = get_object_or_404(
-            Agreement, version=settings.DOWNLOAD_AGREEMENT_VERSION)
-
+    agreement = get_agreement_or_404(request)
+        
     if request.method == "POST":
         form = AgreementForm(request.POST)
         if form.is_valid():
-            ip = (request.META.get('HTTP_X_CLUSTER_CLIENT_IP') or
-                  request.META.get('HTTP_X_FORWARDED_FOR', '').split(',')[0])
-
-            # Do not re-create existing agreements.
-            agreement, created = SignedAgreement.objects.get_or_create(
-                user=request.user,
-                agreement=agreement,
-            )
-            if created:
-                agreement.ip = ip
-                agreement.save(update_fields=['ip'])
-
-            redirect_field_name = 'next'
-            default_next = '/'
-            next_page = request.POST.get(
-                redirect_field_name, request.GET.get(redirect_field_name))
-            next_page = next_page or default_next
-            if not is_safe_url(url=next_page, host=request.get_host()):
-                next_page = default_next
+            get_or_create_signed_agreement(request, agreement)
+            
             if 'waiting_download' in request.session:
                 request.session['ready_download'] = request.session[
                     'waiting_download']
                 del request.session['waiting_download']
-            return redirect(next_page)
+                
+            return next_page_redirect(request)
+    else:
+        form = AgreementForm()
 
     return render(request, 'protected_assets/download-agreement.html', {
         'form': form,
         'agreement': agreement,
-        'pdf': agreement.localized_pdf(getattr(request, 'LANGUAGE_CODE', settings.LANGUAGE_CODE))
+        'pdf': agreement.agreement_pdf
     })
 
 
