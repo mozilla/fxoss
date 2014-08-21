@@ -14,7 +14,7 @@ class Agreement(models.Model):
     """Marketing agreement that users can sign."""
     name = models.CharField(
         max_length=255, default='Prototype Branding Agreement')
-    version = models.CharField(max_length=20, unique=True)
+    version = models.CharField(max_length=20)
     created = models.DateTimeField(default=now, editable=False)
     language = models.CharField(
         max_length=10, choices=settings.LANGUAGES,
@@ -24,6 +24,9 @@ class Agreement(models.Model):
     translated_from = models.ForeignKey(
         'self', related_name='translations', blank=True, null=True,
         help_text=_('Translated from'))
+
+    class Meta:
+        unique_together = ('language', 'version')
 
     @property
     def url(self):
