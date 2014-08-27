@@ -1,0 +1,31 @@
+# This is an example settings/local.py file.
+# These settings overrides what's in settings/base.py
+
+from . import base
+
+# To extend any settings from settings/base.py here's an example:
+#INSTALLED_APPS = base.INSTALLED_APPS + ['debug_toolbar']
+
+ALLOWED_HOSTS = ["<changeme>"]
+DEBUG = True
+
+# Make these unique, and don't share it with anybody.
+SECRET_KEY = "<changeme>"
+NEVERCACHE_KEY = "<changeme>"
+
+DATABASES = {
+    "default": {
+        # Ends with "postgresql_psycopg2", "mysql", "sqlite3" or "oracle".
+        "ENGINE": "django.db.backends.postgresql_psycopg2",
+        # DB name or path to database file if using sqlite3.
+        "NAME": "travis_ci_test",
+        # Not used with sqlite3.
+        "USER": "postgres",
+        # Not used with sqlite3.
+        "PASSWORD": "",
+        # Set to empty string for localhost. Not used with sqlite3.
+        "HOST": "",
+        # Set to empty string for default. Not used with sqlite3.
+        "PORT": "",
+    }
+}
