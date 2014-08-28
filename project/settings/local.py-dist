@@ -55,6 +55,7 @@ DATABASES = {
 #     "NEVERCACHE_KEY": NEVERCACHE_KEY,
 #     "DEFAULT_FROM_EMAIL": "", 
 #     "EMAIL_HOST": "",
-#     "SERVER_EMAIL": ""
+#     "SERVER_EMAIL": "",
+#     "NEWRELIC_KEY": "",
 # }
 

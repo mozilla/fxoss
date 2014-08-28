@@ -67,6 +67,8 @@ env.media_backup_dir = conf.get("MEDIA_BACKUP_DIR", "")
 
 env.salesforce = conf.get("SALESFORCE", {})
 env.allowed_hosts = conf.get('ALLOWED_HOSTS', [])
+env.newrelic_key = conf.get("NEWRELIC_KEY", "")
+
 
 ##################
 # Template setup #
@@ -109,6 +111,11 @@ templates = {
     "settings": {
         "local_path": "deploy/live_settings.py",
         "remote_path": "%(proj_path)s/project/settings/local.py",
+        "jinja": "true",
+    },
+    "newrelic": {
+        "local_path": "deploy/newrelic.ini",
+        "remote_path": "%(venv_path)s/newrelic.ini",
         "jinja": "true",
     },
 }
@@ -476,7 +483,7 @@ def pip_install_requirements():
         if env.reqs_path:
             pip("-r %s/%s" % (env.proj_path, env.reqs_path))
         pip("gunicorn setproctitle south psycopg2 "
-            "django-compressor python-memcached")
+            "django-compressor python-memcached newrelic")
 
 
 @task
