@@ -81,7 +81,7 @@ def get_agreement_or_404(request):
     agreements = {
         agreement.language: agreement for agreement in
         Agreement.objects.filter(version=settings.DOWNLOAD_AGREEMENT_VERSION)}
-    agreement = agreements.get(request_language, agreements.get('en-us'))
+    agreement = agreements.get(request_language, agreements.get('en'))
     if not agreement:
         raise Http404
     return agreement
