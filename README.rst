@@ -4,6 +4,11 @@ MobilePartners
 *mobilepartners.mozilla.org* is the self service website for OEMs and Operators.
 
 
+Build Status
+------------
+.. image:: https://api.travis-ci.org/mozilla/fxoss.svg
+
+
 Docs
 ----
 
