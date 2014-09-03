@@ -277,7 +277,7 @@ class TestGetAgreementOr404(TestCase):
     
     @patch('protected_assets.views.Agreement')
     def test_primary_language_fallback(self, mock_agreement):
-        en_agreement = Mock(language='en-us')
+        en_agreement = Mock(language='en')
         zh_agreement = Mock(language='zh-cn')
         mock_agreement.objects.filter.return_value = [
             en_agreement, zh_agreement]
