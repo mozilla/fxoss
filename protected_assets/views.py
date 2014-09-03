@@ -76,6 +76,7 @@ def next_page_redirect(request):
     
 
 def get_agreement_or_404(request):
+    settings.use_editable()
     request_language = getattr(request, 'LANGUAGE_CODE', settings.LANGUAGE_CODE)
     agreements = {
         agreement.language: agreement for agreement in
