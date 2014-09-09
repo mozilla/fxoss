@@ -17,5 +17,10 @@ for i, arg in enumerate(sys.argv):
 # Run Django.
 if __name__ == "__main__":
     os.environ.setdefault("DJANGO_SETTINGS_MODULE", "project.settings")
+
+    # Read .env file and make it available as enviroment variables
+    import dotenv
+    dotenv.read_dotenv()
+
     from django.core.management import execute_from_command_line
     execute_from_command_line(sys.argv)

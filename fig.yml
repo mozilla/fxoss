@@ -1,0 +1,15 @@
+db:
+  image: postgres:9.1
+app:
+  build: .
+  ports:
+    - "8000:8000"
+  volumes:
+    - .:/code
+  links:
+    - db
+  environment:
+    - LANG=en_US.UTF-8
+    - PYTHONDONTWRITEBYTECODE=1
+  working_dir: /code
+  command: make start

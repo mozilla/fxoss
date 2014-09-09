@@ -1,9 +1,12 @@
 -r base.txt
-django-debug-toolbar==1.0.1
-# Required by django-debug-toolbar
+# sha256: vTovKeGdyd4R1vxHsoYlzfC04W3UyTrhSzdO1ardBLU
+django-debug-toolbar==1.2.1
+
+# sha256: 0VnhBPvxcQu6Lk1BD-A3Hcv_gEV9R1KgvUFNiN291HY
 sqlparse==0.1.10
 
+# sha256: uDndLZwRfHAUMMFJlWkYpCOphjtIsJyQ4wpgE-fS9E8
 mock==1.0.1
 
-# Documentation
+# sha256: lUX_5P0XsZ-LgVaaZQduwaGXIBjczG1wufI2JlAwx18
 Sphinx==1.2.2
