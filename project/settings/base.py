@@ -457,3 +457,5 @@ LOGGING = {
         },
     }
 }
+
+CSRF_COOKIE_HTTPONLY = True
