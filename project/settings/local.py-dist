@@ -30,6 +30,10 @@ DATABASES = {
     }
 }
 
+# Uncomment this for local development over HTTP.
+# CSRF_COOKIE_SECURE = False
+
+
 ###################
 # DEPLOY SETTINGS #
 ###################
