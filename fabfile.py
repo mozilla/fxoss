@@ -82,7 +82,7 @@ templates = {
     "nginx": {
         "local_path": "deploy/nginx.conf",
         "remote_path": "/etc/nginx/sites-enabled/%(proj_name)s.conf",
-        "reload_command": "rm -f /etc/nginx/sites-enabled/default; service nginx restart",
+        "reload_command": "rm -f /etc/nginx/sites-enabled/default; service nginx reload",
         "jinja": "true"
     },
     "basic_auth": {
