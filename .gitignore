@@ -9,3 +9,6 @@ docs/_build
 project/settings/local.py
 /static
 /media
+.build
+.env
+env
