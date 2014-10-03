@@ -47,13 +47,7 @@ clean-fig:
 clean-env:
 	@rm -rf env
 
-.PHONY: .env
-.env:
-	@echo "" > .env
-	@echo "DATABASE_URL=postgres://postgres:foobar@${DB_1_PORT_5432_TCP_ADDR}:${DB_1_PORT_5432_TCP_PORT}/postgres" >> .env
-	@echo "DEBUG=True" >> .env
-
-start: .env
+start: 
 	@python manage.py syncdb --migrate --noinput
 	@python manage.py runserver 0.0.0.0:8000
 
