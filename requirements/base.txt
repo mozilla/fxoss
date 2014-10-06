@@ -94,3 +94,5 @@ nose==1.3.4
 # sha256: xEI2gj62Insvq4vZ5WYypknmeoAhH4WkouPIXGXIrNk
 polib==1.0.5
 
+# sha256: orKb0EjKL-VKBGspdwlkc4hyqXRwA6NxNEqT7t961Y4
+beautifulsoup4==4.3.2
