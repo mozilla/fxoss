@@ -15,10 +15,8 @@ build: .build
 
 .PHONY: up
 up: build
-# need to sleep a bit to ensure container is fully up
-# so that environment variables are properly populated
-	@. env/bin/activate; fig up -d db; sleep 1
-	@. env/bin/activate; fig up -d app
+# Run Fig up to start the fig stack in the background.
+	@. env/bin/activate; fig up -d
 
 .PHONY: down
 down:
