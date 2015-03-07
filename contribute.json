@@ -1,0 +1,23 @@
+{
+    "name": "MobilePartners",
+    "description": "mobilepartners.mozilla.org is the self service website for Firefox OS OEMs and Operators.",
+    "repository": {
+        "url": "https://github.com/mozilla/fxoss",
+        "license": "MPL 2.0",
+        "tests": "https://travis-ci.org/mozilla/fxoss"
+    },
+    "bugs": {
+        "list": "https://bugzilla.mozilla.org/buglist.cgi?component=mobilepartners.mozilla.org&product=Websites&bug_status=__open__",
+        "report": "https://bugzilla.mozilla.org/enter_bug.cgi?product=Websites&component=mobilepartners.mozilla.org"
+    },
+    "urls": {
+        "prod": "https://mobilepartners.mozilla.org/",
+        "stage": "https://mobilepartners.allizom.org/"
+    },
+    "keywords": [
+        "django",
+        "mezzanine",
+        "javascript",
+        "python"
+    ]
+}
